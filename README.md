@@ -82,6 +82,43 @@ The grader itself (`tools/goal_grader.py`) is stdlib-only.
 - Concurrent cards that bind host ports (infra, minecraft) must not run in
   parallel with each other — serialize those categories, parallelize the rest.
 
+## Smoke first, campaign second (recommended)
+
+Before committing a multi-day run, probe **one card per category** — the
+failure you find will almost always be environmental, and finding it on card 1
+instead of card 60 is the difference between an afternoon and a week.
+
+```sh
+# 1. Does the environment have what these cards need?
+docker info >/dev/null && echo "docker ok"
+python3 -c "import swebench; print('swebench ok')"      # swe_bench / frontier_swe_hard
+node -e "require('mineflayer'); console.log('mineflayer ok')"   # minecraft_build
+
+# 2. Are the specs well-formed? (no execution, $0)
+for c in cards/gc-*.json; do
+  python3 tools/goal_grader.py --dry-run "$c" | grep -q '"spec_ok": true' || echo "BAD SPEC: $c"
+done
+
+# 3. Does one card per category actually grade end-to-end?
+#    Run the grader on an UNSOLVED workspace first: a correct card must come
+#    back RED with a real metric value — not EXTRACT_FAIL.
+python3 tools/goal_grader.py cards/gc-384_univariate_descriptives_repro.json /tmp/ws
+```
+
+Read the verdict of that last step carefully:
+
+| result | meaning |
+|---|---|
+| `FAIL` with a `metric_value` | the card works — your agent simply hasn't done the work yet |
+| `EXTRACT_FAIL` | the grader ran but found no metric — usually a missing output file, i.e. **your agent never produced the artifact**. Check that your agent can actually write files and run commands before blaming the card |
+| `SPEC_INVALID` | the card is malformed — please open an issue |
+| `TIMEOUT` | raise the timeout, or the environment is missing something the command waits on |
+
+The `EXTRACT_FAIL` row is worth internalizing: in our own first run it was the
+single most common outcome, and the cause was not the benchmark — it was an
+agent that planned and verified diligently but never invoked its own execution
+channel. That is exactly the kind of gap the process axis is meant to expose.
+
 ## Categories
 
 SWE-bench (pinned Lite instances) · OSS repair at pinned SHAs · mutation
