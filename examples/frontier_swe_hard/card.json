@@ -1,0 +1,47 @@
+{
+ "id": "ex-frontier_swe_hard",
+ "title": "TEACHING EXAMPLE: one of two miniature frontier-shaped instances, depth over breadth",
+ "category": "frontier_swe_hard",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. It mirrors the shape of the scored frontier_swe_hard cards (small sealed instance list, threshold well below the instance count, PASS_TO_PASS regressions that punish shallow fixes) at miniature scale so it grades in about a second with no docker and no network. The scored cards run the pinned swebench docker harness over SWE-bench Verified instances rated 1 to 4+ hours of human effort; this card uses examples/frontier_swe_hard/assets/mini_harness.py, a stand-in, not SWE-bench. Reference solution: examples/frontier_swe_hard/solution/.",
+ "goal": "Finish with at least one of the two sealed instances in assets/ex-frontier_swe_hard/instances.txt resolved. Both are deeper than the swe_bench demo: demoorg__tinygraph-201 needs a coordinated edit across three files (a new exception type, its export, and the raise site), and demoorg__tinyunits-202 has a shallow patch that satisfies the reported symptom while breaking an existing invariant. Triage both instances first, then go deep on the ones you pick rather than spraying one-line patches: an instance counts as resolved only when every sealed FAIL_TO_PASS test passes AND every sealed PASS_TO_PASS test still passes, and the sealed tests are copied over your patched tree after the patch applies. Write one JSON object per attempted instance to runs/ex-frontier_swe_hard/predictions.jsonl with keys instance_id, model_name_or_path set exactly to 'ex-frontier_swe_hard', and model_patch (a git-apply-able diff with a/ and b/ prefixes, rooted at the instance repo). Record every intermediate harness verdict, name the cause of every unresolved instance, and re-plan explicitly after each red round while budget remains.",
+ "horizon": "20m",
+ "budget_usd": 0.5,
+ "resources": [
+  "pypi: pytest (any recent version; the demo harness shells out to python3 -m pytest)",
+  "assets/ex-frontier_swe_hard/instances.txt (sealed instance-id list, one id per line)",
+  "assets/ex-frontier_swe_hard/instances/<instance_id>/problem_statement.md (task-visible bug report)",
+  "assets/ex-frontier_swe_hard/instances/<instance_id>/repo/ (task-visible source tree, the 'checkout')",
+  "assets/ex-frontier_swe_hard/instances/<instance_id>/tests/ (sealed FAIL_TO_PASS / PASS_TO_PASS tests)",
+  "assets/ex-frontier_swe_hard/mini_harness.py (demo stand-in for swebench==4.1.0's run_evaluation)",
+  "output convention: runs/ex-frontier_swe_hard/predictions.jsonl with model_name_or_path set exactly to 'ex-frontier_swe_hard', so the harness report is written to ex-frontier_swe_hard.<run_id>.json in the workspace root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 assets/ex-frontier_swe_hard/mini_harness.py --predictions runs/ex-frontier_swe_hard/predictions.jsonl --instances-dir assets/ex-frontier_swe_hard/instances --instance-ids-file assets/ex-frontier_swe_hard/instances.txt --work-dir work/ex-frontier_swe_hard/harness --report-dir . --run-id ex-frontier_swe_hard && python3 -c \"import json; r=json.load(open('ex-frontier_swe_hard.ex-frontier_swe_hard.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 1,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/ex-frontier_swe_hard/plan.md before the first patch attempt, naming the target instance ids, the suspected fault location in each, and the exact verification command.",
+  "Triage before depth: the plan records why each instance was chosen as a primary target or deferred, not just which one was patched.",
+  "Verification actually ran: at least one harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/ex-frontier_swe_hard/failures.md lists each unresolved instance id with a one-line cause (the failing test id or the patch-apply error), not just counts.",
+  "Honest cost and attempt logging: runs/ex-frontier_swe_hard/ledger.json records per-attempt spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if a harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop.",
+  "No test-shaped shortcuts: the diff must fix the reported behaviour in the source tree, not special-case the values the reported symptom mentions."
+ ],
+ "assets_visibility": {
+  "sealed": [
+   "test_fail_to_pass.py",
+   "test_pass_to_pass.py"
+  ]
+ },
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "examples",
+ "contamination_risk": "low"
+}

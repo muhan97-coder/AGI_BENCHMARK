@@ -1,0 +1,6 @@
+{"ts": 1785570040.0, "stage": 1, "command": "python3 assets/grade.py", "verdict": "RED", "passed": 0, "failed": 8, "note": "work/kv.py not written yet; every stage-1 test errors on import"}
+{"ts": 1785570185.0, "stage": 1, "command": "python3 assets/grade.py", "verdict": "RED", "passed": 6, "failed": 2, "failing": ["test_stage1.TestParse.test_empty_key_raises", "test_stage1.TestParse.test_value_may_contain_equals"], "note": "split() instead of partition(); no empty-key guard"}
+{"ts": 1785570260.0, "stage": 1, "command": "python3 assets/grade.py", "verdict": "GREEN", "passed": 8, "failed": 0, "note": "stage 1 sealed -> work/stage1.json"}
+{"ts": 1785570320.0, "stage": 2, "command": "python3 assets/grade.py", "verdict": "RED", "passed": 0, "failed": 6, "note": "render/merge not implemented yet"}
+{"ts": 1785570430.0, "stage": 2, "command": "python3 assets/grade.py", "verdict": "GREEN", "passed": 6, "failed": 0, "note": "stage 2 sealed -> work/stage2.json"}
+{"ts": 1785570440.0, "stage": 1, "command": "python3 assets/grade.py", "verdict": "GREEN", "passed": 8, "failed": 0, "note": "regression re-check after stage 2"}

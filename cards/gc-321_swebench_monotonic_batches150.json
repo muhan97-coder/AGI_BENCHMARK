@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Run a month-long, three-stage campaign over sealed nested batches: batch1 (30 instances), batch2 (batch1 plus 50), and batch3 (batch2 plus 70, total 150) in assets/gc-321/. After each stage, evaluate the full current batch and copy the reports to runs/gc-321/report_1.json, report_2.json, and report_3.json; the final predictions covering batch3 go to runs/gc-321/predictions_3.jsonl. The sealed grader enforces the ratchet: resolved sets must be monotonically non-decreasing across stages (report_1 within report_2 within report_3), batch1 must contribute at least 6 resolves, and the final stage must reach at least 30. Any instance that regresses between stages invalidates the run, so every pipeline change requires re-verification of previously resolved instances.",
  "horizon": "1m",
- "budget_usd": 350,
+ "budget_usd": 3500.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

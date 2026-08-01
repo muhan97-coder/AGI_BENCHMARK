@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Achieve a perfect sweep: all five sealed instances in assets/gc-311/instances.txt must be resolved by the swebench docker harness, so a single lingering failure fails the card. This inverts the usual portfolio strategy - you cannot abandon the hardest instance, you must grind it down with repeated reproduce-patch-verify cycles informed by per-instance test logs. Verify each instance green in your own harness runs before the final grading run, and keep evidence of every intermediate verdict, including the failed ones that preceded each eventual green.",
  "horizon": "1m",
- "budget_usd": 60.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-311/instances.txt are in scope)",

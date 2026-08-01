@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task OfficeTaskScheduler (task_id=5 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-324/solution.py, following the exact API contract in assets/gc-324/SPEC.md. Plan the module decomposition first (users, tasks, notifications, reporting), then implement incrementally, running the sealed acceptance suite after each increment and recording which named tests are still red. Recover from every red run by fixing the identified defect, never by editing the sealed suite, and finish with a green re-verification inside the pinned container image.",
  "horizon": "1d",
- "budget_usd": 3,
+ "budget_usd": 30.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=5)",
   "docker image python:3.11.9-slim",

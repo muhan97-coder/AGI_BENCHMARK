@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task MultiTrackRacers (task_id=53 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-335/solution.py per assets/gc-335/SPEC.md: a track builder with finalize gating, point-budgeted vehicle customization with upgrades and single abilities, a deterministic racing engine with exact per-segment time formulas, and a league layer with points, tie-breaking, and track sharing. The modules depend on each other in the order the MARBLE task prescribes (track -> vehicle -> engine -> league), so plan that dependency order, implement and verify each module against the sealed suite before starting the next, and track red tests by name between runs. Finish with a green re-verification inside the pinned container.",
  "horizon": "1m",
- "budget_usd": 14,
+ "budget_usd": 140.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=53)",
   "docker image python:3.11.9-slim",

@@ -1,0 +1,5 @@
+{"id": "m01", "file": "tally.py", "old": "    return name.strip().lower()", "new": "    return name.lower()"}
+{"id": "m02", "file": "tally.py", "old": "        counts[key] = counts.get(key, 0) + 1", "new": "        counts[key] = counts.get(key, 1) + 1"}
+{"id": "m03", "file": "tally.py", "old": "key=lambda kv: (-kv[1], kv[0])", "new": "key=lambda kv: (kv[1], kv[0])"}
+{"id": "m04", "file": "tally.py", "old": "    if k < 0:", "new": "    if k <= 0:"}
+{"id": "m05", "file": "tally.py", "old": "    if not items:", "new": "    if len(items) == 0:"}

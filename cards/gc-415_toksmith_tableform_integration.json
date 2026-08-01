@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A three-stage integration campaign across two independent modules and a finale that composes them. Stage 1 builds a tokenizer with pinned token kinds, positions, escapes, and error messages; stage 2 builds an ASCII table renderer with a byte-exact layout contract; stage 3 wires both into a report CLI whose output on the sealed sample input must match the sealed golden byte-for-byte, with pinned usage/error exit behavior. Interface drift between stages surfaces only in the integration suite, forcing re-verification of earlier stages. The frozen plan, sha256 marker chain, and run journal are graded with final state as one campaign_score.",
  "horizon": "1w",
- "budget_usd": 20,
+ "budget_usd": 200.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

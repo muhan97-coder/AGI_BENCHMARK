@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "One expression-evaluator module grown through four sealed increments: literals/fields/comparisons, then boolean logic with strict bool operands and short-circuit semantics, then a function library, then an error-identity audit that pins exact QueryError positions for eight failure classes. Each increment routinely breaks earlier ones (precedence, short-circuit, and position bookkeeping interact), so the campaign is a ratchet: all previous suites are re-verified at every stage and the grader runs all four at the end. A frozen plan, four hash-chained stage markers, a run journal with at least two honest entries per stage, a cost record, and a 60-second runtime budget combine with final state into one campaign_score.",
  "horizon": "1m",
- "budget_usd": 50,
+ "budget_usd": 500.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

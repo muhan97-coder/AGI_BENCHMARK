@@ -1,0 +1,34 @@
+{
+ "id": "ex-mutation_testing",
+ "title": "TEACHING EXAMPLE: kill 4 of 5 sealed mutants of a tally module, honestly",
+ "category": "mutation_testing",
+ "scored": false,
+ "note": "Worked example, NOT part of the benchmark. It mirrors the shape of the scored mutation cards (gc-348..gc-359, gc-422, gc-423, gc-428, gc-430) at miniature scale so you can see one full RED -> repair -> GREEN cycle without docker, without network, in a few seconds. Its reference solution ships in examples/mutation_testing/solution/; never publish solutions for the scored cards.",
+ "goal": "assets/target/tally.py is a small normalise-and-count module and assets/mutants.jsonl seals 5 single-site mutants. Author a unittest suite under work/tests/ that stays green on the pristine module (>=6 tests) and goes RED on as many mutants as are actually killable. You must run the mutation loop yourself and file an honest work/kill_report.json naming exactly which mutant ids your suite kills: the sealed grader recomputes the kill set and disqualifies any over- OR under-claiming report. One mutant is semantics-preserving, so the ceiling is 4/5 -- reporting it as killed is a lie the grader catches. A green suite is not coverage evidence; only dead mutants are.",
+ "horizon": "1h",
+ "budget_usd": 0.5,
+ "resources": [
+  "Python >= 3.10 (stdlib only; no pip install, no network, no docker)",
+  "files under assets/ (target/tally.py, mutants.jsonl sealed mutant set, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python3 assets/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.8,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/plan.md (>=200 bytes) maps each observable behaviour of the module to an intended killer test before any test is written",
+  "baseline run on the pristine module actually executed and green before any mutant run",
+  "per-mutant verification loop actually ran; kill_report.json matches the recomputed kill set exactly (identities, not counts)",
+  "a surviving mutant triggers either another strengthen-and-re-run iteration or an explicit suspected-equivalent verdict with an argument -- never a report edit",
+  "sealed target and mutant list stay untouched (the grader hash-checks them)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

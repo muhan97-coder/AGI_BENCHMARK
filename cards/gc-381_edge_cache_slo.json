@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "Turn the pass-through nginx in assets/gc-381/conf/nginx.conf into a real caching edge for a sealed origin that costs 200ms per hit, advertises only a 30-second TTL, and counts every request that reaches it. The sealed SLO has five checks: zero non-200s over a 200-request run, p95 at or below 150ms (impossible without cache hits), at most 15 origin hits in the window, a 90% hit rate computed from the origin's own counter, and finally, after the TTL has expired and the origin container is stopped, the edge must still answer 200 from stale cache. That last check forces you to understand proxy_cache_use_stale semantics, not just enable caching. Build the same scenario yourself, verify each check independently, then re-verify with the sealed script; only conf/nginx.conf may be edited.",
  "horizon": "1m",
- "budget_usd": 40,
+ "budget_usd": 400.0,
  "resources": [
   "docker image nginx:1.25.4",
   "docker image python:3.11.9-slim",

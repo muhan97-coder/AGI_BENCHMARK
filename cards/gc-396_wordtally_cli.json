@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the wordtally CLI exactly as written in assets/gc-396/SPEC.md, from scratch, at workspace/gc-396/wordtally.py. The spec pins tokenization, apostrophe stripping, three integer options with usage-error semantics, and a deterministic JSON output contract. Plan the behavior matrix first, implement incrementally, run the sealed acceptance suite to find divergences, and iterate until every test passes; a single naive pass typically misses the filter-ordering and usage-error rules.",
  "horizon": "1d",
- "budget_usd": 6,
+ "budget_usd": 60.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-396/SPEC.md",

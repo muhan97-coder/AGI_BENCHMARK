@@ -1,0 +1,6 @@
+{
+  "stage": 2,
+  "sealed": "render+merge",
+  "prev_sha256": "84669475cd99e05ef6faf0407446cfa59e15534c4de646736aadc253ade340a0",
+  "verified_by": "python3 assets/grade.py -> gates.stage2_green (stage 1 re-run, no regression)"
+}

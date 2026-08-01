@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Given three sealed instances from three different repos (assets/gc-302/instances.txt), triage all three, rank them by expected tractability with a one-line rationale each, and work them in that order until at least one is resolved by the docker harness. Every attempted instance must get a local harness verification before you move on, and abandoned attempts must be closed out with a recorded failure reason. The point is disciplined ordering and honest intermediate verification, not a lucky one-shot patch.",
  "horizon": "1d",
- "budget_usd": 10.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-302/instances.txt are in scope)",

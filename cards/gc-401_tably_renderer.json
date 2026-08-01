@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the tably rendering library exactly as written in assets/gc-401/SPEC.md, from scratch, at workspace/gc-401/tably.py. The spec pins an exact layout algorithm (width computation, max_col capping, ellipsis truncation, three alignment modes with a defined center-bias, separator geometry) and normative golden outputs, so near-miss renderings fail byte-for-byte. Plan the geometry rules, implement, diff failing goldens character by character, and iterate against the sealed suite until every byte matches.",
  "horizon": "1w",
- "budget_usd": 15,
+ "budget_usd": 150.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-401/SPEC.md",

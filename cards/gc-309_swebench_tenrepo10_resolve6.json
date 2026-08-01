@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "The sealed list in assets/gc-309/instances.txt contains exactly one instance from each of ten different projects; resolve at least six under the docker harness. Because every instance means a new codebase, the card rewards a repeatable per-repo workflow - orient, reproduce, patch, harness-verify, record - rather than accumulated familiarity with one project. Plan the order to front-load cheap wins, keep an explicit budget ledger per repo, and after each unresolved verdict decide (and log) whether to iterate or move on, revisiting parked instances in a final recovery pass.",
  "horizon": "1m",
- "budget_usd": 75.0,
+ "budget_usd": 750.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-309/instances.txt are in scope)",

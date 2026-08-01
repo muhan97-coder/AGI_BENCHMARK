@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task AstroSim (task_id=45 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-334/solution.py per assets/gc-334/SPEC.md: a deterministic 2D Newtonian n-body simulator using the exact semi-implicit Euler update order, momentum-conserving collision merges with a cube-law radius, and energy/momentum diagnostics. The sealed suite compares against an independent reference integrator to 1e-9 and checks conservation laws over long runs, so plan the update-order contract first, verify each physics property separately, and track red tests by name across iterations. Finish with a green re-verification inside the pinned container.",
  "horizon": "1m",
- "budget_usd": 14,
+ "budget_usd": 140.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=45)",
   "docker image python:3.11.9-slim",

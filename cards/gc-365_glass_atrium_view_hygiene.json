@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "Reproduce the sealed 82-block Glass Atrium (stone floor, hollow glass shell, empty 3x3x2 interior) on a fresh judged server, and pass on view_hit_rate, the judger's five-direction occlusion metric. Scaffolding or stray blocks left inside the bounding box occlude the expected surfaces and hold view_hit_rate below 1.0 even when every blueprint block is correct, so the plan must include a cleanup phase and the verify loop must compare both metrics to localize strays. Iterate build, scan, cleanup and re-verify until the judger records view_hit_rate 1.0.",
  "horizon": "1w",
- "budget_usd": 12,
+ "budget_usd": 120.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-365/docker-compose.yml)",

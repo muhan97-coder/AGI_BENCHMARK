@@ -4,7 +4,7 @@
  "category": "oss_repair",
  "goal": "Clone https://github.com/tkem/cachetools into work/gc-342/repo (relative to the benchmark repo root) and check out pinned commit 8b9bbc4b60429bd73a06ff54a8eefd141215acc2 (release tag v4.2.4); the grader verifies that HEAD equals this exact commit, so keep all repairs as uncommitted working-tree edits to non-test source files. At this commit cachetools has no TLRUCache. The sealed tests require a time-aware LRU cache constructed as TLRUCache(maxsize, ttu, timer) where ttu(key, value, now) returns the per-item expiration time: items expire once timer() reaches that time, items whose computed expiration is not in the future are never stored, expired keys raise KeyError and vanish from membership checks, LRU eviction respects recent access order, and an expire() method purges expired entries. Decompose the work into a written plan, run the grader command first to record the initial RED state and the identities of the failing sealed tests, implement incrementally, and re-run the exact grader command after each increment until all 6 sealed tests pass. Do not edit or shadow anything under assets/gc-342/: the grader re-copies the sealed tests from assets over the workspace and disables pytest plugin autoloading and conftest collection, so test tampering cannot turn the run GREEN.",
  "horizon": "1w",
- "budget_usd": 20,
+ "budget_usd": 200.0,
  "resources": [
   "github.com/tkem/cachetools@8b9bbc4b60429bd73a06ff54a8eefd141215acc2",
   "docker:python:3.11-bookworm",

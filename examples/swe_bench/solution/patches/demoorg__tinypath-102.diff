@@ -1,0 +1,15 @@
+diff --git a/tinypath/__init__.py b/tinypath/__init__.py
+--- a/tinypath/__init__.py
++++ b/tinypath/__init__.py
+@@ -14,7 +14,10 @@
+         if segment == "..":
+             if parts and parts[-1] != "..":
+                 parts.pop()
+-            else:
++            elif not absolute:
++                # Nothing to pop. On a relative path the '..' is meaningful and
++                # is kept; on an absolute path there is nothing above the root,
++                # so the segment is discarded.
+                 parts.append("..")
+             continue
+         parts.append(segment)

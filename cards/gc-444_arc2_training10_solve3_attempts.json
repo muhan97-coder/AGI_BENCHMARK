@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Get at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-444/task_ids.txt fully solved, exploiting the two-attempt rule deliberately: for every predicted test output, attempt_1 carries the best-verified hypothesis and attempt_2 carries the strongest rival hypothesis that also survives all train pairs, and the run log must state both hypotheses and why they were ranked that way. Plan the batch before solving, grade mid-run to check the running count, and after any shortfall re-examine the nearest misses -- tasks where one train pair resisted -- before spending budget on untouched tasks.",
  "horizon": "1w",
- "budget_usd": 20,
+ "budget_usd": 200.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-444/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

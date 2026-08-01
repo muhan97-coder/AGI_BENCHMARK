@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Compute the Pearson correlation matrix of the four measurement columns in assets/gc-392/data.csv and reproduce its sealed eigenspectrum -- all four eigenvalues in descending order, explained-variance ratios, determinant, participation ratio, and Kaiser count -- per assets/gc-392/spec.md, into artifacts/gc-392/stats.json. Do not trust a single implementation: cross-validate your eigenvalues with a second, independent method (a different library, or a hand-rolled solver such as Jacobi rotation or the quartic characteristic polynomial) and reconcile any gap before grading. Then iterate grader runs, tracing each named mismatch to its root cause, until all 12 statistics match the sealed values.",
  "horizon": "1m",
- "budget_usd": 25.0,
+ "budget_usd": 250.0,
  "resources": [
   "assets/gc-392/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-392/spec.md (exact statistic definitions and submission contract)",

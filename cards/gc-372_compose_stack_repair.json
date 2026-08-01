@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The starter stack in assets/gc-372/stack/ (nginx + redis via docker compose) is shipped with multiple deliberate defects: a floating image tag, a dead image tag, a wrong host port, an invalid nginx.conf, and a missing content mount. Diagnose the failures layer by layer (compose parse, image pull, container start, HTTP contract, redis liveness), fix only files under assets/gc-372/stack/, and re-run the sealed healthcheck after each fix until all 6 checks pass. The sealed grader expects the site on host port 8372 with the shipped content token and both images pinned (nginx:1.25.4, redis:7.2.4). assets/gc-372/check.sh is sealed and must not be modified.",
  "horizon": "1d",
- "budget_usd": 4,
+ "budget_usd": 40.0,
  "resources": [
   "docker image nginx:1.25.4",
   "docker image redis:7.2.4",

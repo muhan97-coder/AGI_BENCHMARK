@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Scale your pipeline to the sealed 150-instance set in assets/gc-320/instances.txt, stratified across all 12 SWE-bench Lite organizations. Submit one prediction per instance to runs/gc-320/predictions.jsonl, evaluate with the pinned harness, and copy the final report to runs/gc-320/report.json. The sealed grader requires at least 45 resolved instances while holding hygiene gates: at most 12 empty patches and at most 7 harness-error instances across the whole set. At this scale you must batch work, checkpoint intermediate reports, watch cost burn against plan, and re-verify batches whose error rates spike - a single monolithic run with no recovery loop will not survive the gates.",
  "horizon": "1m",
- "budget_usd": 300,
+ "budget_usd": 3000.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

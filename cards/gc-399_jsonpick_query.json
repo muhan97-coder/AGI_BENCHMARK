@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the jsonpick library plus CLI exactly as written in assets/gc-399/SPEC.md, from scratch, at workspace/gc-399/jsonpick.py. The spec defines a small path grammar (dot keys, quoted keys with a two-escape rule, indexes, slices, wildcards with sorted-dict-key ordering) and strict silent-mismatch semantics. This requires building a real tokenizer/parser plus an evaluator and a CLI protocol with four distinct exit codes; plan the grammar first, implement incrementally, and iterate against the sealed suite until green, tracking which grammar rule each failure traces to.",
  "horizon": "1w",
- "budget_usd": 18,
+ "budget_usd": 180.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-399/SPEC.md",

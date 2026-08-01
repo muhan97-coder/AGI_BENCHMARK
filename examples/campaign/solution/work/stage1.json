@@ -1,0 +1,6 @@
+{
+  "stage": 1,
+  "sealed": "parse",
+  "plan_sha256": "3a5a3a6ac12d83ac065780e59461c38e170bf31c2b70cad48116db5b78175a02",
+  "verified_by": "python3 assets/grade.py -> gates.stage1_green"
+}

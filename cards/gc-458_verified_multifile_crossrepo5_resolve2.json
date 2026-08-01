@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Plan and execute a five-instance campaign over the sealed cross-repo list in assets/gc-458/instances.txt (pylint, seaborn, astropy, pytest), finishing with at least two resolved under the swebench docker harness. All five gold fixes span multiple files, so this card measures coordinated edits across codebases you have never seen: for each instance, map the call path between the files you believe must change before writing any patch, then reproduce, patch, and self-grade with an intermediate harness run. Four different repos means four different build-and-test conventions; budget triage time explicitly, keep failure identities per instance, and show a revised plan plus re-run after every red verdict.",
  "horizon": "1w",
- "budget_usd": 45.0,
+ "budget_usd": 450.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-458/instances.txt are in scope)",

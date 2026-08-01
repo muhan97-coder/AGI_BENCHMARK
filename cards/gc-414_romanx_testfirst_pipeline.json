@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A test-first three-stage campaign. Stage 1 inverts the usual order: before writing any implementation, author a behavioral kill-test suite for the sealed romanx reference that stays green on the original and fails on at least 10 of its 12 sealed mutants (strict canonical-form validation hides the subtle ones). Stage 2 implements the full module - same core contract plus is_valid and an eagerly-validating roman_range generator - against a sealed suite. Stage 3 ships a CLI with pinned exit codes and stderr prefixes, graded by a sealed subprocess suite while stage 2 stays green. Plan freezing, a sha256 marker chain, a run journal, and an honest cost record are graded with final state as one campaign_score.",
  "horizon": "1w",
- "budget_usd": 20,
+ "budget_usd": 200.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

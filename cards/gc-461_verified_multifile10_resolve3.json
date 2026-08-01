@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Execute a ten-instance campaign over the sealed multi-file list in assets/gc-461/instances.txt (sympy, sphinx, pylint, django, pytest) and finish with at least three resolved under the swebench docker harness. Every gold fix in this set changes at least two files, and one sympy instance rewires more than twenty, so the card measures whether the loop can hold a coordinated multi-file edit together through reproduction, patching, and sealed-test verification across five unfamiliar codebases. Triage all ten first and classify each by edit topology (interface change, cross-module contract, mechanical rename); attempt the tractable topologies first, verify every candidate with an intermediate harness run, and abandon an instance only with a recorded cause. Ledger, failure identities, and post-red re-plans are required artifacts.",
  "horizon": "1m",
- "budget_usd": 85.0,
+ "budget_usd": 850.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-461/instances.txt are in scope)",

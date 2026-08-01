@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 245 mutants in the installed jmespath/functions.py of jmespath==1.0.1; the metric is the absolute number of surviving mutants, which must be driven to 61 or fewer (about a 75 percent kill rate). Author a pytest suite from scratch under work/gc-354/tests/ that exercises every built-in function through jmespath.search -- abs, avg, ceil, contains, ends_with, floor, join, keys, length, map, max_by, merge, min_by, not_null, reverse, sort_by, starts_with, sum, to_array, to_number, and type -- including signature validation and type-error paths. Because the target is a survivor COUNT, the loop must track the survivor ID set across runs and show it shrinking; blanket assertions that re-kill already-dead mutants are wasted iterations. Fail-closed grading: any disqualification (red baseline, suite over 5 seconds, introspection tokens, mutant-total drift) scores survived_total 999999999.",
  "horizon": "1w",
- "budget_usd": 10,
+ "budget_usd": 100.0,
  "resources": [
   "pypi jmespath==1.0.1 (target under mutation: jmespath/functions.py built-in function table)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-354/config.json)",

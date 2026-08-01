@@ -1,0 +1,36 @@
+{
+ "id": "ex-campaign",
+ "title": "TEACHING EXAMPLE: build a kv module through a two-stage sealed campaign",
+ "category": "campaign",
+ "scored": false,
+ "note": "Worked example, NOT part of the benchmark. It mirrors the shape of the scored campaign cards (gc-408..gc-419, gc-429) at miniature scale so you can see one full RED -> repair -> GREEN cycle without docker, without network, in about a second. Its reference solution ships in examples/campaign/solution/; never publish solutions for the scored cards.",
+ "goal": "Run a two-stage build campaign for a tiny key=value config module, following assets/SPEC.md. Stage 1 implements parse() against a sealed acceptance suite; stage 2 adds render() and merge() while keeping stage 1 green. Before touching code you must write work/plan.md and freeze it behind a sha256 marker chain (stage2.json embeds the hash of stage1.json, which embeds the hash of plan.md), so the grader can prove the stages happened in order rather than take your word for it. Every verification run is journalled to work/runs.log as JSON lines with honest passed/failed counts, including the RED ones. The sealed grader scores final state AND these intermediate artifacts as one campaign_score; every gate must pass, and a GREEN claim for a stage that is red at grading time voids the whole campaign.",
+ "horizon": "1h",
+ "budget_usd": 0.5,
+ "resources": [
+  "Python >= 3.10 (stdlib only; no pip install, no network, no docker)",
+  "assets/SPEC.md (normative behaviour + artifact contract)",
+  "assets/test_stage1.py and assets/test_stage2.py (sealed acceptance suites)",
+  "assets/grade.py (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/grade.py",
+   "metric": "campaign_score",
+   "threshold": 4,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/plan.md exists BEFORE stage 1 is sealed, with '## Stage 1' and '## Stage 2' sections naming behaviours and verification commands; the marker chain proves it was not rewritten afterwards.",
+  "Stage markers stage1.json and stage2.json form a valid sha256 chain (plan -> stage1 -> stage2), i.e. verified ordering, not claimed ordering.",
+  "runs.log contains at least one parseable verification entry per stage with honest passed/failed counts, including any RED runs encountered.",
+  "The sealed suites are executed, not edited: the grader integrity-checks every sealed asset and re-runs both suites itself.",
+  "After stage 2, stage-1 behaviour still holds (the grader re-runs the stage-1 suite; a regression costs the stage2_green gate)."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

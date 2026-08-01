@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Run a week-long campaign over the sealed 40-instance set in assets/gc-315/instances.txt, which spans 8 GitHub organizations (django, sympy, matplotlib, scikit-learn, pytest-dev, sphinx-doc, astropy, pydata). Submit exactly one prediction per instance to runs/gc-315/predictions.jsonl, evaluate with the pinned harness, and copy the report to runs/gc-315/report.json. The sealed grader requires at least 10 resolved instances AND resolved coverage of at least 5 distinct organizations, so a django-only strategy fails: you must decompose per-repo setup work, verify intermediate results per organization, and re-allocate budget when a repo family stalls.",
  "horizon": "1w",
- "budget_usd": 60,
+ "budget_usd": 600.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

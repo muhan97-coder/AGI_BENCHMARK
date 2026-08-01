@@ -1,0 +1,10 @@
+diff --git a/tinydate/__init__.py b/tinydate/__init__.py
+--- a/tinydate/__init__.py
++++ b/tinydate/__init__.py
+@@ -17,4 +17,5 @@
+         parts.append(f"{minutes}m")
+     if secs:
+         parts.append(f"{secs}s")
+-    return " ".join(parts)
++    # Every unit can be zero; an empty string is not a duration.
++    return " ".join(parts) or "0s"

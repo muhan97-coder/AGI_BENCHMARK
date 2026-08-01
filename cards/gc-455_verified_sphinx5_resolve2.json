@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Run a five-instance campaign over the sealed sphinx-doc/sphinx list in assets/gc-455/instances.txt and finish with at least two resolved under the swebench docker harness. Three of the five carry a 1-4 hour human-difficulty rating and several fixes span multiple files in sphinx's autodoc and domain machinery, so plan before patching: for each instance name the subsystem, the reproduction command, and the risk that a shallow fix passes locally but fails the sealed test patch. Verify candidates in intermediate harness runs, track failure identities per instance, and re-plan after any red run instead of stopping silently.",
  "horizon": "1w",
- "budget_usd": 40.0,
+ "budget_usd": 400.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-455/instances.txt are in scope)",

@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Plan and execute a five-instance campaign over the sealed sympy/sympy list in assets/gc-456/instances.txt, finishing with at least two resolved under the swebench docker harness. Symbolic-math bugs punish pattern-matched patches: a fix that silences the reported expression frequently breaks a neighboring simplification path that the sealed PASS_TO_PASS suite still checks. For each instance, plan the mathematical invariant at stake, reproduce the wrong output in the instance repo, patch, and self-grade with a real harness run before final submission. Sequence the five by expected effort, keep a per-attempt ledger with verdicts and spend, and abandon instances only after a recorded triage note.",
  "horizon": "1w",
- "budget_usd": 40.0,
+ "budget_usd": 400.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-456/instances.txt are in scope)",

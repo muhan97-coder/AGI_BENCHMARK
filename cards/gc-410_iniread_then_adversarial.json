@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Stage 1 builds a small INI parser against a sealed basic suite; stage 2 must then survive a sealed adversarial suite that pins hostile edge cases (CRLF, tabs, line continuations, empty section names, inline semicolons) and adds a byte-exact canonical serializer with a round-trip law. The second stage routinely breaks naive stage-1 implementations, forcing a diagnose -> fix -> re-verify loop while the basic suite must stay green. Plan freezing, a sha256 stage-marker chain, and a JSON-lines run journal are machine-graded together with final state as one campaign_score.",
  "horizon": "1d",
- "budget_usd": 7,
+ "budget_usd": 70.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

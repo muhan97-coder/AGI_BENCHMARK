@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 338 mutants in humanize/number.py and 62 in humanize/filesize.py of humanize==4.9.0, and the score is the MINIMUM kill rate of the two modules -- overshooting one module cannot compensate for neglecting the other. From scratch under work/gc-353/tests/, build suites for ordinal, intcomma, intword, apnumber, fractional, scientific, clamp, metric, and naturalsize across binary, decimal, and gnu formats, including negative numbers, boundary magnitudes, and precision arguments. Track both per-module rates on every grading run and aim work at whichever module is behind. Fail-closed grading: red baseline, suite slower than 4 seconds, source-introspection tokens, or mutant-total drift in either module scores min_module_kill_rate -1.",
  "horizon": "1w",
- "budget_usd": 12,
+ "budget_usd": 120.0,
  "resources": [
   "pypi humanize==4.9.0 (targets under mutation: humanize/number.py and humanize/filesize.py)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-353/config.json)",

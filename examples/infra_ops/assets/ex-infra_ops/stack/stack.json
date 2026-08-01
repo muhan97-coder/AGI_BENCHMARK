@@ -1,0 +1,16 @@
+{
+ "//": "ex-infra_ops starter stack -- intentionally broken. Repair it until assets/ex-infra_ops/check.sh is green.",
+ "//allowed_images": ["miniweb:1.25.4", "minicache:7.2.4"],
+ "//contract": "the site must be published on host port 8391 and serve the shipped html/ content",
+ "services": {
+  "web": {
+   "image": "miniweb:latest",
+   "config": "./site.conf",
+   "ports": ["8080:80"],
+   "depends_on": ["cache"]
+  },
+  "cache": {
+   "image": "minicache:7.2.4-bogus"
+  }
+ }
+}

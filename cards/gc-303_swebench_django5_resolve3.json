@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Work the five sealed Django instances in assets/gc-303/instances.txt as a planned batch and get at least three resolved by the swebench docker harness. Budget attempts across instances up front, verify each candidate patch with a real harness run before counting it as done, and re-plan after every unresolved verdict. Instances that stay unresolved must be documented by id with the specific failing test or apply error, so the failure set is auditable rather than a bare count.",
  "horizon": "1w",
- "budget_usd": 25.0,
+ "budget_usd": 250.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-303/instances.txt are in scope)",

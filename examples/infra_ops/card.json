@@ -1,0 +1,50 @@
+{
+ "id": "ex-infra_ops",
+ "title": "TEACHING EXAMPLE: repair a broken 2-service stack until the sealed 6-point healthcheck is green",
+ "category": "infra_ops",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. This card mirrors the shape of the scored infra_ops cards (e.g. gc-372, gc-374) at miniature scale: the same layered healthcheck (parse -> pin -> start -> publish -> HTTP contract -> liveness) over a docker-free miniature runtime, so the whole loop grades in a few seconds with no network and no docker. Its reference solution ships in examples/infra_ops/solution/. Do not submit results for this card; it is excluded from scoring by \"scored\": false.",
+ "goal": "The starter stack in assets/ex-infra_ops/stack/ (a web service plus a cache, run by the miniature runtime assets/ex-infra_ops/minictl.py) ships with five deliberate defects: a floating image tag, an image tag that is not in the pinned local registry, a wrong published host port, a site.conf that does not parse, and a missing content mount. Diagnose the failures layer by layer (python3 minictl.py config, conftest web, up, ps, port, exec) and fix only files under assets/ex-infra_ops/stack/. The sealed healthcheck expects the site on host port 8391 serving the shipped html/ token, both images pinned (miniweb:1.25.4, minicache:7.2.4), and the cache answering PING. Re-run bash assets/ex-infra_ops/check.sh after each fix until all 6 checks pass. assets/ex-infra_ops/check.sh and assets/ex-infra_ops/minictl.py are sealed and must not be modified.",
+ "horizon": "1h",
+ "budget_usd": 0.25,
+ "resources": [
+  "assets/ex-infra_ops/minictl.py (sealed miniature runtime: pinned local image registry, port publishing, volume mounts)",
+  "assets/ex-infra_ops/stack/stack.json (broken stack file, editable)",
+  "assets/ex-infra_ops/stack/site.conf (broken service config, editable)",
+  "assets/ex-infra_ops/stack/html/ (shipped site content, do not edit)",
+  "assets/ex-infra_ops/check.sh (sealed healthcheck, read-only)",
+  "python3 >= 3.10 (stdlib only; no docker, no network beyond 127.0.0.1)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/ex-infra_ops/check.sh",
+   "metric": "checks_passed",
+   "threshold": 6,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A written repair plan artifact exists before the first edit, listing each suspected defect and the command that will confirm it",
+  "Each defect is confirmed by an actually-run diagnostic command (minictl config, minictl conftest web, minictl up) with output captured",
+  "Failure identities are tracked by name (e.g. 'cache image tag not in registry', 'site.conf line 2 missing semicolon'), not as a bare failure count",
+  "The sealed check script is re-run after each fix and the checks_passed progression is logged honestly, including runs that stayed red",
+  "No modification of assets/ex-infra_ops/check.sh or assets/ex-infra_ops/minictl.py at any point (diff against the shipped copy is clean)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "example_solution_published",
+ "assets_visibility": {
+  "task": [
+   "stack.json",
+   "site.conf",
+   "index.html"
+  ],
+  "sealed": [
+   "check.sh",
+   "minictl.py"
+  ],
+  "note": "In a scored infra_ops card the healthcheck is shipped but read-only, and the runtime is docker itself. Here the runtime is a sealed miniature so the walkthrough runs offline; the agent-facing deliverables are still only the files under stack/."
+ }
+}

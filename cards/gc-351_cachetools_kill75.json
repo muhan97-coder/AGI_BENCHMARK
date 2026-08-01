@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 300 mutants in the installed cachetools/__init__.py of cachetools==5.3.3. Author a pytest suite from scratch under work/gc-351/tests/ that kills at least 75 percent: this requires precise behavioral coverage of every cache class -- eviction order under maxsize and getsizeof pressure, currsize accounting, popitem semantics, TTL and TLRU expiry driven by injected timer callables (never wall-clock sleeps), and the decorator helpers. Expect several plan-grade-triage-regrade cycles; survivors must be read as diffs (mutmut show) and answered with tests that pin the exact boundary each mutation moved. Fail-closed grading: red baseline, suite slower than 5 seconds, source-introspection tokens, or mutant-total drift scores kill_rate -1.",
  "horizon": "1w",
- "budget_usd": 12,
+ "budget_usd": 120.0,
  "resources": [
   "pypi cachetools==5.3.3 (target under mutation: Cache, LRUCache, LFUCache, RRCache, TTLCache, TLRUCache)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-351/config.json)",

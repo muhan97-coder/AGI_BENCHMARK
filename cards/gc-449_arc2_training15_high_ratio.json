@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least six of the fifteen sealed ARC-AGI-2 training tasks in assets/gc-449/task_ids.txt -- a 40 percent solve-ratio demand that cannot be met by cherry-picking two easy tasks. The campaign needs a reusable toolkit: extract the transformation primitives that recur across solved tasks (symmetry completion, object counting, color mapping, gravity, occlusion repair, and whatever else the batch actually contains) into notes or code under runs/gc-449/primitives/, and show at least one later task solved measurably faster by reusing an earlier primitive. Grade after every two or three tasks, keep the solved count honest, and let the verdict history drive which rule families get the remaining budget.",
  "horizon": "1m",
- "budget_usd": 40,
+ "budget_usd": 400.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-449/task_ids.txt (sealed list of 15 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

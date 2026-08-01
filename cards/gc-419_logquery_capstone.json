@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "The band capstone chains four stages over a log-analysis stack built on the shipped sealed logfmt parser. Stage 1 implements loading and typed filtering on top of the sealed parser; stage 2 hardens that dependency by killing at least 18 of 20 sealed logfmt mutants (quote escapes, flag keys, duplicate-key and empty-value semantics hide the stubborn survivors); stage 3 adds aggregations with exact rounding and ordering contracts; stage 4 ships a CLI proven three independent ways - byte-exact sealed goldens, a grader-executed determinism double-run, and a probe log generated fresh at grading time and checked against the grader's internal reference, so memorizing goldens cannot pass. A frozen plan, four hash-chained markers, an 8-entry run journal, and an honest cost record are graded with final state as one campaign_score.",
  "horizon": "1m",
- "budget_usd": 65,
+ "budget_usd": 650.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

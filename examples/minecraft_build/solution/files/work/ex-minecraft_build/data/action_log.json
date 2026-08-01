@@ -1,0 +1,22 @@
+{
+ "builder_a": [
+  {
+   "start_time": "2026-08-02 09:00:00",
+   "end_time": "2026-08-02 09:00:40",
+   "duration": 40,
+   "action": "read data/map.json, order placements bottom-up, note the dirt obstruction at (0,-60,1)"
+  },
+  {
+   "start_time": "2026-08-02 09:00:40",
+   "end_time": "2026-08-02 09:01:10",
+   "duration": 30,
+   "action": "withdraw 6 stone_bricks, 1 furnace, 1 oak_log from the chest at (-4,-60,0)"
+  },
+  {
+   "start_time": "2026-08-02 09:01:10",
+   "end_time": "2026-08-02 09:02:30",
+   "duration": 80,
+   "action": "break the obstruction, place 8 blocks, re-scan and verify facings"
+  }
+ ]
+}

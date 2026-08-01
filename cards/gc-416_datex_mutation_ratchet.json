@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A four-stage month-scale campaign. Stage 1 implements a proleptic-Gregorian date library for years 1..9999 with the standard date modules banned in the implementation file (the grader scans import lines), pinned to sealed ordinal and weekday anchors. Stage 2 hardens the shipped ISO-week library calweeks by killing at least 18 of 20 sealed mutants - ISO week-53 and year-boundary rules make the last few survivors genuinely hard and demand survivor-by-survivor triage. Stage 3 adds recurrence helpers without regressing stage 1; stage 4 is an audit seal over a complete run journal, an honest cost record, and a 60-second total suite runtime budget. Everything - including the four-marker sha256 chain proving stage order - is scored as one campaign_score.",
  "horizon": "1m",
- "budget_usd": 55,
+ "budget_usd": 550.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

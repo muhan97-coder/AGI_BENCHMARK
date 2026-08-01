@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Execute a full campaign over the sealed 60-instance, 10-organization set in assets/gc-318/instances.txt: predictions for every instance in runs/gc-318/predictions.jsonl, one final harness report at runs/gc-318/report.json, and a failure ledger at runs/gc-318/failure_ledger.jsonl. Budgets are hard gates: at most 3 harness-error instances, at most 6 empty patches, and at least 12 resolved. Every non-resolved instance must appear in the ledger with a non-empty category and evidence string, so failures have identities, not counts. Expect several plan-verify-execute-reverify cycles: an error-heavy first evaluation must be triaged and re-run within budget before submission.",
  "horizon": "1w",
- "budget_usd": 80,
+ "budget_usd": 800.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

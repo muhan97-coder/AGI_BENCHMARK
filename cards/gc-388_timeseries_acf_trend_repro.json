@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Reproduce the sealed temporal profile of the 730-day series in assets/gc-388/data.csv: OLS trend on the day index, autocorrelation at lags 1-3 under the exact estimator in assets/gc-388/spec.md, rolling-window extremes, first-difference volatility, and run-length figures, written to artifacts/gc-388/stats.json. The sealed ACF estimator (single overall mean, full-sample denominator) differs from several library defaults, so verify it two independent ways before submitting. Iterate grader -> named mismatch -> fix until all 12 statistics match.",
  "horizon": "1w",
- "budget_usd": 12.0,
+ "budget_usd": 120.0,
  "resources": [
   "assets/gc-388/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-388/spec.md (exact statistic definitions and submission contract)",

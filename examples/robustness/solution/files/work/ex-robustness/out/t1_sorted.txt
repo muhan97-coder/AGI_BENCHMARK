@@ -1,0 +1,8 @@
+alpha
+alpha
+bravo
+bravo
+charlie
+delta
+echo
+foxtrot

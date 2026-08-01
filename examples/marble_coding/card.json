@@ -1,0 +1,37 @@
+{
+ "id": "ex-marble_coding",
+ "title": "TEACHING EXAMPLE: implement MeetingRoomBooker against a sealed acceptance suite",
+ "category": "marble_coding",
+ "scored": false,
+ "note": "Worked example, NOT part of the benchmark. It mirrors the shape of the scored MARBLE coding cards (gc-324..gc-335) at miniature scale so you can see one full EXTRACT_FAIL -> RED -> GREEN cycle without docker, without network, in well under a second. Its reference solution ships in examples/marble_coding/solution/; never publish solutions for the scored cards.",
+ "goal": "Implement the MARBLE-flavoured coding task MeetingRoomBooker as workspace/solution.py, following the exact API contract in assets/SPEC.md. Plan the decomposition first (rooms, booking validation, cancellation, views), then implement incrementally, running the sealed acceptance suite after each increment and recording which named tests are still red. Recover from every red run by fixing the identified defect, never by editing the sealed suite, and finish with a green re-verification. The metric is extracted with ^(\\d+) passed, so a partially passing suite prints 'N failed, M passed' and grades as EXTRACT_FAIL rather than partial credit.",
+ "horizon": "1h",
+ "budget_usd": 0.5,
+ "resources": [
+  "Python >= 3.10 (stdlib only; no pip install, no network, no docker)",
+  "assets/SPEC.md (interface contract)",
+  "assets/test_accept.py (sealed acceptance suite, 14 tests)",
+  "assets/run_accept.py (sealed runner; stdlib stand-in for `pytest -q`, same summary line)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 assets/run_accept.py",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 14,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists before the first implementation edit, decomposing the task into the SPEC.md surfaces (rooms, booking validation, overlap, cancellation, views)",
+  "The sealed acceptance suite was actually executed at least twice: an early run with named red tests and a final green run, with logs retained",
+  "Failing tests are tracked by node id (identity), not by count, across iterations",
+  "Every verification run and its cost/outcome is logged honestly, including runs that failed",
+  "After any red run, the next change targets the named failing tests; the sealed suite file is never modified"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

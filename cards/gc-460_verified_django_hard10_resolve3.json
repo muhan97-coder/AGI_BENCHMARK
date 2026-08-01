@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Run a ten-instance campaign over the sealed django/django list in assets/gc-460/instances.txt and finish with at least three resolved under the swebench docker harness. All ten are rated 1-4 hours in the Verified annotations and every gold fix touches two or more files across django's ORM, migrations, forms, and admin layers, so resolving them demands real architectural navigation of one large codebase rather than spot fixes. Amortize that navigation deliberately: build a shared map of the subsystems the ten instances touch before the first patch, sequence related instances together, verify every candidate in an intermediate harness run, and keep a ledger of attempts, verdicts, and spend. After each red run, the failure ledger must name the failing tests or apply errors per instance, and the plan revision must be explicit.",
  "horizon": "1m",
- "budget_usd": 80.0,
+ "budget_usd": 800.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-460/instances.txt are in scope)",

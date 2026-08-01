@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "Reproduce the sealed 25-block Checkerboard Terrace (alternating stone_bricks and oak_planks) on a fresh judged server. The pattern makes every off-by-one placement visible to the judger but easy for a bot to commit, so the loop matters: plan the parity mapping from blueprint coordinates to the world coordinates in data/map.json, place in a verifiable order, poll the judger snapshots, and repair the exact cells that scan wrong before re-verifying. The card is only GREEN when the judger's own score.json records block_hit_rate 1.0.",
  "horizon": "1d",
- "budget_usd": 5,
+ "budget_usd": 50.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-362/docker-compose.yml)",

@@ -4,7 +4,7 @@
  "category": "robustness",
  "goal": "Patch the five sealed scikit-learn instances in assets/gc-307/instances.txt so that at least three resolve in BOTH of two independent harness executions - grading runs the docker harness twice with distinct run ids and only counts instance ids resolved in the intersection. Flaky fixes that pass once and fail on re-verification score nothing, so you must re-run your own verification per instance and chase down any nondeterminism (test ordering, timing, unpinned state) before final submission. Track which instance ids flipped between your own runs and what you changed in response.",
  "horizon": "1w",
- "budget_usd": 30.0,
+ "budget_usd": 300.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-307/instances.txt are in scope)",

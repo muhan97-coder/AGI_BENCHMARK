@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the microjson codec exactly as written in assets/gc-404/SPEC.md, from scratch, at workspace/gc-404/microjson.py, without touching Python's json module (the sealed suite scans the source and fails on it). The spec's deliberately tricky sections cover 1-based line/col error positions, UTF-16 surrogate-pair decoding with lone-surrogate rejection, the strict number grammar, and bool-before-int serialization order. This is a multi-session build: plan the lexer/parser structure, implement loads and dumps incrementally, run the sealed suite repeatedly, and drive every failure back to a spec clause until all tests pass.",
  "horizon": "1m",
- "budget_usd": 45,
+ "budget_usd": 450.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-404/SPEC.md",

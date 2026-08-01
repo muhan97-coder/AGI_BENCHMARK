@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The sealed grader seeds a deterministic 1.5M-row orders / 50k-row customers dataset with no indexes into postgres:12.22, times the sealed 5-query workload warm, applies your assets/gc-379/tuned/optimize.sql plus your postgresql.conf, and times the workload again warm. Your optimization script must cut total workload time to at most 0.50x baseline without touching the data: the grader compares row counts and content hashes before and after, and any mutation fails the run outright. Study the query shapes with EXPLAIN ANALYZE on your own instance, design a minimal index set (partial, composite, and covering indexes all plausible), measure each candidate's effect, and re-verify with the sealed script end to end. Only files under assets/gc-379/tuned/ may be edited.",
  "horizon": "1w",
- "budget_usd": 16,
+ "budget_usd": 160.0,
  "resources": [
   "docker image postgres:12.22",
   "assets/gc-379/tuned/optimize.sql (deliverable, editable)",

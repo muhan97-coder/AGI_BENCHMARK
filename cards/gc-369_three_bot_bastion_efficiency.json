@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "Build the sealed 79-block Stone Bastion on a fresh judged server with exactly three bots, and win on efficiency: the judger divides its complexity-derived action-time budget by the union of your logged action intervals, so only genuinely parallel work - three bots building different walls at the same time - pushes efficiency well above 1.0. The card requires a completed build (end_reason 'complete task') AND efficiency >= 1.5, meaning the union of action time must come in at two-thirds of the budget or better; a timeout scores 0. Plan the partition and chest logistics, rehearse, measure the interval union from your own ledger, and re-verify against the judger's final score.",
  "horizon": "1m",
- "budget_usd": 40,
+ "budget_usd": 400.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-369/docker-compose.yml)",

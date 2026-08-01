@@ -1,0 +1,39 @@
+{
+ "card": "ex-frontier_arc",
+ "note": "Reference ledger for the teaching example: per-task attempts, spend and outcome, including the hypothesis that was rejected on the train pairs.",
+ "tasks": [
+  {
+   "task_id": "ex03_recolor",
+   "attempts": 1,
+   "hypotheses_tried": ["cyclic colour map 1->2,2->3,3->1 (held on all 3 train pairs)"],
+   "hypotheses_rejected": [],
+   "attempt_2_rule": "inverse cyclic map 1->3,3->2,2->1",
+   "usd": 0.0,
+   "outcome": "solved"
+  },
+  {
+   "task_id": "ex02_mirror",
+   "attempts": 1,
+   "hypotheses_tried": ["row + reverse(row) (held on all 3 train pairs)"],
+   "hypotheses_rejected": ["reverse(row) + row (contradicted by train pair 1)"],
+   "attempt_2_rule": "reverse(row) + row, kept as the distinct second attempt",
+   "usd": 0.0,
+   "outcome": "solved"
+  },
+  {
+   "task_id": "ex01_fall",
+   "attempts": 1,
+   "hypotheses_tried": ["per-column gravity, order preserved (held on all 3 train pairs)"],
+   "hypotheses_rejected": ["collapse each column to one cell (contradicted by train pair 2)"],
+   "attempt_2_rule": "not spent",
+   "usd": 0.0,
+   "outcome": "solved"
+  }
+ ],
+ "grader_runs": [
+  {"phase": "checkpoint", "stdout": "{\"solved\": 3}"},
+  {"phase": "final", "stdout": "{\"solved\": 3}"}
+ ],
+ "usd_total": 0.0,
+ "halt_reason": "goal_green"
+}

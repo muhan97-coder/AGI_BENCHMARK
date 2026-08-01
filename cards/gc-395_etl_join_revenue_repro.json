@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Build a two-table ETL pipeline over assets/gc-395/orders.csv and assets/gc-395/customers.csv: join orders to customers on customer_id, drop orders whose customer is unknown, then drop orders placed before the customer's signup day, and reproduce the sealed rollups -- stage counts, total/mean/per-segment revenue, top-customer revenue, median days-since-signup, repeat-customer fraction -- per assets/gc-395/spec.md, into artifacts/gc-395/stats.json. Verify each pipeline stage with explicit row-count invariants (raw > joined > valid) before computing the final figures; a single wrong filter silently shifts most downstream statistics. Iterate grader -> named mismatches -> stage-level diagnosis until stats_matched = 12.",
  "horizon": "1m",
- "budget_usd": 35.0,
+ "budget_usd": 350.0,
  "resources": [
   "assets/gc-395/customers.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-395/orders.csv (bundled dataset slice, sealed by sha256)",

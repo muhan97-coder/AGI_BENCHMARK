@@ -1,0 +1,51 @@
+{
+ "id": "ex-frontier_arc",
+ "title": "TEACHING EXAMPLE: solve 2 of 3 sealed grid-reasoning tasks under cell-exact grading",
+ "category": "frontier_arc",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. This card mirrors the shape of the scored frontier_arc cards (e.g. gc-440, gc-447) at miniature scale: the same ARC task-file format, the same predictions.json contract with up to two attempts per test input, the same cell-exact fail-closed grader printing {\"solved\": N}. The three puzzles are HAND-MADE for this example -- no ARC-AGI-2 dataset file is copied -- so the whole loop runs offline in milliseconds. Its reference solution ships in examples/frontier_arc/solution/. Do not submit results for this card; it is excluded from scoring by \"scored\": false.",
+ "goal": "Work the three sealed tasks in assets/ex-frontier_arc/task_ids.txt end to end and get at least two of them fully solved under cell-exact grading. The task files in assets/ex-frontier_arc/tasks/ hold train pairs (input and output) plus test entries that carry ONLY an input. For each task: study every train pair, write an explicit transformation hypothesis, verify that the hypothesis reproduces every train output before touching the test input, emit runs/ex-frontier_arc/predictions.json in the documented format, run python3 assets/ex-frontier_arc/grade.py, and re-plan from the grader verdict if the result is short. A task counts only when every one of its test outputs matches the gold grid exactly -- ex02_mirror has two test inputs and needs both right -- so sloppy almost-right grids are worth nothing.",
+ "horizon": "1h",
+ "budget_usd": 0.25,
+ "resources": [
+  "assets/ex-frontier_arc/task_ids.txt (sealed list of 3 task ids, one per line)",
+  "assets/ex-frontier_arc/tasks/<task_id>.json (hand-made task files: train pairs + test inputs, gold outputs withheld)",
+  "assets/ex-frontier_arc/gold/<task_id>.json (sealed gold outputs, grader-side only)",
+  "assets/ex-frontier_arc/grade.py (stdlib-only fail-closed grader; prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/ex-frontier_arc/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "python3 >= 3.10 (stdlib only; no network -- the gold ships with the grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/ex-frontier_arc/grade.py",
+   "metric": "solved",
+   "threshold": 2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/ex-frontier_arc/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold outputs are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/ex-frontier_arc/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "example_solution_published",
+ "assets_visibility": {
+  "task": [
+   "task_ids.txt",
+   "grade.py",
+   "ex01_fall.json",
+   "ex02_mirror.json",
+   "ex03_recolor.json"
+  ],
+  "sealed": [
+   "gold"
+  ],
+  "note": "In a scored frontier_arc card the gold task files are downloaded from a pinned public commit at grade time and never sit in the agent workspace. This example is offline, so gold/ ships beside the grader; strip assets/ex-frontier_arc/gold/ from any workspace you point an agent at (rm -rf <workspace>/assets/ex-frontier_arc/gold), and note that the tasks/ copies already have their test outputs withheld."
+ }
+}

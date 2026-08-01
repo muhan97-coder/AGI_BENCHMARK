@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "Run the three sealed builds (relay platform, twin arch gate, market stall) as independent judged runs on fresh worlds with two bots each, and finish the campaign with every run ending 'complete task' and mean efficiency >= 1.2 across the three result ledgers. Efficiency is computed by the judger from your own action-interval ledger, so the campaign forces a process: predict the interval union per task, execute, compare the prediction to the judger's recorded use_time, and feed the error into the next task's plan. Any run that times out or loses its ledgers zeroes the whole campaign score.",
  "horizon": "1m",
- "budget_usd": 45,
+ "budget_usd": 450.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-371/docker-compose.yml)",

@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The starter config in assets/gc-382/tuned/postgresql.conf runs postgres:12.22 with fsync, synchronous_commit, and full_page_writes all off; it is fast and it will lose data. The sealed grader runs an acked-insert loop against your configured server, SIGKILLs the server container mid-load to simulate power loss, restarts it on the same data directory, and demands four things: durable settings verified live via SHOW, recovery to accepting connections within 60 seconds, every client-acknowledged commit present after recovery, and at least 200 acked inserts in the load window so the test is not passed by starving the workload. Rebuild this crash drill yourself, run it repeatedly to observe WAL replay behavior, and tune the config so durability, recovery time, and insert throughput hold simultaneously before invoking the sealed check. Only tuned/postgresql.conf may be edited.",
  "horizon": "1m",
- "budget_usd": 45,
+ "budget_usd": 450.0,
  "resources": [
   "docker image postgres:12.22",
   "assets/gc-382/tuned/postgresql.conf (deliverable, editable)",

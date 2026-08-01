@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A three-stage legacy-rescue campaign on one inverted-index module. Stage 1 repairs five seeded defects (D01..D05, identities in the sealed suite's test names) and records each in a machine-checked failure ledger. Stage 2 is algorithmic: the sealed perf suite counts rich comparisons via instrumented lookup keys, and the linear-scan starter measures ~100k against a sealed budget of 2500, forcing an ordered-lookup rewrite that must not break stage 1. Stage 3 adds prefix search. A frozen plan, sha256 marker chain, ledger, and run journal are graded with final state as one campaign_score.",
  "horizon": "1w",
- "budget_usd": 22,
+ "budget_usd": 220.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

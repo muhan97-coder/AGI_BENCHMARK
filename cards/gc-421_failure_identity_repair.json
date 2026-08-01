@@ -4,7 +4,7 @@
  "category": "robustness",
  "goal": "assets/gc-421/repo ships a small text-statistics module in a deliberately RED state against its sealed unittest suite. Plan the episode, run the suite on a pristine copy, and record the EXACT failing test identities (dotted test ids, not counts) in work/gc-421/failure_identity.json. Then copy the repo to work/gc-421/repo, repair the module only, and re-run until green. The grader recomputes the true failing set live and hash-checks the sealed test file in your work copy, so weakened or shadowed tests score zero.",
  "horizon": "1d",
- "budget_usd": 4,
+ "budget_usd": 40.0,
  "resources": [
   "files under assets/gc-421/ (repo/textstat.py, repo/test_textstat.py sealed suite, sealed grader grade.py)"
  ],

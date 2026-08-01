@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The stack in assets/gc-378/stack/ wires nginx, redis, postgres, and a heartbeat worker together, and it is broken in at least six distinct ways spanning image pinning, port exposure policy, database bootstrap, cross-service hostnames, mount paths, and restart policy. The sealed check verifies 10 properties including things that must NOT happen (redis must not be published to the host) and liveness that only emerges when the wiring is right (a fresh worker heartbeat key inside redis, the seeded items table under user app/appdb). Debug the services in dependency order, verify each fix with your own compose/exec probes, and re-run the sealed check between fixes; note that postgres only applies init scripts on a fresh data directory, so re-verification requires clean recreation. Only files under assets/gc-378/stack/ may be edited, except init.sql which is sealed.",
  "horizon": "1w",
- "budget_usd": 15,
+ "budget_usd": 150.0,
  "resources": [
   "docker image nginx:1.25.4",
   "docker image redis:7.2.4",

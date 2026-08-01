@@ -1,0 +1,48 @@
+{
+ "id": "ex-data_repro",
+ "title": "TEACHING EXAMPLE: reproduce 6 sealed univariate descriptives from a 24-row sensor slice",
+ "category": "data_repro",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. This card mirrors the shape of the scored data_repro cards (e.g. gc-384) at miniature scale so the whole plan -> implement -> verify loop grades in under a second with no network and no docker. Its reference solution ships in examples/data_repro/solution/. Do not submit results for this card; it is excluded from scoring by \"scored\": false.",
+ "goal": "assets/ex-data_repro/data.csv is a 24-row sensor temperature slice with injected heat spikes. Plan and build an independent pipeline (any language or libraries) that computes the 6 statistics exactly as defined in assets/ex-data_repro/spec.md and writes them to artifacts/ex-data_repro/stats.json. Two definitions are deliberately version-sensitive (Type-7 quantiles, biased skewness g1), so common library defaults will not all match on the first attempt. Run python3 assets/ex-data_repro/grade.py, read back the mismatched statistic names, fix each definition, and re-verify until all 6 match the sealed values within tolerance.",
+ "horizon": "1h",
+ "budget_usd": 0.25,
+ "resources": [
+  "assets/ex-data_repro/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/ex-data_repro/spec.md (exact statistic definitions and submission contract)",
+  "assets/ex-data_repro/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/ex-data_repro/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/ex-data_repro/grade.py (stdlib-only grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/ex-data_repro/grade.py",
+   "metric": "stats_matched",
+   "threshold": 6,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., work/ex-data_repro/plan.md) exists before any pipeline code and restates all 6 statistic definitions from spec.md in the agent's own words.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "example_solution_published",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "In a scored data_repro card the public repo keeps only expected_stats.json.sha256 and the real answer file is restored from the maintainers' sealed pack with tools/restore_sealed.py. This teaching example ships the sealed file in the clear so the walkthrough runs offline; that is exactly why it carries scored: false."
+ }
+}

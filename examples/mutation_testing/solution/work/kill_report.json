@@ -1,0 +1,12 @@
+{
+  "killed": ["m01", "m02", "m03", "m04"],
+  "survivors": [
+    {
+      "id": "m05",
+      "verdict": "suspected-equivalent",
+      "argument": "`not items` and `len(items) == 0` are the same predicate for a list, so the mutated share() is observationally identical to the original; no test can separate them."
+    }
+  ],
+  "recomputed_by": "assets/grade.py",
+  "baseline_tests": 13
+}

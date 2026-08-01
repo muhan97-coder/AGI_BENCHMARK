@@ -1,0 +1,14 @@
+diff --git a/tinyunits/__init__.py b/tinyunits/__init__.py
+--- a/tinyunits/__init__.py
++++ b/tinyunits/__init__.py
+@@ -7,7 +7,9 @@
+     "m": 1.0,
+     "km": 1000.0,
+     "cm": 0.01,
+-    "mi": 1609.0,
++    # The international mile is exactly 1609.344 m; the old 1609.0 was the
++    # source of every mile-related discrepancy, not just mi->km.
++    "mi": 1609.344,
+     "ft": 0.3048,
+     "in": 0.0254,
+ }

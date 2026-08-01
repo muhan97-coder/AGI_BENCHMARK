@@ -1,0 +1,104 @@
+{
+ "bot": "builder_a",
+ "note": "world coordinates taken from work/ex-minecraft_build/data/map.json, not from the blueprint",
+ "actions": [
+  {
+   "t": "withdraw",
+   "item": "stone_bricks",
+   "count": 6
+  },
+  {
+   "t": "withdraw",
+   "item": "furnace",
+   "count": 1
+  },
+  {
+   "t": "withdraw",
+   "item": "oak_log",
+   "count": 1
+  },
+  {
+   "t": "break",
+   "pos": [
+    0,
+    -60,
+    1
+   ],
+   "why": "arena_blocks: dirt squats on a blueprint cell"
+  },
+  {
+   "t": "place",
+   "pos": [
+    0,
+    -60,
+    0
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    0,
+    -60,
+    1
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    1,
+    -60,
+    0
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    1,
+    -60,
+    1
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    2,
+    -60,
+    0
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    2,
+    -60,
+    1
+   ],
+   "block": "stone_bricks"
+  },
+  {
+   "t": "place",
+   "pos": [
+    0,
+    -59,
+    0
+   ],
+   "block": "furnace",
+   "facing": "W"
+  },
+  {
+   "t": "place",
+   "pos": [
+    2,
+    -59,
+    1
+   ],
+   "block": "oak_log",
+   "facing": "x"
+  }
+ ]
+}

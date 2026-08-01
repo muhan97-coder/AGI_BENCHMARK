@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Reproduce the sealed dependence profile of the four channels in assets/gc-389/data.csv: all six pairwise Pearson correlations, two Spearman correlations with average-rank tie handling, and the trace and determinant of the sample covariance matrix, per assets/gc-389/spec.md, into artifacts/gc-389/stats.json. Plan the estimator conventions first, implement the pipeline, and self-verify the determinant with a second method before grading. Then run the grader and close every named mismatch across verify cycles until stats_matched = 12.",
  "horizon": "1w",
- "budget_usd": 12.0,
+ "budget_usd": 120.0,
  "resources": [
   "assets/gc-389/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-389/spec.md (exact statistic definitions and submission contract)",

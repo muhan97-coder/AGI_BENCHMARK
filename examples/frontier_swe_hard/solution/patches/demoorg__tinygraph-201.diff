@@ -1,0 +1,60 @@
+diff --git a/tinygraph/__init__.py b/tinygraph/__init__.py
+--- a/tinygraph/__init__.py
++++ b/tinygraph/__init__.py
+@@ -1,7 +1,7 @@
+ """tinygraph -- a miniature DAG toolkit (demo instance repo)."""
+ 
+-from .graph import Graph
++from .graph import CycleError, Graph
+ from .traversal import topo_sort
+ 
+-__all__ = ["Graph", "topo_sort"]
++__all__ = ["CycleError", "Graph", "topo_sort"]
+ __version__ = "3.1.0"
+diff --git a/tinygraph/graph.py b/tinygraph/graph.py
+--- a/tinygraph/graph.py
++++ b/tinygraph/graph.py
+@@ -1,4 +1,17 @@
+ """Graph container."""
++
++
++class CycleError(ValueError):
++    """Raised when a graph cannot be ordered because it contains a cycle.
++
++    Subclasses ValueError so existing ``except ValueError`` handlers around
++    graph loading keep working. ``nodes`` carries the identities of the nodes
++    that could not be ordered -- a count would be useless in a build log.
++    """
++
++    def __init__(self, nodes):
++        self.nodes = sorted(nodes)
++        super().__init__(f"graph contains a cycle among: {', '.join(map(str, self.nodes))}")
+ 
+ 
+ class Graph:
+diff --git a/tinygraph/traversal.py b/tinygraph/traversal.py
+--- a/tinygraph/traversal.py
++++ b/tinygraph/traversal.py
+@@ -1,8 +1,14 @@
+ """Topological ordering (Kahn's algorithm)."""
++
++from .graph import CycleError
+ 
+ 
+ def topo_sort(graph):
+-    """Return the nodes of *graph* in dependency order."""
++    """Return the nodes of *graph* in dependency order.
++
++    Raises CycleError if the graph contains a cycle: a truncated order is
++    indistinguishable from a legitimately short one at the call site.
++    """
+     degree = graph.in_degree()
+     ready = sorted(node for node, d in degree.items() if d == 0)
+     order = []
+@@ -14,4 +20,6 @@
+             if degree[nxt] == 0:
+                 ready.append(nxt)
+         ready.sort()
++    if len(order) != len(degree):
++        raise CycleError(set(degree) - set(order))
+     return order

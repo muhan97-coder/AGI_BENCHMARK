@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "Tune assets/gc-376/tuned/redis.conf so that redis-benchmark SET throughput on redis:7.2.4 reaches at least 2.0x the sealed baseline config, which fsyncs the AOF on every command. The catch: the sealed grader interrogates the live tuned instance with CONFIG GET and zeroes the score unless appendonly stays yes and appendfsync stays always or everysec, so you must find the durability/throughput frontier rather than switching persistence off. Benchmark candidate configs yourself, verify the guard constraints on a live instance each time, and re-verify with the sealed script since throughput runs vary. Only tuned/redis.conf may be edited.",
  "horizon": "1w",
- "budget_usd": 12,
+ "budget_usd": 120.0,
  "resources": [
   "docker image redis:7.2.4",
   "assets/gc-376/tuned/redis.conf (deliverable, editable)",

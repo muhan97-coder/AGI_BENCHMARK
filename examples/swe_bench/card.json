@@ -1,0 +1,45 @@
+{
+ "id": "ex-swe_bench",
+ "title": "TEACHING EXAMPLE: resolve two of three miniature SWE-bench-shaped instances",
+ "category": "swe_bench",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. It mirrors the shape of the scored swe_bench cards (sealed instance list, predictions.jsonl, a report keyed on resolved_instances) at miniature scale so it grades in under a second with no docker and no network. The scored cards use the pinned swebench docker harness against real repositories; this card uses examples/swe_bench/assets/mini_harness.py, which is a stand-in, not SWE-bench. Reference solution: examples/swe_bench/solution/.",
+ "goal": "Drive at least two of the three sealed instances in assets/ex-swe_bench/instances.txt to resolved. For each instance, read assets/ex-swe_bench/instances/<instance_id>/problem_statement.md, diagnose the fault in the instance's repo tree, and emit a unified diff that fixes it. Write one JSON object per instance to runs/ex-swe_bench/predictions.jsonl with keys instance_id, model_name_or_path set exactly to 'ex-swe_bench', and model_patch (a git-apply-able diff with a/ and b/ path prefixes, rooted at the instance repo). Plan first and name the suspected fault location per instance, run the harness on your own candidates before the final grading run, and revise from the per-instance failure identities in the report rather than rewriting blindly. The sealed FAIL_TO_PASS and PASS_TO_PASS tests are copied over your patched tree after the patch is applied: an instance counts as resolved only when the new behaviour works AND nothing that worked before broke.",
+ "horizon": "10m",
+ "budget_usd": 0.25,
+ "resources": [
+  "pypi: pytest (any recent version; the demo harness shells out to python3 -m pytest)",
+  "assets/ex-swe_bench/instances.txt (sealed instance-id list, one id per line)",
+  "assets/ex-swe_bench/instances/<instance_id>/problem_statement.md (task-visible bug report)",
+  "assets/ex-swe_bench/instances/<instance_id>/repo/ (task-visible source tree, the 'checkout')",
+  "assets/ex-swe_bench/instances/<instance_id>/tests/ (sealed FAIL_TO_PASS / PASS_TO_PASS tests)",
+  "assets/ex-swe_bench/mini_harness.py (demo stand-in for swebench==4.1.0's run_evaluation)",
+  "output convention: runs/ex-swe_bench/predictions.jsonl with model_name_or_path set exactly to 'ex-swe_bench', so the harness report is written to ex-swe_bench.<run_id>.json in the workspace root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 assets/ex-swe_bench/mini_harness.py --predictions runs/ex-swe_bench/predictions.jsonl --instances-dir assets/ex-swe_bench/instances --instance-ids-file assets/ex-swe_bench/instances.txt --work-dir work/ex-swe_bench/harness --report-dir . --run-id ex-swe_bench && python3 -c \"import json; r=json.load(open('ex-swe_bench.ex-swe_bench.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/ex-swe_bench/plan.md before the first patch attempt, naming the target instance ids, the suspected fault location in each, and the exact verification command.",
+  "Verification actually ran: at least one harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/ex-swe_bench/failures.md lists each unresolved instance id with a one-line cause (the failing test id or the patch-apply error), not just counts.",
+  "Honest cost and attempt logging: runs/ex-swe_bench/ledger.json records per-attempt spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if a harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop."
+ ],
+ "assets_visibility": {
+  "sealed": [
+   "test_fail_to_pass.py",
+   "test_pass_to_pass.py"
+  ]
+ },
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "examples",
+ "contamination_risk": "low"
+}

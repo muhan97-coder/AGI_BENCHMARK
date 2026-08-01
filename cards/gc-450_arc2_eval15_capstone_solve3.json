@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least three of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-450/task_ids.txt -- the hardest card in this arc, calibrated above current frontier-LLM single-pass performance on this split, so it should only go green for an agent that genuinely iterates. Run it as a full campaign: initial triage of all fifteen, a per-task hypothesis ledger, executable re-derivation of every shipped prediction, deliberate use of both attempts with distinct verified rules, scheduled grader checkpoints at least weekly, and a final pre-grade audit that withdraws any prediction whose rule no longer re-derives it. A shortfall at any checkpoint must produce a revised plan naming which near-miss tasks get the remaining budget and why.",
  "horizon": "1m",
- "budget_usd": 55,
+ "budget_usd": 550.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-450/task_ids.txt (sealed list of 15 task ids, one per line; all from the public evaluation split; every id verified to exist in the pinned commit)",

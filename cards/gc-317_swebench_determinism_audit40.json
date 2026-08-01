@@ -4,7 +4,7 @@
  "category": "robustness",
  "goal": "Produce predictions for the sealed 40-instance set in assets/gc-317/instances.txt (one per instance, in runs/gc-317/predictions.jsonl) and grade the identical file twice with the pinned harness under two different run_ids, copying the reports to runs/gc-317/report_a.json and runs/gc-317/report_b.json. The sealed grader demands that all four verdict lists (resolved, unresolved, empty-patch, error) match exactly as sets between the two runs, and that at least 8 instances are resolved. Flaky tests, container race conditions, or unpinned dependencies will surface as verdict flips: you must find each source of nondeterminism, fix or avoid it, and re-run both gradings until the audit is clean.",
  "horizon": "1w",
- "budget_usd": 50,
+ "budget_usd": 500.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

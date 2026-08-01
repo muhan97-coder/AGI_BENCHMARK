@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task DataFlowCoordinator (task_id=87 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-331/solution.py per assets/gc-331/SPEC.md: a strictly ordered ingest -> validate -> transform -> export pipeline with typed validation, per-cell error identities, quarantine of invalid rows, four transform operations, and copy-safe exports. The stage-gating and error-identity tests force careful sequencing, so plan the state machine first, implement in increments, and rerun the sealed suite after each increment while tracking red tests by name. Finish with a green re-verification inside the pinned container.",
  "horizon": "1w",
- "budget_usd": 8,
+ "budget_usd": 80.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=87)",
   "docker image python:3.11.9-slim",

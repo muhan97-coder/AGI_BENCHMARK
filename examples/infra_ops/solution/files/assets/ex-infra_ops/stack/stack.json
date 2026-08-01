@@ -1,0 +1,17 @@
+{
+ "//": "ex-infra_ops REFERENCE SOLUTION -- both images pinned to registry tags, the site published on host port 8391, the content directory mounted where site.conf roots.",
+ "//allowed_images": ["miniweb:1.25.4", "minicache:7.2.4"],
+ "//contract": "the site must be published on host port 8391 and serve the shipped html/ content",
+ "services": {
+  "web": {
+   "image": "miniweb:1.25.4",
+   "config": "./site.conf",
+   "ports": ["8391:80"],
+   "volumes": ["./html:/usr/share/site:ro"],
+   "depends_on": ["cache"]
+  },
+  "cache": {
+   "image": "minicache:7.2.4"
+  }
+ }
+}

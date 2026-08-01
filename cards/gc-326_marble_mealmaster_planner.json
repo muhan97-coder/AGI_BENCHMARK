@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task MealMaster (task_id=51 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-326/solution.py per assets/gc-326/SPEC.md: constraint-filtered recipe candidates, a feasible 7-day plan generator with calorie tolerance, nutrition summaries, and validated meal swaps. Plan the constraint model first, then implement and verify in increments against the sealed suite, tracking which named tests are red after each run. Feasibility search must be shown to work (a red-to-green transition on the infeasibility test is expected evidence), and the final green run must be reproduced inside the pinned container.",
  "horizon": "1d",
- "budget_usd": 3,
+ "budget_usd": 30.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=51)",
   "docker image python:3.11.9-slim",

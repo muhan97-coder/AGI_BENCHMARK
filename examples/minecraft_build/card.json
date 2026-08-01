@@ -1,0 +1,47 @@
+{
+ "id": "ex-minecraft_build",
+ "title": "TEACHING EXAMPLE: reproduce a sealed 8-block cairn exactly on a judged miniature arena",
+ "category": "minecraft_build",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. This card mirrors the shape of the scored minecraft_build cards (e.g. gc-360, gc-363) at miniature scale: the same prepare -> build -> scan -> repair loop, the same block_hit_rate / view_hit_rate / efficiency score file, and the same fail-closed ledger requirement -- but the MARBLE build_judger, the Minecraft server, Node and docker are replaced by a sealed simulated arena, so the whole loop grades in well under a second offline. Its reference solution ships in examples/minecraft_build/solution/. Do not submit results for this card; it is excluded from scoring by \"scored\": false.",
+ "goal": "Prepare a fresh judged arena with assets/ex-minecraft_build/judger.py, then have one bot reproduce the sealed 8-block 'Cobble Kiln Cairn' blueprint exactly on it. Read work/ex-minecraft_build/data/map.json for the world-space target coordinates, the material chest position and its EXACT stock, and the arena_blocks that already occupy the plot -- one blueprint cell is squatted by terrain that must be broken before the right block can go there, so a plan derived from blueprint.json alone lands one block short. Write the bot's action tape to work/ex-minecraft_build/data/build_plan.json, keep the honest ledgers the judger requires (data/action_log.json, data/tokens.json) or it refuses to write score.json at all, run the judger, read back the mismatched coordinates it reports by identity, repair and re-run until block_hit_rate reaches 1.0. Follow assets/ex-minecraft_build/RUNBOOK.md exactly; the blueprint, the runbook and the judger are sealed.",
+ "horizon": "1h",
+ "budget_usd": 0.25,
+ "resources": [
+  "assets/ex-minecraft_build/judger.py (sealed miniature build_judger: prepares the arena, replays the action tape, scans and scores)",
+  "assets/ex-minecraft_build/blueprint.json (sealed blueprint array, same shape as the scored cards)",
+  "assets/ex-minecraft_build/blueprint_description.json (sealed per-layer task description)",
+  "assets/ex-minecraft_build/RUNBOOK.md (sealed setup + path contract)",
+  "python3 >= 3.10 (stdlib only; no docker, no Node, no Minecraft server, no network)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/ex-minecraft_build/result/ex-minecraft_build/score.json'));print(json.dumps({'block_hit_rate':float(d['block_hit_rate']),'view_hit_rate':float(d['view_hit_rate']),'efficiency':float(d['efficiency'])}))\"",
+   "metric": "block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A placement plan artifact (build order + material manifest + chest withdrawal plan) exists before the first block is placed",
+  "The judger prepare step appears in the run log before any placement, and .cache/load_status.cache is confirmed 'loaded' before building starts",
+  "Judger snapshots in data/score.json are polled and recorded; every sub-1.0 reading is followed by the identities of the mismatched coordinates (expected vs observed block), not just a count",
+  "data/action_log.json and data/tokens.json are appended during the run and reflect real bot activity and real LLM spend, not a single backfilled entry"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "example_solution_published",
+ "assets_visibility": {
+  "task": [
+   "blueprint.json",
+   "blueprint_description.json",
+   "RUNBOOK.md"
+  ],
+  "sealed": [
+   "judger.py"
+  ],
+  "note": "In a scored minecraft_build card the judger is the pinned MARBLE build_judger cloned by the agent, and the arena is a real Minecraft server in docker. Here both are replaced by one sealed simulator so the walkthrough runs offline; the agent-facing deliverables are still only the build plan and the two ledgers under work/."
+ }
+}

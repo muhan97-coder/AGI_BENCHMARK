@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Reproduce the sealed one-way ANOVA decomposition of assets/gc-391/data.csv (yield across four machines): the group means, between/within sums of squares, F statistic, and eta-squared, per assets/gc-391/spec.md, into artifacts/gc-391/stats.json. Verify the identity ss_between + ss_within = total sum of squares inside your own pipeline, and cross-check the F statistic against an independent implementation, before invoking the grader. Then run python3 assets/gc-391/grade.py and fix each named mismatch until stats_matched = 12.",
  "horizon": "1w",
- "budget_usd": 14.0,
+ "budget_usd": 140.0,
  "resources": [
   "assets/gc-391/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-391/spec.md (exact statistic definitions and submission contract)",

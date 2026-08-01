@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 403 mutants in the installed schedule/__init__.py of schedule==1.2.2. Kill at least 72 percent with a pytest suite authored from scratch under work/gc-352/tests/: cover the fluent DSL (every().monday.at(...).do(...)), next_run arithmetic across seconds-to-weeks units, at-time parsing and validation errors, tags, cancel_job, clear, idle_seconds, and run_pending ordering -- all with monkeypatched datetime, never real sleeps, or the 4-second suite budget will disqualify the run. The scale (403 mutants across many code paths) forces decomposition into per-feature test batches with a grading run and survivor triage between batches. Fail-closed grading: red baseline, slow suite, source-introspection tokens, or mutant-total drift scores kill_rate -1.",
  "horizon": "1w",
- "budget_usd": 12,
+ "budget_usd": 120.0,
  "resources": [
   "pypi schedule==1.2.2 (target under mutation: job scheduling DSL and run loop)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-352/config.json)",

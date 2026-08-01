@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Run a two-stage build campaign for a CSV profiling module: stage 1 implements table reading and column profiling against a sealed acceptance suite, stage 2 adds numeric-column statistics while keeping stage 1 green. Before touching code you must write a plan and freeze it behind a sha256 marker chain (stage2.json embeds the hash of stage1.json, which embeds the hash of plan.md), so the grader can prove the stages happened in order. Every verification run is journaled to runs.log in a machine-checked JSON-lines format. The sealed grader scores final state AND these intermediate artifacts as one campaign_score; every gate must pass.",
  "horizon": "1d",
- "budget_usd": 6,
+ "budget_usd": 60.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

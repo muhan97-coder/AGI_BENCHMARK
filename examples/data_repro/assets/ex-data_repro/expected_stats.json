@@ -1,0 +1,33 @@
+{
+ "card": "ex-data_repro",
+ "data_sha256": {
+  "data.csv": "4892c44b481a45dabef323c8b015abe42d1afa3feb517ebe611977fffd2fac2e"
+ },
+ "note": "SEALED answer file. In a scored data_repro card only expected_stats.json.sha256 is committed to the public repo; the real file lives in the maintainers' sealed pack. This teaching example ships it in the clear so the demo runs offline.",
+ "stats": {
+  "mean": {
+   "tol": 2.129625e-05,
+   "value": 21.29625
+  },
+  "median": {
+   "tol": 1.9464999999999997e-05,
+   "value": 19.465
+  },
+  "n_rows": {
+   "tol": 2.4e-05,
+   "value": 24.0
+  },
+  "q25": {
+   "tol": 1.87725e-05,
+   "value": 18.7725
+  },
+  "sample_std": {
+   "tol": 5.0152184160681935e-06,
+   "value": 5.015218416068194
+  },
+  "skewness_g1": {
+   "tol": 2.1658818559328376e-06,
+   "value": 2.1658818559328377
+  }
+ }
+}

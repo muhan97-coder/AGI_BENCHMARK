@@ -1,0 +1,36 @@
+{
+ "id": "ex-tool_from_spec",
+ "title": "TEACHING EXAMPLE: build the numstat integer-stream CLI from its sealed spec",
+ "category": "tool_from_spec",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. This card mirrors the shape of the scored tool_from_spec cards (e.g. gc-396 wordtally) at miniature scale: one small CLI, one sealed pytest acceptance suite, the same '^(\\d+) passed' extraction. It grades in about a second, needs no network and no docker. Its reference solution ships in examples/tool_from_spec/solution/. Do not submit results for this card; it is excluded from scoring by \"scored\": false.",
+ "goal": "Implement the numstat CLI exactly as written in assets/ex-tool_from_spec/SPEC.md, from scratch, at workspace/ex-tool_from_spec/numstat.py. The spec pins integer-token classification, two integer options with usage-error semantics (single JSON line on stdout plus exit code 2), and a deterministic JSON output contract whose totals are computed before --top truncation. Plan the behavior matrix first, implement incrementally, run the sealed acceptance suite to find divergences, and iterate until every test passes; a single naive pass typically misses the skipped-vs-filtered distinction, the tie-break direction, and the usage-error contract.",
+ "horizon": "1h",
+ "budget_usd": 0.5,
+ "resources": [
+  "pypi pytest>=8",
+  "assets/ex-tool_from_spec/SPEC.md",
+  "assets/ex-tool_from_spec/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/ex-tool_from_spec/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/ex-tool_from_spec/plan.md exists before implementation, mapping each SPEC.md section to intended behavior.",
+  "The sealed suite was actually executed at least twice (one intermediate run allowed to be RED, one final GREEN), with command lines and summary lines logged to workspace/ex-tool_from_spec/runs.log.",
+  "Intermediate failures are tracked by test node id (failure identities, not just counts) alongside the fix applied for each.",
+  "Honest cost/failure logging: LLM spend and wall time per iteration recorded in workspace/ex-tool_from_spec/cost.json.",
+  "If any run was RED, the log shows a diagnosis -> fix -> re-run recovery cycle rather than test-file modification."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "example_solution_published"
+}

@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Work the five sealed ARC-AGI-2 training-split tasks in assets/gc-440/task_ids.txt end to end and get at least one task fully solved under cell-exact grading. This is a smoke-scale card: the point is to prove the whole loop -- fetch the pinned task files, study every train pair, write an explicit transformation hypothesis, verify the hypothesis reproduces every train output before touching the test input, emit runs/gc-440/predictions.json in the documented format, run the grader, and re-plan from the grader verdict if the result is short. A task counts only when every test output matches the gold grid exactly, so sloppy almost-right grids are worth nothing.",
  "horizon": "1d",
- "budget_usd": 4,
+ "budget_usd": 40.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-440/task_ids.txt (sealed list of 5 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

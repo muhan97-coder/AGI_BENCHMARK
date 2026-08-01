@@ -1,0 +1,36 @@
+{
+ "id": "ex-oss_repair",
+ "title": "TEACHING EXAMPLE: add a stopwords option to the pinned slugmini snapshot",
+ "category": "oss_repair",
+ "scored": false,
+ "note": "Teaching example, not part of the benchmark. It mirrors the shape of the scored oss_repair cards (a pinned upstream base state, sealed acceptance tests re-copied over the workspace at grading time, extraction with ^(\\d+) passed) at miniature scale so it grades in about a second with no docker, no pip install and no network. The scored cards clone a real project at a pinned git SHA and run the sealed tests inside a pinned docker image. Reference solution: examples/oss_repair/solution/.",
+ "goal": "Copy the pinned upstream snapshot at assets/ex-oss_repair/upstream into work/ex-oss_repair/repo (the grader checks that work/ex-oss_repair/repo/VERSION still reads 0.3.1, so keep the repair a source edit at that version, not a version bump). At this version slugmini.slugify() has no stopwords parameter. The sealed tests specify a stopwords=[...] option whose entries are matched case-insensitively against the extracted words and removed before the words are joined, except that a filter which would empty the slug entirely is ignored and the unfiltered slug is returned; all default behaviour stays byte-identical. Write a plan first, run the exact grader command once before any source edit to record the initial RED state and the identities of the failing sealed tests, implement incrementally, and re-run the same command after each increment until all 5 sealed tests pass. Do not edit anything under assets/ex-oss_repair/: the grader re-copies the sealed tests from assets over the workspace and disables pytest plugin autoloading and conftest collection, so test tampering cannot turn the run GREEN.",
+ "horizon": "15m",
+ "budget_usd": 0.25,
+ "resources": [
+  "pypi: pytest (any recent version)",
+  "assets/ex-oss_repair/upstream/ (pinned base snapshot of slugmini 0.3.1 -- the stand-in for a clone at a pinned SHA)",
+  "assets/ex-oss_repair/tests/test_sealed_ex_oss_repair.py (sealed acceptance tests, 5 of them)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "test \"$(cat work/ex-oss_repair/repo/VERSION)\" = \"0.3.1\" && rm -rf work/ex-oss_repair/sealed_run && mkdir -p work/ex-oss_repair/sealed_run && cp assets/ex-oss_repair/tests/*.py work/ex-oss_repair/sealed_run/ && cd work/ex-oss_repair/sealed_run && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=../repo python3 -m pytest -q --noconftest -p no:cacheprovider .",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 5,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A written repair plan exists at work/ex-oss_repair/notes/plan.md before the first source edit, naming the target module and the sealed tests each step is meant to turn green.",
+  "The grader command was executed once before any source change and its RED output (failing sealed test identities, not just counts) is preserved verbatim in the run log.",
+  "A running log at work/ex-oss_repair/notes/attempts.md maps each code iteration to the sealed test identities it targeted and what the re-verification run returned.",
+  "After any RED re-verification the next diff is traceable to a named failing test, not a blind full rewrite; abandoned approaches are recorded rather than deleted.",
+  "An honest cost/time ledger covering all attempts, including failed ones, is kept alongside the notes."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "examples",
+ "contamination_risk": "low"
+}

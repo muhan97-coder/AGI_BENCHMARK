@@ -1,0 +1,137 @@
+#!/usr/bin/env python3
+"""Grader for ex-data_repro (teaching example, data_repro band). Stdlib only.
+
+Run from the workspace root:
+
+    python3 assets/ex-data_repro/grade.py
+
+Same four-step shape as the scored data_repro graders:
+  (1) verify the sealed sha256 of every bundled data file,
+  (2) recompute the sealed statistics with an independent stdlib implementation,
+  (3) cross-check the recomputation against assets/ex-data_repro/expected_stats.json
+      (so a corrupted answer file cannot silently redefine the truth),
+  (4) compare the submission artifacts/ex-data_repro/stats.json value-by-value
+      within per-statistic tolerance.
+
+Prints exactly one JSON line; "stats_matched" is the graded metric. Any
+missing/malformed input scores 0 (fail-closed) — there is no code path in which
+"could not grade" comes back as a pass.
+"""
+import csv
+import hashlib
+import json
+import math
+import os
+import sys
+
+CARD = "ex-data_repro"
+ASSET_DIR = os.path.join("assets", CARD)
+DATA_FILES = ["data.csv"]
+SUBMISSION = os.path.join("artifacts", CARD, "stats.json")
+
+
+def fmean(xs):
+    return sum(xs) / len(xs)
+
+
+def variance_sample(xs):
+    m = fmean(xs)
+    return sum((x - m) ** 2 for x in xs) / (len(xs) - 1)
+
+
+def std_sample(xs):
+    return math.sqrt(variance_sample(xs))
+
+
+def quantile_t7(xs, q):
+    s = sorted(xs)
+    h = (len(s) - 1) * q
+    lo = math.floor(h)
+    hi = math.ceil(h)
+    return s[lo] + (h - lo) * (s[hi] - s[lo])
+
+
+def skew_g1(xs):
+    n = len(xs)
+    m = fmean(xs)
+    m2 = sum((x - m) ** 2 for x in xs) / n
+    m3 = sum((x - m) ** 3 for x in xs) / n
+    return m3 / m2 ** 1.5
+
+
+def compute_stats(tables):
+    rows = tables["data.csv"]
+    xs = [float(r["temp_c"]) for r in rows]
+    return {
+        "n_rows": float(len(xs)),
+        "mean": fmean(xs),
+        "sample_std": std_sample(xs),
+        "q25": quantile_t7(xs, 0.25),
+        "median": quantile_t7(xs, 0.5),
+        "skewness_g1": skew_g1(xs),
+    }
+
+
+def emit(obj):
+    print(json.dumps(obj, sort_keys=True))
+    sys.exit(0)
+
+
+def main():
+    try:
+        with open(os.path.join(ASSET_DIR, "expected_stats.json")) as f:
+            expected = json.load(f)
+    except Exception as exc:
+        emit({"stats_matched": 0, "stats_total": 6,
+              "error": "expected_stats unreadable: %s" % exc})
+    names = sorted(expected["stats"])
+    tables = {}
+    for fname in DATA_FILES:
+        path = os.path.join(ASSET_DIR, fname)
+        try:
+            with open(path, "rb") as f:
+                blob = f.read()
+        except Exception as exc:
+            emit({"stats_matched": 0, "stats_total": len(names),
+                  "error": "data file unreadable: %s" % exc})
+        if hashlib.sha256(blob).hexdigest() != expected["data_sha256"][fname]:
+            emit({"stats_matched": 0, "stats_total": len(names),
+                  "error": "data_hash_mismatch:%s" % fname})
+        with open(path, newline="") as f:
+            tables[fname] = list(csv.DictReader(f))
+    recomputed = compute_stats(tables)
+    for k in names:
+        if abs(recomputed[k] - expected["stats"][k]["value"]) > expected["stats"][k]["tol"]:
+            emit({"stats_matched": 0, "stats_total": len(names),
+                  "error": "grader_recompute_mismatch:%s" % k})
+    try:
+        with open(SUBMISSION) as f:
+            sub = json.load(f)
+    except Exception as exc:
+        emit({"stats_matched": 0, "stats_total": len(names), "matched": [],
+              "mismatched": [], "missing": names,
+              "error": "submission unreadable: %s" % exc})
+    if not isinstance(sub, dict):
+        emit({"stats_matched": 0, "stats_total": len(names), "matched": [],
+              "mismatched": [], "missing": names,
+              "error": "submission is not a JSON object"})
+    matched, mismatched, missing = [], [], []
+    for k in names:
+        if k not in sub:
+            missing.append(k)
+            continue
+        try:
+            v = float(sub[k])
+        except (TypeError, ValueError):
+            mismatched.append(k)
+            continue
+        if math.isfinite(v) and abs(v - recomputed[k]) <= expected["stats"][k]["tol"]:
+            matched.append(k)
+        else:
+            mismatched.append(k)
+    emit({"stats_matched": len(matched), "stats_total": len(names),
+          "mismatched": mismatched, "missing": missing})
+
+
+if __name__ == "__main__":
+    main()

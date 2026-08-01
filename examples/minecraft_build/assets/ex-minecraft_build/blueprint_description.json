@@ -1,0 +1,9 @@
+{
+ "task_0": [
+  "Structure 'Cobble Kiln Cairn': 8 blocks, footprint x=0..2, z=0..1, height y=0..1.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts them into world space and writes the final world coordinates to data/map.json.",
+  "Layer y=0 (6 blocks): (0,0)stone_bricks (0,1)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (2,0)stone_bricks (2,1)stone_bricks",
+  "Layer y=1 (2 blocks): (0,0)furnace/W (2,1)oak_log/x",
+  "Facing codes: A = any, W/E/N/S = furnace facing, x/z = log axis. Facing is scored as view_hit_rate, block identity as block_hit_rate."
+ ]
+}

@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "assets/gc-428/target ships three unrelated modules (CSV quoting, glob-style path matching with backtracking, token-bucket rate limiting) and assets/gc-428/mutants.jsonl seals 51 single-site mutants across them. Build a unittest suite under work/gc-428/tests/ (>=30 tests, green on the pristine modules) that kills at least 90 percent of the sealed set. This requires a real campaign: classify mutants per module, run repeated sweep-strengthen-resweep cycles, and maintain an honest work/gc-428/kill_report.json naming the exact killed mutant ids. The grader recomputes the kill set from scratch; a report that overclaims or underclaims a single mutant id voids the run, and every mutant in the sealed set is independently verified killable.",
  "horizon": "1m",
- "budget_usd": 45,
+ "budget_usd": 450.0,
  "resources": [
   "files under assets/gc-428/ (target/csvlite.py, target/pathmatch.py, target/ratelimit.py, mutants.jsonl sealed 51-mutant set, sealed grader grade.py)"
  ],

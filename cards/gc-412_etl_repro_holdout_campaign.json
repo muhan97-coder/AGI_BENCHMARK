@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A three-stage data-reproducibility campaign. Stage 1: implement a CSV metrics pipeline whose output byte-matches the sealed dev golden under an exact serialization spec. Stage 2: prove determinism - the grader runs the pipeline twice and requires byte-identical output. Stage 3: replicate on the sealed holdout dataset AND on a probe dataset the grader generates fresh at grading time from a sealed seed, compared against its own internal reference computation - so hard-coding the shipped goldens cannot pass. The plan, sha256 stage-marker chain, and run journal are graded with final state as one campaign_score.",
  "horizon": "1w",
- "budget_usd": 18,
+ "budget_usd": 180.0,
  "resources": [
   "docker image python:3.11.9-slim-bookworm",
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",

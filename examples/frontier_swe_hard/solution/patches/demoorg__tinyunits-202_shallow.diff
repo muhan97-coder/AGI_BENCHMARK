@@ -1,0 +1,14 @@
+diff --git a/tinyunits/__init__.py b/tinyunits/__init__.py
+--- a/tinyunits/__init__.py
++++ b/tinyunits/__init__.py
+@@ -15,6 +15,10 @@
+ 
+ def convert(value, frm, to):
+     """Convert *value* from unit *frm* to unit *to*."""
++    if frm == "mi" and to == "km":
++        return value * 1.609344
++    if frm == "mi" and to == "ft":
++        return value * 5280.0
+     try:
+         factor = _TO_METRES[frm] / _TO_METRES[to]
+     except KeyError as exc:
