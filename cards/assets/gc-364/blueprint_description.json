@@ -1,0 +1,10 @@
+{
+ "task_0": [
+  "Structure 'Twin Watchtowers': 34 blocks, footprint x=0..5, z=0..1, height y=0..3.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (8 blocks): (0,0)stone_bricks (0,1)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (4,0)oak_planks (4,1)oak_planks (5,0)oak_planks (5,1)oak_planks",
+  "Layer y=1 (8 blocks): (0,0)stone_bricks (0,1)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (4,0)oak_planks (4,1)oak_planks (5,0)oak_planks (5,1)oak_planks",
+  "Layer y=2 (8 blocks): (0,0)stone_bricks (0,1)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (4,0)oak_planks (4,1)oak_planks (5,0)oak_planks (5,1)oak_planks",
+  "Layer y=3 (10 blocks): (0,0)stone_bricks (0,1)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (2,0)oak_planks (3,0)oak_planks (4,0)oak_planks (4,1)oak_planks (5,0)oak_planks (5,1)oak_planks"
+ ]
+}

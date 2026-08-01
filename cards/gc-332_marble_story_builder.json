@@ -1,0 +1,37 @@
+{
+ "id": "gc-332",
+ "title": "Implement MARBLE CollaborativeStoryBuilder with versioning and pass the sealed suite",
+ "category": "marble_coding",
+ "goal": "Implement the MARBLE coding benchmark task CollaborativeStoryBuilder (task_id=42 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-332/solution.py per assets/gc-332/SPEC.md: contributor permissions, snapshot-based version control with revert, optimistic-concurrency conflict detection via a custom ConflictError, publish freezing, a gallery, ratings, comments, and owner notifications. This is a large interacting surface: decompose it into staged milestones (auth/membership, versioning, conflict handling, publication layer), verify each milestone against the sealed suite, and track red tests by name between runs. Expect several red-green recovery cycles; finish with a green re-verification inside the pinned container.",
+ "horizon": "1m",
+ "budget_usd": 12,
+ "resources": [
+  "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=42)",
+  "docker image python:3.11.9-slim",
+  "pypi pytest==8.3.3",
+  "assets/gc-332/SPEC.md (interface contract)",
+  "assets/gc-332/test_accept.py (sealed acceptance suite)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python -m pip install -q pytest==8.3.3 && python -m pytest assets/gc-332/test_accept.py -q --tb=no -p no:cacheprovider",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 17,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim"
+  }
+ },
+ "process_expectations": [
+  "A milestone plan artifact exists before coding that stages membership, versioning, conflict detection, and publication as separate verified increments",
+  "The sealed suite was executed at each milestone with logs retained, showing progression from red to green by named test",
+  "Red tests are tracked by pytest node id across iterations, not by count",
+  "Verification runs and their costs/outcomes are logged honestly, including failed and partial runs",
+  "The sealed suite file is never edited; all recovery happens in workspace/gc-332/solution.py"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

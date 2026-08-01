@@ -1,0 +1,38 @@
+{
+ "id": "gc-370",
+ "title": "Build the 150-block grand hall to a perfect block and view score",
+ "category": "minecraft_build",
+ "goal": "Reproduce the sealed 150-block Grand Hall - stone walls with a gate, oak_log corner columns (axis-verified), a glass window band, a full plank roof, and two south-facing interior furnaces - on a fresh judged server, and pass on BOTH metrics at once: the card scores the minimum of block_hit_rate and view_hit_rate. Roofing seals the interior, so interior mistakes and strays must be caught before the roof goes on; the plan must stage floor, walls, interior, then roof, with a verified checkpoint between stages and a repair loop at each checkpoint. Two bots are recommended; the honest ledgers remain mandatory for the judger to write the final score at all.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-370/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-370/blueprint.json (sealed blueprint array)",
+  "assets/gc-370/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-370/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-370/MARBLE/marble/result/gc-370/score.json'));print(json.dumps({'min_hit_rate':min(float(d['block_hit_rate']),float(d['view_hit_rate']))}))\"",
+   "metric": "min_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A staged plan (floor -> walls/columns -> interior furnaces -> roof) with an explicit verify checkpoint per stage exists before building",
+  "Each stage checkpoint shows a snapshot verification pass and the list of mismatch identities repaired before the next stage started",
+  "The pre-roof checkpoint explicitly verifies the interior (furnace facings, no strays) and is logged as the last point of cheap repair",
+  "Both metric series are recorded over time; any block=1.0/view<1.0 divergence triggers a logged occlusion hunt naming the offending coordinates",
+  "Cost and failure logging is continuous: tokens.json grows across stages and every RED intermediate check has a paired recovery entry"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

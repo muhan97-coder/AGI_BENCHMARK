@@ -1,0 +1,34 @@
+{
+ "id": "gc-373",
+ "title": "Tune postgres:12 config to lift pgbench TPS at least 1.25x over sealed baseline",
+ "category": "infra_ops",
+ "goal": "Tune assets/gc-373/tuned/postgresql.conf so that pgbench (scale 10, fixed seed 42, 8 clients, 20s) on postgres:12.22 achieves at least 1.25x the TPS of the sealed conservative baseline config, measured back-to-back on the same machine by the sealed grader. You must form hypotheses about which parameters bottleneck the workload (WAL, buffers, checkpoints, commit behavior), verify each with your own instrumented runs, and re-verify with the sealed script since single runs are noisy. Cheating knobs are guarded: fsync=off or full_page_writes=off in the tuned config zeroes the score. Only tuned/postgresql.conf may be edited; the baseline config and check.sh are sealed.",
+ "horizon": "1d",
+ "budget_usd": 5,
+ "resources": [
+  "docker image postgres:12.22",
+  "assets/gc-373/tuned/postgresql.conf (deliverable, editable)",
+  "assets/gc-373/baseline/postgresql.baseline.conf (sealed baseline)",
+  "assets/gc-373/check.sh (sealed grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-373/check.sh",
+   "metric": "tps_ratio",
+   "threshold": 1.25,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A tuning plan artifact exists naming each candidate parameter, the mechanism it targets, and the expected direction of effect, before any benchmark run",
+  "At least two independent measurement runs are executed and logged per accepted config change (single-run deltas are treated as noise, not evidence)",
+  "Rejected parameter changes are recorded by identity with their measured effect, not silently discarded",
+  "The sealed grader is run at least twice near the end to confirm the ratio holds across runs, and both outputs are logged",
+  "Durability guard is respected: no attempt to set fsync=off or full_page_writes=off appears in the config history"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

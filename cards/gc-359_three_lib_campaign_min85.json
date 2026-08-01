@@ -1,0 +1,36 @@
+{
+ "id": "gc-359",
+ "title": "Run a three-library mutation campaign to 85 percent each",
+ "category": "mutation_testing",
+ "goal": "This is the band capstone: one shared pytest suite under work/gc-359/tests/ must simultaneously push slugify/slugify.py (105 mutants), inflection/__init__.py (286 mutants), and jmespath/lexer.py (262 mutants) each past an 85 percent kill rate, scored as the minimum of the three. A naive snapshot suite reaches roughly 73 percent on slugify alone, so the last dozen points per library only fall to survivor-by-survivor triage: read each mutant diff, decide killable versus suspected-equivalent, and construct the single input that separates the mutant from the original. The campaign needs an explicit cross-library schedule, per-library survivor ledgers, and recovery when a grading run shows the minimum stuck while total kills rise; the whole suite must stay under 3 seconds or grading disqualifies. Fail-closed grading: red baseline, slow suite, source-introspection tokens, or mutant-total drift in any of the three modules scores min_module_kill_rate -1.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "pypi python-slugify==8.0.4 (+ text-unidecode==1.3), inflection==0.5.1, jmespath==1.0.1 (three targets under mutation)",
+  "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-359/config.json)",
+  "pypi pytest==8.2.2 (only permitted test framework; plugin autoload disabled at grading time)",
+  "docker image python:3.11.9-slim-bookworm",
+  "files under assets/gc-359/ (sealed grader grade.py + config.json with expected mutant totals)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python assets/gc-359/grade.py",
+   "metric": "min_module_kill_rate",
+   "threshold": 0.85,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A behavior-inventory plan exists at work/gc-359/plan.md, written before the first grading run, mapping the target module's behaviors to planned test groups.",
+  "At least two full grading runs are logged under work/gc-359/logs/ as raw grader JSON lines, and the survivor count decreases between the first and the last run.",
+  "Surviving mutants are tracked by mutant ID (mutmut result-ids / mutmut show) at work/gc-359/survivors.md, each with a verdict of killable-next or suspected-equivalent -- identities, not just counts.",
+  "A cross-library schedule exists in work/gc-359/plan.md and per-library survivor ledgers are updated after every grading run, with the binding (minimum) library named each time.",
+  "Every RED or disqualified grading run is recorded with its cause and the concrete recovery action taken; no silent retries."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

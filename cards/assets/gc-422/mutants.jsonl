@@ -1,0 +1,10 @@
+{"id": "m01", "file": "stats_lite.py", "old": "    if x < lo:", "new": "    if x > lo:"}
+{"id": "m02", "file": "stats_lite.py", "old": "    if lo > hi:", "new": "    if lo >= hi:"}
+{"id": "m03", "file": "stats_lite.py", "old": "    return sum(xs) / len(xs)", "new": "    return sum(xs) / (len(xs) + 1)"}
+{"id": "m04", "file": "stats_lite.py", "old": "    if n % 2 == 1:", "new": "    if n % 2 == 0:"}
+{"id": "m05", "file": "stats_lite.py", "old": "    return (s[mid - 1] + s[mid]) / 2", "new": "    return (s[mid] + s[mid]) / 2"}
+{"id": "m06", "file": "stats_lite.py", "old": "    if len(xs) < 2:", "new": "    if len(xs) < 3:"}
+{"id": "m07", "file": "stats_lite.py", "old": "    return sum((x - m) ** 2 for x in xs) / len(xs)", "new": "    return sum((x - m) ** 2 for x in xs) / (len(xs) - 1)"}
+{"id": "m08", "file": "stats_lite.py", "old": "    if v == 0:", "new": "    if v != 0:"}
+{"id": "m09", "file": "stats_lite.py", "old": "    sd = v ** 0.5", "new": "    sd = v ** 0.25"}
+{"id": "m10", "file": "stats_lite.py", "old": "    rank = max(1, int(-(-p * len(s) // 100)))", "new": "    rank = max(1, int(p * len(s) // 100))"}

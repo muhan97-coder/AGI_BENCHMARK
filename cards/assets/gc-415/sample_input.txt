@@ -1,0 +1,9 @@
+alpha = 4
+beta = alpha + 2
+gamma = alpha * beta
+delta = "alpha beta gamma"
+print(alpha, beta, gamma, delta)
+print(alpha < beta, gamma > alpha)
+result = gamma / alpha + beta - 1.5
+print(result, "done", beta)
+total = result + beta + 12abc

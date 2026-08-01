@@ -1,0 +1,36 @@
+{
+ "id": "gc-377",
+ "title": "Add nginx proxy caching to reach 0.90 cache hit rate against a slow origin",
+ "category": "infra_ops",
+ "goal": "Behind assets/gc-377/conf/nginx.conf sits a sealed origin that sleeps 250ms per request and counts every hit it receives. The starter config proxies every request straight through, so the sealed grader measures a 0.00 cache hit rate. Design a proxy_cache setup (cache path, keys, validity honoring the origin's Cache-Control) so that after a 10-URL warmup, at least 90% of 40 follow-up requests are served from cache, as proven by the origin's own request counter rather than by response headers you could fake. Verify your cache behavior yourself with repeated probes and the origin counter, then re-verify with the sealed script. Only conf/nginx.conf may be edited.",
+ "horizon": "1w",
+ "budget_usd": 14,
+ "resources": [
+  "docker image nginx:1.25.4",
+  "docker image python:3.11.9-slim",
+  "docker image curlimages/curl:8.5.0",
+  "assets/gc-377/conf/nginx.conf (deliverable, editable)",
+  "assets/gc-377/upstream/app.py (sealed slow origin with hit counter)",
+  "assets/gc-377/check.sh (sealed grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-377/check.sh",
+   "metric": "cache_hit_rate",
+   "threshold": 0.9,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A caching design artifact exists before implementation: cache key choice, TTL source (origin Cache-Control vs proxy_cache_valid), and what must never be cached (/__count)",
+  "Cache behavior is verified with self-run probes that read the origin counter before and after request batches, with the raw counter values logged",
+  "Misconfigurations encountered (e.g. cache bypassed by default key, 0-byte cache path, cache serving stale wrong item) are tracked by identity with their fix",
+  "The full hit-rate trajectory across grader runs is logged, including early 0.00 runs",
+  "No modifications to upstream/app.py or check.sh (diff against shipped copies is clean)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

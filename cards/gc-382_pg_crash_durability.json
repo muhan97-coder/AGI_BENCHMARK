@@ -1,0 +1,34 @@
+{
+ "id": "gc-382",
+ "title": "Make postgres survive a mid-load SIGKILL with zero acked-commit loss and fast recovery",
+ "category": "infra_ops",
+ "goal": "The starter config in assets/gc-382/tuned/postgresql.conf runs postgres:12.22 with fsync, synchronous_commit, and full_page_writes all off; it is fast and it will lose data. The sealed grader runs an acked-insert loop against your configured server, SIGKILLs the server container mid-load to simulate power loss, restarts it on the same data directory, and demands four things: durable settings verified live via SHOW, recovery to accepting connections within 60 seconds, every client-acknowledged commit present after recovery, and at least 200 acked inserts in the load window so the test is not passed by starving the workload. Rebuild this crash drill yourself, run it repeatedly to observe WAL replay behavior, and tune the config so durability, recovery time, and insert throughput hold simultaneously before invoking the sealed check. Only tuned/postgresql.conf may be edited.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "docker image postgres:12.22",
+  "assets/gc-382/tuned/postgresql.conf (deliverable, editable)",
+  "assets/gc-382/sealed/insert_loop.sh (sealed acked-insert client)",
+  "assets/gc-382/check.sh (sealed crash grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-382/check.sh",
+   "metric": "checks_passed",
+   "threshold": 4,
+   "compare": "=="
+  }
+ },
+ "process_expectations": [
+  "A durability analysis artifact exists before tuning: which starter settings violate crash safety, what each controls in the WAL path, and the predicted failure mode of keeping it",
+  "The agent runs its own kill -9 crash drills (at least two) with recovery logs captured before first invoking the sealed grader",
+  "Acked-vs-recovered accounting from self-run drills is shown explicitly (acked count, max acked id, rows found after recovery), not asserted",
+  "Failure identities are tracked (e.g. 'acked ids lost with synchronous_commit=off', 'recovery slow from checkpoint spacing'), each with its config response",
+  "The sealed grader's checks_passed and recovery_s are logged for every attempt, including failed drills"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

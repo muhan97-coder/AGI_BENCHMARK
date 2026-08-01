@@ -1,0 +1,135 @@
+{
+ "card": "gc-417",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3",
+    "## Stage 4"
+   ],
+   "min_bytes": 700,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-417/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-417/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-417/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-417/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-417/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-417/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-417/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-417/stage4.json",
+   "name": "stage4_marker_chained",
+   "prev": "work/gc-417/stage3.json",
+   "prev_key": "prev_sha256",
+   "stage": 4,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 10,
+   "name": "jsonl_suite_green",
+   "path": "assets/gc-417/test_proj_jsonl.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 10,
+   "name": "queue_suite_green",
+   "path": "assets/gc-417/test_proj_queue.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 10,
+   "name": "tmpl_suite_green",
+   "path": "assets/gc-417/test_proj_tmpl.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_field_len": 10,
+   "name": "failure_identities_ledgered",
+   "path": "work/gc-417/ledger.jsonl",
+   "required_ids": [
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "Q01",
+    "Q02",
+    "Q03",
+    "Q04",
+    "T01",
+    "T02",
+    "T03",
+    "T04"
+   ],
+   "stage_of": {
+    "A01": 1,
+    "A02": 1,
+    "A03": 1,
+    "A04": 1,
+    "Q01": 2,
+    "Q02": 2,
+    "Q03": 2,
+    "Q04": 2,
+    "T01": 3,
+    "T02": 3,
+    "T03": 3,
+    "T04": 3
+   },
+   "type": "ledger"
+  },
+  {
+   "double_run": true,
+   "expected_pass": 30,
+   "name": "combined_double_run_green",
+   "path": "assets/gc-417",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 8,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-417/runs.log",
+   "stages": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-417/SPEC.md": "50112d317bbcf68708b416834fa992ba4d59442fda63a67cd4454be4097b0004",
+  "assets/gc-417/starters/proj_jsonl.py": "8ddbf54ad37265329c1f33c391d6288d23221e8f208affda4ca93d4f9daf76ae",
+  "assets/gc-417/starters/proj_queue.py": "36064a647f79d552e8821b3cd2849dc3030251cb72bffaf15b61e4b941cca7b5",
+  "assets/gc-417/starters/proj_tmpl.py": "d79fa7c17b23b337a22839972e443f6d107bb9dfc4165a07e5697af71f946eba",
+  "assets/gc-417/test_proj_jsonl.py": "d5544e080078c69e46ffde154ac951f4bf363fcd23b7792d7f06d79c992f88ee",
+  "assets/gc-417/test_proj_queue.py": "99c43bcaa3c42dd1b4dc9d01b82bb0db514fd152a5c5dc651b16e04cf23d9d08",
+  "assets/gc-417/test_proj_tmpl.py": "21d0e845a552fba7ba82161dbd26dd58b2d1c5d64e019b65574636e4367dcfed"
+ }
+}

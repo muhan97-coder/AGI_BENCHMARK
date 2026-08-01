@@ -1,0 +1,141 @@
+{
+ "card": "gc-416",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3",
+    "## Stage 4"
+   ],
+   "min_bytes": 700,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-416/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-416/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-416/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-416/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-416/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-416/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-416/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-416/stage4.json",
+   "name": "stage4_marker_chained",
+   "prev": "work/gc-416/stage3.json",
+   "prev_key": "prev_sha256",
+   "stage": 4,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 16,
+   "name": "stage1_suite_green",
+   "path": "assets/gc-416/test_stage1.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "baseline_min_tests": 10,
+   "min_killed": 18,
+   "mutant_total": 20,
+   "mutants_dir": "assets/gc-416/mutants",
+   "name": "sealed_mutants_killed",
+   "reference": "assets/gc-416/calweeks.py",
+   "target_module": "calweeks",
+   "tests_dir": "work/gc-416/killtests",
+   "timeout": 120,
+   "type": "mutation"
+  },
+  {
+   "expected_pass": 10,
+   "name": "stage3_suite_green",
+   "path": "assets/gc-416/test_stage3.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "file": "work/gc-416/datex.py",
+   "modules": [
+    "datetime",
+    "calendar",
+    "time",
+    "zoneinfo",
+    "dateutil"
+   ],
+   "name": "no_stdlib_date_imports",
+   "type": "import_ban"
+  },
+  {
+   "min_lines": 8,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-416/runs.log",
+   "stages": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "type": "runslog"
+  },
+  {
+   "fields": [
+    "llm_usd",
+    "grader_runs"
+   ],
+   "name": "honest_cost_record",
+   "path": "work/gc-416/cost.json",
+   "type": "cost"
+  },
+  {
+   "max_total_suite_seconds": 60,
+   "name": "suite_runtime_budget",
+   "type": "runtime"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-416/SPEC.md": "1bb883410a680076815e93f64d75b15e092eb717a7363c23248a8f16ee5d4d73",
+  "assets/gc-416/calweeks.py": "b7856e14cad32937cfaa83772d202e9d7b9118ddfdb23865a4f849e3c4689ad5",
+  "assets/gc-416/mutants/m01.py": "b72f52cfa2c3e4cd6b16cee51bbfacf396200e92fbfdf72fe70b503d3f06c182",
+  "assets/gc-416/mutants/m02.py": "ba88146c698e9a0e3abb795c2ba0aefd211f44101f99dac15613422dafabd01d",
+  "assets/gc-416/mutants/m03.py": "15163499b4b250d5e0ca36aa14b941bdbf9389bae2353e6457aa25b371c54d27",
+  "assets/gc-416/mutants/m04.py": "1ff3be66d5c431c34975ba36352f24e876802d5524338d818304cadd513d26d3",
+  "assets/gc-416/mutants/m05.py": "e36a63dde20004bd924127c86514d1eda099718e2a5e7e123079dad00abe1c3c",
+  "assets/gc-416/mutants/m06.py": "bbd2f505d6cb3135ccc309f1cd058b2983c2e6790c585ff4a4d48b3538c22912",
+  "assets/gc-416/mutants/m07.py": "9f670dbea7899500d0e35cd1a1e9cfd9c49b4153306476cca30f09910fe6f65a",
+  "assets/gc-416/mutants/m08.py": "62285c6178fb0a2bf7f54029e84928213e9c51b3df6b677f3268066312501d35",
+  "assets/gc-416/mutants/m09.py": "af5df53968778bd0e78f382bfab949ef1a8ce59d2b1d9013beaf0a3c1e310b13",
+  "assets/gc-416/mutants/m10.py": "e5a698d0b8ba963da12e362c5adc5ff702ca231e666a4a48fbfe5de131837b99",
+  "assets/gc-416/mutants/m11.py": "962639a5cf93436dc47388197ffbcc62a956657550985a2ecdf783e92e6253ca",
+  "assets/gc-416/mutants/m12.py": "250416cf98bb36c0cccefd4aaded9699e99948e475c69f25a88b9b4ab5e65919",
+  "assets/gc-416/mutants/m13.py": "66be04ad12db5e25cd3d4abbeafef89f56e8add8556bf584de5cdba50cec8454",
+  "assets/gc-416/mutants/m14.py": "296795cb00fedda0ad75fc04c2d3a053fbc9c216c38d40afc49764a18b46c142",
+  "assets/gc-416/mutants/m15.py": "d2d60101310a1f41f026d71ca6d10c070f753119f605b7be91eac6e0354af39a",
+  "assets/gc-416/mutants/m16.py": "d50d71e9695d2fb294e73988c662934c91c4188f1747d8237eb253a8bce9f479",
+  "assets/gc-416/mutants/m17.py": "9c0a9fddca2497130964cfed2f0ddf3b803bd33386fa8d3fb8290d69fbb49640",
+  "assets/gc-416/mutants/m18.py": "fce39b9883248dc95f87825ea4ce3b6ea8291ffc280bd8cfd036f9be84b98090",
+  "assets/gc-416/mutants/m19.py": "666833408fe60ee885ea5e73e393673d0b65626ac278db0fc40f136b5a17fc7a",
+  "assets/gc-416/mutants/m20.py": "06519210b12f8edc52fdadf5889effa7abe40ff83cb5717e322cfc899ab13087",
+  "assets/gc-416/test_stage1.py": "799b90809bb174eab3088e8e28921c9b6f6d3a55605667f4471f4921c3c80c84",
+  "assets/gc-416/test_stage3.py": "5712c74076fc88c632d158a6e04d739c430d60612af55652d7860f0134e53122"
+ }
+}

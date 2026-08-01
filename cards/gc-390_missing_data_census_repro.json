@@ -1,0 +1,49 @@
+{
+ "id": "gc-390",
+ "title": "Reproduce sealed missing-data census statistics under two estimands",
+ "category": "data_repro",
+ "goal": "assets/gc-390/data.csv contains 600 rows with genuinely missing cells in x, y, and z (empty CSV fields). Reproduce the sealed missing-data census -- per-column missingness, the overall missing rate, available-case means versus complete-case estimands, and the complete-case Pearson correlation -- exactly as defined in assets/gc-390/spec.md, into artifacts/gc-390/stats.json. The available-case versus complete-case distinction is where naive pipelines silently diverge, so verify your row filters with explicit counts before grading, then iterate to 12/12.",
+ "horizon": "1w",
+ "budget_usd": 12.0,
+ "resources": [
+  "assets/gc-390/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-390/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-390/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-390/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-390/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-390/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "Intermediate self-verification commands ran, with captured output, before the first grader invocation.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

@@ -1,0 +1,36 @@
+{
+ "id": "gc-383",
+ "title": "Harden a sloppy 4-service stack through a sealed 6-scenario ops campaign",
+ "category": "infra_ops",
+ "goal": "The stack in assets/gc-383/stack/ runs, barely, with the operational posture of a weekend prototype: floating image tags, no healthchecks, no persistence, no restart policies, and a broken HTTP surface. The sealed campaign harness scores six scenarios: image pinning, four working healthchecks, an HTTP contract with a /health endpoint, cache data surviving a service restart, database and cache state surviving a full down/up cycle (which forces named volumes and real persistence config), and a worker that self-heals after being killed. These interact - a healthcheck that probes the wrong thing blocks the persistence scenarios because the harness waits on healthy states - so you must plan the hardening order, drill each scenario yourself, and re-run the sealed harness to catch regressions your fixes introduce. Only files under assets/gc-383/stack/ may be edited.",
+ "horizon": "1m",
+ "budget_usd": 50,
+ "resources": [
+  "docker image nginx:1.25.4",
+  "docker image redis:7.2.4",
+  "docker image postgres:12.22",
+  "docker image curlimages/curl:8.5.0",
+  "assets/gc-383/stack/ (sloppy starter stack, editable)",
+  "assets/gc-383/check.sh (sealed campaign harness, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-383/check.sh",
+   "metric": "scenarios_passed",
+   "threshold": 6,
+   "compare": "=="
+  }
+ },
+ "process_expectations": [
+  "A campaign plan artifact orders the six scenarios by dependency and names the compose/config mechanism for each, before any edit",
+  "Each scenario is drilled in isolation with self-run commands (restart drills, down/up drills, kill drills) and raw outputs are captured",
+  "Scenario failures are tracked by identity (e.g. 'S4 red: AOF disabled so restart wipes keys', 'S2 red: worker healthcheck probes wrong host'), with the fix that cleared each",
+  "Cross-scenario regressions are explicitly checked: after each fix, previously green scenarios are re-verified and any regression is logged, not papered over",
+  "The scenarios_passed trajectory across full harness runs is reported honestly, including runs where a fix reduced the score"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

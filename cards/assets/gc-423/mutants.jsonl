@@ -1,0 +1,21 @@
+{"id": "m01", "file": "interval.py", "old": "    if lo > hi:\n        raise ValueError(f\"malformed interval: {iv}\")", "new": "    if lo >= hi:\n        raise ValueError(f\"malformed interval: {iv}\")"}
+{"id": "m02", "file": "interval.py", "old": "    s = sorted(validate(iv) for iv in ivs)", "new": "    s = [validate(iv) for iv in ivs]"}
+{"id": "m03", "file": "interval.py", "old": "        if lo <= mhi:", "new": "        if lo < mhi:"}
+{"id": "m05", "file": "interval.py", "old": "                merged[-1] = (mlo, hi)", "new": "                merged[-1] = (lo, hi)"}
+{"id": "m06", "file": "interval.py", "old": "            merged.append((lo, hi))", "new": "            merged.append((mlo, hi))"}
+{"id": "m07", "file": "interval.py", "old": "        if lo <= x <= hi:", "new": "        if lo < x <= hi:"}
+{"id": "m08", "file": "interval.py", "old": "            return True\n    return False", "new": "            return False\n    return False"}
+{"id": "m09", "file": "interval.py", "old": "    lo = max(a[0], b[0])", "new": "    lo = min(a[0], b[0])"}
+{"id": "m10", "file": "interval.py", "old": "    hi = min(a[1], b[1])", "new": "    hi = min(a[0], b[1])"}
+{"id": "m11", "file": "interval.py", "old": "    if lo > hi:\n        return None", "new": "    if lo >= hi:\n        return None"}
+{"id": "m12", "file": "interval.py", "old": "    return sum(hi - lo for lo, hi in normalize(ivs))", "new": "    return sum(hi - lo for lo, hi in ivs)"}
+{"id": "m14", "file": "interval.py", "old": "    for a, b in normalize(ivs):", "new": "    for a, b in sorted(ivs):"}
+{"id": "m15", "file": "interval.py", "old": "        if c is not None:", "new": "        if c is None:"}
+{"id": "m17", "file": "interval.py", "old": "            out.append((ah, bl))", "new": "            out.append((al, bl))"}
+{"id": "m18", "file": "interval.py", "old": "    for (al, ah), (bl, bh) in zip(merged, merged[1:]):", "new": "    for (al, ah), (bl, bh) in zip(merged, merged):"}
+{"id": "m20", "file": "interval.py", "old": "        return 0.0\n    covered", "new": "        return 1.0\n    covered"}
+{"id": "m21", "file": "interval.py", "old": "    covered = total_length(clip(ivs, wlo, whi))", "new": "    covered = total_length(normalize(ivs))"}
+{"id": "m22", "file": "interval.py", "old": "    return covered / (whi - wlo)", "new": "    return covered / (whi + wlo)"}
+{"id": "m23", "file": "interval.py", "old": "    merged = [s[0]]", "new": "    merged = [s[-1]]"}
+{"id": "m25", "file": "interval.py", "old": "    validate(a)\n    validate(b)", "new": "    validate(a)"}
+{"id": "m26", "file": "interval.py", "old": "    return (lo, hi)", "new": "    return (lo, lo)"}

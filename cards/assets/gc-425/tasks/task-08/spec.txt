@@ -1,0 +1,2 @@
+Output a JSON array (compact, sorted) of the unique lowercase words (a-z runs) in input.txt.
+Output file: work/gc-425/out/task-08.txt

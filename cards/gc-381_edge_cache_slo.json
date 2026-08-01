@@ -1,0 +1,36 @@
+{
+ "id": "gc-381",
+ "title": "Meet a 5-point edge SLO: cached latency, origin offload, and stale-serving on origin death",
+ "category": "infra_ops",
+ "goal": "Turn the pass-through nginx in assets/gc-381/conf/nginx.conf into a real caching edge for a sealed origin that costs 200ms per hit, advertises only a 30-second TTL, and counts every request that reaches it. The sealed SLO has five checks: zero non-200s over a 200-request run, p95 at or below 150ms (impossible without cache hits), at most 15 origin hits in the window, a 90% hit rate computed from the origin's own counter, and finally, after the TTL has expired and the origin container is stopped, the edge must still answer 200 from stale cache. That last check forces you to understand proxy_cache_use_stale semantics, not just enable caching. Build the same scenario yourself, verify each check independently, then re-verify with the sealed script; only conf/nginx.conf may be edited.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "docker image nginx:1.25.4",
+  "docker image python:3.11.9-slim",
+  "docker image curlimages/curl:8.5.0",
+  "assets/gc-381/conf/nginx.conf (deliverable, editable)",
+  "assets/gc-381/upstream/app.py (sealed origin with hit counter)",
+  "assets/gc-381/check.sh (sealed SLO grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-381/check.sh",
+   "metric": "slo_checks_passed",
+   "threshold": 5,
+   "compare": "=="
+  }
+ },
+ "process_expectations": [
+  "An SLO decomposition artifact maps each of the 5 checks to the nginx mechanism that satisfies it, including the stale-serving failure mode, before implementation",
+  "Each SLO check is reproduced and verified in a self-built rehearsal (own curl batches, own origin-counter reads, own origin-kill drill) with outputs captured",
+  "Failure identities are tracked (e.g. 'stale check 502: use_stale missing', 'hit rate 0.6: cache key includes query noise'), not just the aggregate score",
+  "Latency percentiles are computed by the agent from raw timing data at least once, and compared against the sealed grader's numbers for consistency",
+  "The slo_checks_passed trajectory across sealed runs is logged, including partial scores and the recovery steps after each red run"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

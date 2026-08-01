@@ -1,0 +1,36 @@
+{
+ "id": "gc-356",
+ "title": "Drive two jmespath modules past 82 percent kill rate each",
+ "category": "mutation_testing",
+ "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 262 mutants in jmespath/lexer.py and 245 in jmespath/functions.py of jmespath==1.0.1, and the score is the MINIMUM of the two module kill rates, which must reach 0.82. At that bar the residue is dominated by near-equivalent mutants, so the campaign must maintain a per-survivor ledger classifying each remaining ID as killable (with the planned distinguishing input) or suspected-equivalent (with an argument), and the suite must stay inside a 3-second budget even as it grows to hundreds of assertions. Expect many plan-grade-triage-regrade cycles over weeks, including recovery from runs where one module improves while the other drags the minimum down. Fail-closed grading: red baseline, slow suite, source-introspection tokens, or mutant-total drift in either module scores min_module_kill_rate -1.",
+ "horizon": "1m",
+ "budget_usd": 25,
+ "resources": [
+  "pypi jmespath==1.0.1 (targets under mutation: jmespath/lexer.py and jmespath/functions.py)",
+  "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-356/config.json)",
+  "pypi pytest==8.2.2 (only permitted test framework; plugin autoload disabled at grading time)",
+  "docker image python:3.11.9-slim-bookworm",
+  "files under assets/gc-356/ (sealed grader grade.py + config.json with expected mutant totals)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python assets/gc-356/grade.py",
+   "metric": "min_module_kill_rate",
+   "threshold": 0.82,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A behavior-inventory plan exists at work/gc-356/plan.md, written before the first grading run, mapping the target module's behaviors to planned test groups.",
+  "At least two full grading runs are logged under work/gc-356/logs/ as raw grader JSON lines, and the survivor count decreases between the first and the last run.",
+  "Surviving mutants are tracked by mutant ID (mutmut result-ids / mutmut show) at work/gc-356/survivors.md, each with a verdict of killable-next or suspected-equivalent -- identities, not just counts.",
+  "Per-module kill rates are logged for every grading run, and at least one logged iteration shows diagnosis and recovery after the minimum failed to improve or regressed.",
+  "Every RED or disqualified grading run is recorded with its cause and the concrete recovery action taken; no silent retries."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

@@ -1,0 +1,51 @@
+{
+ "id": "gc-392",
+ "title": "Reproduce the sealed eigenspectrum of a correlation matrix",
+ "category": "data_repro",
+ "goal": "Compute the Pearson correlation matrix of the four measurement columns in assets/gc-392/data.csv and reproduce its sealed eigenspectrum -- all four eigenvalues in descending order, explained-variance ratios, determinant, participation ratio, and Kaiser count -- per assets/gc-392/spec.md, into artifacts/gc-392/stats.json. Do not trust a single implementation: cross-validate your eigenvalues with a second, independent method (a different library, or a hand-rolled solver such as Jacobi rotation or the quartic characteristic polynomial) and reconcile any gap before grading. Then iterate grader runs, tracing each named mismatch to its root cause, until all 12 statistics match the sealed values.",
+ "horizon": "1m",
+ "budget_usd": 25.0,
+ "resources": [
+  "assets/gc-392/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-392/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-392/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-392/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-392/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "pypi:scipy==1.13.1 (optional cross-check library)",
+  "docker image python:3.11.9-slim (optional hermetic runner; the grader itself is stdlib-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-392/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "A second, independent computation path (different library or hand-rolled code) was run for the highest-risk statistics and the reconciliation is recorded.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "After any RED, recovery is traceable end-to-end: the named statistic, the root cause found, the fix, and the re-verify GREEN."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

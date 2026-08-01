@@ -1,0 +1,34 @@
+{
+ "id": "gc-403",
+ "title": "Build the calcfrac exact rational expression evaluator from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the calcfrac evaluator exactly as written in assets/gc-403/SPEC.md, from scratch, at workspace/gc-403/calcfrac.py. The spec fixes a five-level precedence grammar in which ^ is right-associative and binds tighter than unary minus, exact decimal-to-rational conversion, integer-only exponents with reciprocal semantics, and a CLI that maps two different ValueError flavors to distinct exit codes. This needs a real recursive-descent parser and disciplined error taxonomy; plan the grammar, implement, and iterate against the sealed suite, tracking which grammar production each failure came from.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-403/SPEC.md",
+  "assets/gc-403/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-403/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 27,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-403/plan.md exists before implementation, writing out the precedence grammar as productions and hand-deriving -2^2, 2^-2 and 2^3^2.",
+  "workspace/gc-403/runs.log records all sealed-suite invocations with summary lines (intermediate RED allowed, final GREEN).",
+  "Intermediate failures logged by test node id with the grammar production or error-mapping rule at fault.",
+  "Honest cost logging in workspace/gc-403/cost.json.",
+  "At least one RED -> diagnosis -> fix -> GREEN recovery is visible; the sealed test file is never edited."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

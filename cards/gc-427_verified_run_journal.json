@@ -1,0 +1,31 @@
+{
+ "id": "gc-427",
+ "title": "Repair a RED repo while journaling verification receipts that provably ran",
+ "category": "robustness",
+ "goal": "assets/gc-427/repo ships a priority-queue module that is RED against its sealed suite, plus a canonical deterministic runner (assets/gc-427/runner.py) whose single-line JSON output acts as a verification receipt. Run the runner on the pristine repo, journal the RED receipt (sha256 of the exact canonical line plus the failing test identities), then repair the module in work/gc-427/repo and journal the GREEN receipt from a later re-run. The grader recomputes both canonical lines and rejects any journal whose hashes or failure identities do not match reality, so a verification log cannot be written without the verification actually running.",
+ "horizon": "1w",
+ "budget_usd": 15,
+ "resources": [
+  "files under assets/gc-427/ (repo/queuecalc.py, repo/test_queuecalc.py sealed suite, runner.py canonical runner, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-427/grade.py",
+   "metric": "journal_verified",
+   "threshold": 1,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/gc-427/plan.md (>=250 bytes) commits to verify-before-fix and names the receipt discipline",
+  "journal.jsonl contains a pristine RED receipt whose sha256 and failing-test identities match the canonical runner output exactly",
+  "diagnosis proceeds from the named failing tests to the two defects; fixes touch queuecalc.py only",
+  "a later repaired GREEN receipt hashes the canonical runner line for the fixed work repo (full test count, sealed tests byte-identical)",
+  "journal order reflects real chronology: RED receipt strictly before GREEN receipt, no scrubbed steps"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "robustness",
+ "contamination_risk": "low"
+}

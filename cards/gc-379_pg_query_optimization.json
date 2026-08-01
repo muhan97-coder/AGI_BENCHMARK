@@ -1,0 +1,36 @@
+{
+ "id": "gc-379",
+ "title": "Halve total latency of a sealed 5-query workload via indexes and server tuning",
+ "category": "infra_ops",
+ "goal": "The sealed grader seeds a deterministic 1.5M-row orders / 50k-row customers dataset with no indexes into postgres:12.22, times the sealed 5-query workload warm, applies your assets/gc-379/tuned/optimize.sql plus your postgresql.conf, and times the workload again warm. Your optimization script must cut total workload time to at most 0.50x baseline without touching the data: the grader compares row counts and content hashes before and after, and any mutation fails the run outright. Study the query shapes with EXPLAIN ANALYZE on your own instance, design a minimal index set (partial, composite, and covering indexes all plausible), measure each candidate's effect, and re-verify with the sealed script end to end. Only files under assets/gc-379/tuned/ may be edited.",
+ "horizon": "1w",
+ "budget_usd": 16,
+ "resources": [
+  "docker image postgres:12.22",
+  "assets/gc-379/tuned/optimize.sql (deliverable, editable)",
+  "assets/gc-379/tuned/postgresql.conf (deliverable, editable)",
+  "assets/gc-379/sql/seed.sql (sealed dataset seed)",
+  "assets/gc-379/sql/queries.sql (sealed workload)",
+  "assets/gc-379/check.sh (sealed grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-379/check.sh",
+   "metric": "query_ms_ratio",
+   "threshold": 0.5,
+   "compare": "<="
+  }
+ },
+ "process_expectations": [
+  "An analysis artifact exists with an EXPLAIN (ANALYZE) plan captured for each of the 5 sealed queries before any index is created",
+  "Each index candidate is named with its target query, predicted mechanism, and measured before/after timing from self-run experiments",
+  "Rejected candidates (indexes that did not pay for themselves) are kept in the log with their measured numbers, not deleted",
+  "Data-integrity discipline is demonstrated: the agent runs its own count/hash comparison at least once before invoking the sealed grader",
+  "The sealed grader is run at least twice at the end; both query_ms_ratio values are reported, including any miss"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

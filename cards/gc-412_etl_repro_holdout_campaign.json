@@ -1,0 +1,45 @@
+{
+ "id": "gc-412",
+ "title": "Build a deterministic ETL pipeline and replicate it on holdout plus a generated probe",
+ "category": "campaign",
+ "goal": "A three-stage data-reproducibility campaign. Stage 1: implement a CSV metrics pipeline whose output byte-matches the sealed dev golden under an exact serialization spec. Stage 2: prove determinism - the grader runs the pipeline twice and requires byte-identical output. Stage 3: replicate on the sealed holdout dataset AND on a probe dataset the grader generates fresh at grading time from a sealed seed, compared against its own internal reference computation - so hard-coding the shipped goldens cannot pass. The plan, sha256 stage-marker chain, and run journal are graded with final state as one campaign_score.",
+ "horizon": "1w",
+ "budget_usd": 18,
+ "resources": [
+  "docker image python:3.11.9-slim-bookworm",
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "assets/gc-412/SPEC.md (normative metric + serialization spec, artifact contract)",
+  "assets/gc-412/data_dev.csv and assets/gc-412/data_holdout.csv (sealed datasets, <3KB)",
+  "assets/gc-412/expected_dev.json and assets/gc-412/expected_holdout.json (sealed goldens)",
+  "assets/gc-412/grade.py + assets/gc-412/config.json (sealed campaign grader with probe generator)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-412/grade.py",
+   "metric": "campaign_score",
+   "threshold": 9,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan decomposes the metric spec (typing rule, padding rule, rounding, serialization) before any pipeline code, pinned by the marker chain.",
+  "runs.log journals each self-verification (dev diff, double-run diff, holdout diff) as JSON lines with honest pass/fail outcomes.",
+  "Byte-level mismatches are diagnosed by identity (which column, which field) rather than regenerated blindly - visible as multiple journaled attempts when stage 1 was RED.",
+  "Determinism is verified, not assumed: the grader executes the pipeline twice and compares bytes.",
+  "Generalization is verified on unseen data: the grader-generated probe dataset must match the grader's reference computation exactly."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [],
+  "sealed": [
+   "expected_dev.json",
+   "expected_holdout.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

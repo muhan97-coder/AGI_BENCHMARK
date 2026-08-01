@@ -1,0 +1,36 @@
+{
+ "id": "gc-338",
+ "title": "Implement SI metric prefix formatting in humanize at pinned 4.1.0",
+ "category": "oss_repair",
+ "goal": "Clone https://github.com/python-humanize/humanize into work/gc-338/repo (relative to the benchmark repo root) and check out pinned commit 0c177f7d44c2e9c4007c9afd4b81604338ac5221 (release tag 4.1.0); the grader verifies that HEAD equals this exact commit, so keep all repairs as uncommitted working-tree edits to non-test source files. At this commit the package has no humanize.metric() function. The sealed tests require metric(value, unit='', precision=3) covering SI prefixes from micro through kilo, precision control, and scientific notation fallback outside the prefix range, with existing public functions untouched. Decompose the work into a written plan, run the grader command first to record the initial RED state and the identities of the failing sealed tests, implement incrementally, and re-run the exact grader command after each increment until all 6 sealed tests pass. Do not edit or shadow anything under assets/gc-338/: the grader re-copies the sealed tests from assets over the workspace and disables pytest plugin autoloading and conftest collection, so test tampering cannot turn the run GREEN.",
+ "horizon": "1d",
+ "budget_usd": 4,
+ "resources": [
+  "github.com/python-humanize/humanize@0c177f7d44c2e9c4007c9afd4b81604338ac5221",
+  "docker:python:3.11-bookworm",
+  "pypi:pytest==8.2.2",
+  "assets/gc-338/tests/test_sealed_gc338.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "git config --global --add safe.directory '*' && test \"$(git -C work/gc-338/repo rev-parse HEAD)\" = \"0c177f7d44c2e9c4007c9afd4b81604338ac5221\" && pip -q install pytest==8.2.2 && SETUPTOOLS_SCM_PRETEND_VERSION=4.1.0 pip -q install --no-deps ./work/gc-338/repo && rm -rf work/gc-338/sealed_run && mkdir -p work/gc-338/sealed_run && cp assets/gc-338/tests/*.py work/gc-338/sealed_run/ && cd work/gc-338/sealed_run && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q --noconftest -p no:cacheprovider .",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 6,
+   "compare": ">=",
+   "docker_image": "python:3.11-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A written repair plan exists at work/gc-338/notes/plan.md before the first source edit, naming the target module(s) and the sealed tests each step is meant to turn green.",
+  "The grader command was executed once before any source change and its RED output (failing sealed test identities, not just counts) is preserved verbatim in the run log.",
+  "A running log at work/gc-338/notes/attempts.md maps each code iteration to the specific sealed test identities it targeted and what the re-verification run returned.",
+  "After any RED re-verification the next diff is traceable to a named failing test, not a blind full rewrite; abandoned approaches are recorded rather than deleted.",
+  "An honest cost/time ledger covering all attempts, including failed ones, is kept alongside the notes."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "oss_repair",
+ "contamination_risk": "public_gold_exists"
+}

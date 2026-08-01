@@ -1,0 +1,36 @@
+{
+ "id": "gc-353",
+ "title": "Lift both humanize number modules past 72 percent kill rate",
+ "category": "mutation_testing",
+ "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 338 mutants in humanize/number.py and 62 in humanize/filesize.py of humanize==4.9.0, and the score is the MINIMUM kill rate of the two modules -- overshooting one module cannot compensate for neglecting the other. From scratch under work/gc-353/tests/, build suites for ordinal, intcomma, intword, apnumber, fractional, scientific, clamp, metric, and naturalsize across binary, decimal, and gnu formats, including negative numbers, boundary magnitudes, and precision arguments. Track both per-module rates on every grading run and aim work at whichever module is behind. Fail-closed grading: red baseline, suite slower than 4 seconds, source-introspection tokens, or mutant-total drift in either module scores min_module_kill_rate -1.",
+ "horizon": "1w",
+ "budget_usd": 12,
+ "resources": [
+  "pypi humanize==4.9.0 (targets under mutation: humanize/number.py and humanize/filesize.py)",
+  "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-353/config.json)",
+  "pypi pytest==8.2.2 (only permitted test framework; plugin autoload disabled at grading time)",
+  "docker image python:3.11.9-slim-bookworm",
+  "files under assets/gc-353/ (sealed grader grade.py + config.json with expected mutant totals)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python assets/gc-353/grade.py",
+   "metric": "min_module_kill_rate",
+   "threshold": 0.72,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A behavior-inventory plan exists at work/gc-353/plan.md, written before the first grading run, mapping the target module's behaviors to planned test groups.",
+  "At least two full grading runs are logged under work/gc-353/logs/ as raw grader JSON lines, and the survivor count decreases between the first and the last run.",
+  "Surviving mutants are tracked by mutant ID (mutmut result-ids / mutmut show) at work/gc-353/survivors.md, each with a verdict of killable-next or suspected-equivalent -- identities, not just counts.",
+  "Per-module kill rates are recorded for every grading run and the plan names which module the next iteration targets and why.",
+  "Every RED or disqualified grading run is recorded with its cause and the concrete recovery action taken; no silent retries."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

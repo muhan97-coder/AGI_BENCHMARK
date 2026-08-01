@@ -1,0 +1,38 @@
+{
+ "id": "gc-369",
+ "title": "Raise the stone bastion with three bots fast enough to beat the clock",
+ "category": "minecraft_build",
+ "goal": "Build the sealed 79-block Stone Bastion on a fresh judged server with exactly three bots, and win on efficiency: the judger divides its complexity-derived action-time budget by the union of your logged action intervals, so only genuinely parallel work - three bots building different walls at the same time - pushes efficiency well above 1.0. The card requires a completed build (end_reason 'complete task') AND efficiency >= 1.5, meaning the union of action time must come in at two-thirds of the budget or better; a timeout scores 0. Plan the partition and chest logistics, rehearse, measure the interval union from your own ledger, and re-verify against the judger's final score.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-369/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-369/blueprint.json (sealed blueprint array)",
+  "assets/gc-369/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-369/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-369/MARBLE/marble/result/gc-369/score.json'));e=float(d['efficiency']) if d['end_reason']=='complete task' else 0.0;print(json.dumps({'gated_efficiency':e}))\"",
+   "metric": "gated_efficiency",
+   "threshold": 1.5,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A partition + logistics plan (per-bot wall assignment, chest access schedule, expected interval union) exists before the judged attempt",
+  "All three bot names are in the judger launch and all three have overlapping intervals in action_log.json (parallelism is observable, not claimed)",
+  "The predicted interval union from the plan is compared against the measured union at least once mid-run, with the delta logged",
+  "Failed or re-done placements are tracked by identity and their time cost attributed in the ledger, not absorbed silently",
+  "If a rehearsal or attempt misses the bar, the diagnosis (which bot idled, where the union grew) is logged before the next attempt"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

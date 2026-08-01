@@ -1,0 +1,2 @@
+Output a single line: the sum of squares of the integers in input.txt.
+Output file: work/gc-425/out/task-02.txt

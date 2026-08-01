@@ -1,0 +1,44 @@
+{
+ "id": "gc-415",
+ "title": "Build toksmith and tableform in order, then integrate them into a byte-exact report tool",
+ "category": "campaign",
+ "goal": "A three-stage integration campaign across two independent modules and a finale that composes them. Stage 1 builds a tokenizer with pinned token kinds, positions, escapes, and error messages; stage 2 builds an ASCII table renderer with a byte-exact layout contract; stage 3 wires both into a report CLI whose output on the sealed sample input must match the sealed golden byte-for-byte, with pinned usage/error exit behavior. Interface drift between stages surfaces only in the integration suite, forcing re-verification of earlier stages. The frozen plan, sha256 marker chain, and run journal are graded with final state as one campaign_score.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-415/SPEC.md (tokenizer, renderer, and CLI contracts + artifact contract)",
+  "assets/gc-415/sample_input.txt and assets/gc-415/expected_report.txt (sealed integration golden)",
+  "assets/gc-415/test_toksmith.py, assets/gc-415/test_tableform.py, assets/gc-415/test_report.py (sealed suites)",
+  "assets/gc-415/grade.py + assets/gc-415/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-415/grade.py",
+   "metric": "campaign_score",
+   "threshold": 8,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan fixes both module interfaces and the integration data flow before stage 1, pinned by the sha256 chain plan -> stage1 -> stage2 -> stage3.",
+  "Stage order is verified by the marker chain: the tokenizer is sealed before the renderer, and both before integration.",
+  "runs.log journals suite executions for all three stages with honest passed/failed counts, including integration REDs traced back to which module drifted.",
+  "The integration golden is matched byte-for-byte by running the CLI, and the sealed inline cases prevent hard-coding the one golden file.",
+  "All three sealed suites pass in the final grading run; earlier suites are re-run to catch late regressions."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [],
+  "sealed": [
+   "expected_report.txt"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

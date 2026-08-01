@@ -1,0 +1,4 @@
+{"id": "b1", "file": "orderbook.py", "old": "        _insert(book[\"bids\"], order, descending=True)", "new": "        _insert(book[\"bids\"], order, descending=False)"}
+{"id": "b2", "file": "orderbook.py", "old": "    book[\"trades\"].append(trade)", "new": "    _ = trade"}
+{"id": "b3", "file": "orderbook.py", "old": "                del levels[i]\n                return True", "new": "                return True"}
+{"id": "b4", "file": "orderbook.py", "old": "            rows[-1][1] += o[\"qty\"]", "new": "            rows[-1][1] = o[\"qty\"]"}

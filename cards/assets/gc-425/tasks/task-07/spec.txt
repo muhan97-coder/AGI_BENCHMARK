@@ -1,0 +1,2 @@
+Output a single line: the lowercase SHA-256 hex digest of the raw bytes of input.txt.
+Output file: work/gc-425/out/task-07.txt

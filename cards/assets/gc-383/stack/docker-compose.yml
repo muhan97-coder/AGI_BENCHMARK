@@ -1,0 +1,21 @@
+# gc-383 starter stack -- deliberately sloppy operations posture. The sealed campaign
+# harness (assets/gc-383/check.sh) runs six scenarios: image pinning, healthchecks,
+# HTTP contract, cache persistence across restart, database+cache persistence across
+# down/up, and worker self-healing after a kill. Allowed images (pinned):
+# nginx:1.25.4, redis:7.2.4, postgres:12.22.
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./html:/usr/share/site:ro
+  cache:
+    image: redis:latest
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_DB: appdb
+  worker:
+    image: redis:7.2.4
+    command: sh -c 'while true; do redis-cli -h cache set heartbeat ok EX 15; sleep 5; done'

@@ -1,0 +1,1 @@
+Benchmarks that grade process must make honesty cheaper than fabrication. A checker that can be satisfied by editing a report instead of running the verification is not a checker; it is a invitation. Sealed inputs, recomputed truths, and identity-level failure records close that gap.

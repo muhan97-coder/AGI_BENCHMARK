@@ -1,0 +1,34 @@
+{
+ "id": "gc-376",
+ "title": "Double redis SET throughput over sealed baseline without dropping durability",
+ "category": "infra_ops",
+ "goal": "Tune assets/gc-376/tuned/redis.conf so that redis-benchmark SET throughput on redis:7.2.4 reaches at least 2.0x the sealed baseline config, which fsyncs the AOF on every command. The catch: the sealed grader interrogates the live tuned instance with CONFIG GET and zeroes the score unless appendonly stays yes and appendfsync stays always or everysec, so you must find the durability/throughput frontier rather than switching persistence off. Benchmark candidate configs yourself, verify the guard constraints on a live instance each time, and re-verify with the sealed script since throughput runs vary. Only tuned/redis.conf may be edited.",
+ "horizon": "1w",
+ "budget_usd": 12,
+ "resources": [
+  "docker image redis:7.2.4",
+  "assets/gc-376/tuned/redis.conf (deliverable, editable)",
+  "assets/gc-376/baseline/redis.baseline.conf (sealed baseline)",
+  "assets/gc-376/check.sh (sealed grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-376/check.sh",
+   "metric": "set_rps_ratio",
+   "threshold": 2.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact enumerates candidate persistence and I/O parameters with the expected effect and the guard constraint each must respect",
+  "Every candidate config is verified on a live instance with CONFIG GET before its benchmark number is trusted, and those command outputs are captured",
+  "Benchmark results are logged per config identity with at least two runs each; variance is reported, not hidden",
+  "Any config that trips the durability guard is recorded as a named failure and the recovery (revert or redesign) is visible in the log",
+  "The sealed grader is re-run after the final config is chosen and its JSON output is stored verbatim"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

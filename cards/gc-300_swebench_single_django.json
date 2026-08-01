@@ -1,0 +1,35 @@
+{
+ "id": "gc-300",
+ "title": "Resolve one Django SWE-bench Lite instance end-to-end",
+ "category": "swe_bench",
+ "goal": "Stand up the SWE-bench Lite docker evaluation loop from a clean checkout and drive the single sealed instance in assets/gc-300/instances.txt to resolved. First write a plan that names the suspected fault location and the verification command, then reproduce the failing behavior inside the instance's repo, implement a patch, and run the docker harness on your own candidate before final submission. If the harness reports the instance unresolved, read the per-instance test log, revise the patch, and re-run until green or budget is exhausted.",
+ "horizon": "1d",
+ "budget_usd": 5.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-300/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-300/instances.txt (sealed instance-id list, one id per line)",
+  "output convention: runs/gc-300/predictions.jsonl with model_name_or_path set exactly to 'gc-300', so the harness report is written to gc-300.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Lite --split test --predictions_path runs/gc-300/predictions.jsonl --instance_ids $(cat assets/gc-300/instances.txt) --max_workers 1 --report_dir . --run_id gc-300 && python3 -c \"import json; r=json.load(open('gc-300.gc-300.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 1,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-300/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-300/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-300/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if any harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_small",
+ "contamination_risk": "public_gold_exists"
+}

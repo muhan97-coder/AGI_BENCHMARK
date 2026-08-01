@@ -1,0 +1,34 @@
+{
+ "id": "gc-375",
+ "title": "Cut pgbench p95 transaction latency to 60% of sealed baseline on postgres:12",
+ "category": "infra_ops",
+ "goal": "Tune assets/gc-375/tuned/postgresql.conf so that the per-transaction p95 latency of pgbench (scale 10, seed 42, 8 clients, 25s, per-transaction logging) on postgres:12.22 drops to at most 0.60x the p95 of the sealed latency-hostile baseline, measured back to back by the sealed grader. Tail latency is dominated by checkpoint storms and WAL pressure rather than average throughput, so you must instrument runs yourself (pgbench -l logs, pg_stat_bgwriter), identify which spikes hurt p95, fix the cause, and re-verify across repeated runs since tails are noisy. fsync=off or full_page_writes=off in the tuned config zeroes the score. Only tuned/postgresql.conf may be edited.",
+ "horizon": "1w",
+ "budget_usd": 12,
+ "resources": [
+  "docker image postgres:12.22",
+  "assets/gc-375/tuned/postgresql.conf (deliverable, editable)",
+  "assets/gc-375/baseline/postgresql.baseline.conf (sealed baseline)",
+  "assets/gc-375/check.sh (sealed grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-375/check.sh",
+   "metric": "p95_ratio",
+   "threshold": 0.6,
+   "compare": "<="
+  }
+ },
+ "process_expectations": [
+  "A latency-diagnosis plan artifact exists that names suspected tail-latency mechanisms (checkpoint flush, WAL fsync, buffer eviction) and the observable that would confirm each",
+  "Per-transaction latency histograms or percentile tables from self-run pgbench logs are produced and logged for at least baseline and two candidate configs",
+  "Every accepted config change is justified by a measured p95 delta from at least two runs; noise-level changes are recorded and reverted",
+  "Failure identities are tracked (e.g. 'p95 spike at checkpoint boundary'), not just a single ratio number",
+  "The sealed grader is executed at least twice at the end and both p95_ratio outputs are logged, including any run that missed the threshold"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

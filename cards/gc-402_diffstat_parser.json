@@ -1,0 +1,34 @@
+{
+ "id": "gc-402",
+ "title": "Build the diffstat unified-diff statistics tool from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the diffstat library plus CLI exactly as written in assets/gc-402/SPEC.md, from scratch, at workspace/gc-402/diffstat.py. The spec demands genuine hunk-count tracking from @@ headers (so removed lines whose content begins with dashes are never mistaken for file headers), git rename and binary handling, /dev/null path resolution, and tab-separated timestamp stripping for classic diffs. Naive line-prefix scanners fail the sealed suite; plan the block/hunk state machine first, implement, and iterate on failures until green.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-402/SPEC.md",
+  "assets/gc-402/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-402/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 20,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-402/plan.md exists before implementation, sketching the parser state machine (blocks, headers, hunk counters) and listing the trap cases from the spec.",
+  "workspace/gc-402/runs.log contains every sealed-suite invocation with summary lines; at least one intermediate RED run and the final GREEN run.",
+  "Failure identities tracked: each failing test node id mapped to the parsing rule it exposed and the code change that fixed it.",
+  "Honest cost logging in workspace/gc-402/cost.json.",
+  "Recovery after RED documented as diagnosis -> fix -> re-run; the sealed test file is never modified."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

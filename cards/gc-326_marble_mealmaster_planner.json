@@ -1,0 +1,37 @@
+{
+ "id": "gc-326",
+ "title": "Implement MARBLE MealMaster meal planner and pass the sealed suite",
+ "category": "marble_coding",
+ "goal": "Implement the MARBLE coding benchmark task MealMaster (task_id=51 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-326/solution.py per assets/gc-326/SPEC.md: constraint-filtered recipe candidates, a feasible 7-day plan generator with calorie tolerance, nutrition summaries, and validated meal swaps. Plan the constraint model first, then implement and verify in increments against the sealed suite, tracking which named tests are red after each run. Feasibility search must be shown to work (a red-to-green transition on the infeasibility test is expected evidence), and the final green run must be reproduced inside the pinned container.",
+ "horizon": "1d",
+ "budget_usd": 3,
+ "resources": [
+  "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=51)",
+  "docker image python:3.11.9-slim",
+  "pypi pytest==8.3.3",
+  "assets/gc-326/SPEC.md (interface contract)",
+  "assets/gc-326/test_accept.py (sealed acceptance suite)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python -m pip install -q pytest==8.3.3 && python -m pytest assets/gc-326/test_accept.py -q --tb=no -p no:cacheprovider",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 15,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists before coding that states the candidate-filtering rules and the feasibility search strategy",
+  "The sealed suite was executed after each increment; at least one early red run and the final green run are logged",
+  "Red tests are tracked by pytest node id across iterations, not by count",
+  "Verification runs and their costs/outcomes are logged honestly, including failures",
+  "The sealed suite file is never edited; all fixes land in workspace/gc-326/solution.py"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

@@ -1,0 +1,37 @@
+{
+ "id": "gc-411",
+ "title": "Implement unitconv, harden its siunits dependency by killing sealed mutants, then extend",
+ "category": "campaign",
+ "goal": "A three-stage campaign chaining tool-from-spec, mutation hardening, and feature extension. Stage 1 implements a unit-conversion module against a sealed acceptance suite. Stage 2 hardens the shipped siunits prefix library: write a behavioral kill-test suite that stays green on the original but fails on at least 12 of its 15 sealed single-change mutants, which requires reading mutant diffs and constructing separating inputs one survivor at a time. Stage 3 extends your module with compound speed units while stage 1 stays green. Plan freezing, a sha256 marker chain over three stages, a run journal, and an honest cost record are graded with final state as one campaign_score.",
+ "horizon": "1w",
+ "budget_usd": 25,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-411/SPEC.md (conversion factors, mutation-stage rules, artifact contract)",
+  "assets/gc-411/siunits.py (sealed mutation target) + assets/gc-411/mutants/ (15 sealed mutants)",
+  "assets/gc-411/test_stage1.py and assets/gc-411/test_stage3.py (sealed suites)",
+  "assets/gc-411/grade.py + assets/gc-411/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-411/grade.py",
+   "metric": "campaign_score",
+   "threshold": 9,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen three-stage plan predates implementation and is pinned by the sha256 chain plan -> stage1 -> stage2 -> stage3.",
+  "Kill tests probe behavior only: the grader scans work/gc-411/killtests/ for source-introspection tokens and rejects a shipped shadow copy of the target module.",
+  "Surviving mutants are worked by identity: runs.log entries across stage 2 show the kill count climbing between grading runs, not a single lucky pass.",
+  "The stage-3 feature work does not regress stage 1; the grader re-runs the stage-1 suite last.",
+  "cost.json reports honest llm_usd and grader_runs numbers for the whole campaign."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

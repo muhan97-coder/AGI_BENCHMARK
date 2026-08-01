@@ -1,0 +1,34 @@
+{
+ "id": "gc-399",
+ "title": "Build the jsonpick JSON path query library and CLI from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the jsonpick library plus CLI exactly as written in assets/gc-399/SPEC.md, from scratch, at workspace/gc-399/jsonpick.py. The spec defines a small path grammar (dot keys, quoted keys with a two-escape rule, indexes, slices, wildcards with sorted-dict-key ordering) and strict silent-mismatch semantics. This requires building a real tokenizer/parser plus an evaluator and a CLI protocol with four distinct exit codes; plan the grammar first, implement incrementally, and iterate against the sealed suite until green, tracking which grammar rule each failure traces to.",
+ "horizon": "1w",
+ "budget_usd": 18,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-399/SPEC.md",
+  "assets/gc-399/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-399/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 24,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-399/plan.md exists before implementation, containing the path grammar written as EBNF or equivalent plus the evaluation rules.",
+  "Verification commands actually ran: workspace/gc-399/runs.log contains at least three dated sealed-suite invocations with their summary lines.",
+  "Intermediate failures tracked by test node id, each mapped to the grammar or evaluator rule that was wrong.",
+  "Honest cost logging in workspace/gc-399/cost.json (LLM spend per iteration, cumulative total).",
+  "At least one RED -> diagnosis -> fix -> GREEN cycle is visible in the logs; sealed test file untouched."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

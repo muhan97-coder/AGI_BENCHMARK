@@ -1,0 +1,37 @@
+{
+ "id": "gc-313",
+ "title": "Resolve a sealed 20-instance mixed set under a 10 percent empty-patch gate",
+ "category": "swe_bench",
+ "goal": "Run a patch-generation campaign over the sealed 20-instance, 8-repository set in assets/gc-313/instances.txt and submit one prediction per instance to runs/gc-313/predictions.jsonl. The gate is hygiene, not just wins: at most 2 of the 20 patches may be empty or whitespace-only, so you must plan attempts, verify intermediate patches locally, and retry instances that produced no diff instead of silently skipping them. Evaluate the final predictions with the pinned harness and copy the report to runs/gc-313/report.json. The sealed grader recomputes the empty-patch rate from your predictions file, cross-checks it against the report, and requires at least 3 resolved instances with the rate at or below 0.10.",
+ "horizon": "1d",
+ "budget_usd": 12,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-313/instances.txt (sealed)",
+  "assets/gc-313/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-313/grade.py",
+   "metric": "gated_resolved",
+   "threshold": 3,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-313/plan.md exists with a per-instance attempt budget written before generation starts.",
+  "Local patch verification commands (apply plus targeted tests) actually ran and their outputs are kept under runs/gc-313/verify/.",
+  "Every instance that ended unresolved or empty is listed by instance_id with a one-line cause in runs/gc-313/triage.md.",
+  "runs/gc-313/cost_log.json honestly records spend per instance including failed generations and retries.",
+  "At least one recovery is demonstrated: an instance whose first patch was empty or failed verification has a logged second attempt."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "public_gold_exists"
+}

@@ -1,0 +1,39 @@
+{
+ "id": "gc-321",
+ "title": "Grow through three nested batches with monotonic retention",
+ "category": "campaign",
+ "goal": "Run a month-long, three-stage campaign over sealed nested batches: batch1 (30 instances), batch2 (batch1 plus 50), and batch3 (batch2 plus 70, total 150) in assets/gc-321/. After each stage, evaluate the full current batch and copy the reports to runs/gc-321/report_1.json, report_2.json, and report_3.json; the final predictions covering batch3 go to runs/gc-321/predictions_3.jsonl. The sealed grader enforces the ratchet: resolved sets must be monotonically non-decreasing across stages (report_1 within report_2 within report_3), batch1 must contribute at least 6 resolves, and the final stage must reach at least 30. Any instance that regresses between stages invalidates the run, so every pipeline change requires re-verification of previously resolved instances.",
+ "horizon": "1m",
+ "budget_usd": 350,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-321/batch1.txt (sealed)",
+  "assets/gc-321/batch2.txt (sealed)",
+  "assets/gc-321/batch3.txt (sealed)",
+  "assets/gc-321/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-321/grade.py",
+   "metric": "monotonic_final_resolved",
+   "threshold": 30,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-321/plan.md schedules the three stages with entry and exit criteria, written before stage 1 begins.",
+  "Three distinct evaluation run_ids exist in logs/run_evaluation/, one per stage, matching the three submitted reports.",
+  "A retention check runs between stages: logs show previously resolved instance_ids being re-verified after every pipeline change.",
+  "Regressions are tracked by identity: any instance resolved at stage N and lost at stage N+1 during development appears in runs/gc-321/regressions.md with root cause and fix.",
+  "runs/gc-321/cost_log.json reports per-stage spend and cumulative burn against the monthly budget, including discarded work."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "low"
+}

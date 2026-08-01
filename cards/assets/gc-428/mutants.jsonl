@@ -1,0 +1,51 @@
+{"id": "m001", "file": "csvlite.py", "old": "    while i < len(line):", "new": "    while i <= len(line):"}
+{"id": "m002", "file": "csvlite.py", "old": "                if i + 1 < len(line) and line[i + 1] == '\"':", "new": "                if i + 1 <= len(line) and line[i + 1] == '\"':"}
+{"id": "m003", "file": "csvlite.py", "old": "            elif ch == ',':", "new": "            elif ch != ',':"}
+{"id": "m005", "file": "csvlite.py", "old": "        if idx < len(r):", "new": "        if idx <= len(r):"}
+{"id": "m006", "file": "pathmatch.py", "old": "    while ni < len(name):", "new": "    while ni <= len(name):"}
+{"id": "m007", "file": "pathmatch.py", "old": "        if pi < len(pattern) and pattern[pi] in ('?', name[ni]):", "new": "        if pi <= len(pattern) and pattern[pi] in ('?', name[ni]):"}
+{"id": "m008", "file": "pathmatch.py", "old": "        elif pi < len(pattern) and pattern[pi] == '*':", "new": "        elif pi <= len(pattern) and pattern[pi] == '*':"}
+{"id": "m009", "file": "pathmatch.py", "old": "        elif star != -1:", "new": "        elif star == -1:"}
+{"id": "m010", "file": "pathmatch.py", "old": "            pi = star + 1", "new": "            pi = star - 1"}
+{"id": "m011", "file": "pathmatch.py", "old": "            star_ni += 1", "new": "            star_ni += 2"}
+{"id": "m012", "file": "pathmatch.py", "old": "            return False", "new": "            return True"}
+{"id": "m013", "file": "pathmatch.py", "old": "    while pi < len(pattern) and pattern[pi] == '*':", "new": "    while pi <= len(pattern) and pattern[pi] == '*':"}
+{"id": "m014", "file": "pathmatch.py", "old": "    return pi == len(pattern)", "new": "    return pi != len(pattern)"}
+{"id": "m015", "file": "pathmatch.py", "old": "    if head == '**':", "new": "    if head != '**':"}
+{"id": "m016", "file": "pathmatch.py", "old": "        for skip in range(len(names) + 1):", "new": "        for skip in range(len(names) - 1):"}
+{"id": "m017", "file": "pathmatch.py", "old": "            if _match_parts(pats[1:], names[skip:]):", "new": "            if _match_parts(pats[:], names[skip:]):"}
+{"id": "m018", "file": "pathmatch.py", "old": "                return True", "new": "                return False"}
+{"id": "m019", "file": "pathmatch.py", "old": "    return _match_parts(pats[1:], names[1:])", "new": "    return _match_parts(pats[:], names[1:])"}
+{"id": "m020", "file": "pathmatch.py", "old": "        if all(x == first for x in parts[1:]):", "new": "        if all(x != first for x in parts[1:]):"}
+{"id": "m021", "file": "pathmatch.py", "old": "    return '/'.join(prefix)", "new": "    return '/'.join(prefix) + '/'"}
+{"id": "m022", "file": "ratelimit.py", "old": "        if capacity <= 0:", "new": "        if capacity < 0:"}
+{"id": "m023", "file": "ratelimit.py", "old": "        if refill_per_sec <= 0:", "new": "        if refill_per_sec < 0:"}
+{"id": "m024", "file": "ratelimit.py", "old": "        self.tokens = float(capacity)", "new": "        self.tokens = 0.0"}
+{"id": "m025", "file": "ratelimit.py", "old": "        if now_ms < self.last_ms:", "new": "        if now_ms <= self.last_ms:"}
+{"id": "m026", "file": "ratelimit.py", "old": "        elapsed = (now_ms - self.last_ms) / 1000.0", "new": "        elapsed = (now_ms - self.last_ms) / 100.0"}
+{"id": "m027", "file": "ratelimit.py", "old": "        self.tokens = min(self.capacity, self.tokens + elapsed * self.refill_per_sec)", "new": "        self.tokens = max(self.capacity, self.tokens + elapsed * self.refill_per_sec)"}
+{"id": "m028", "file": "ratelimit.py", "old": "        if cost <= 0:", "new": "        if cost < 0:"}
+{"id": "m029", "file": "ratelimit.py", "old": "        if self.tokens >= cost:", "new": "        if self.tokens > cost:"}
+{"id": "m030", "file": "ratelimit.py", "old": "            self.tokens -= cost", "new": "            self.tokens -= 0"}
+{"id": "m031", "file": "ratelimit.py", "old": "            return True", "new": "            return False"}
+{"id": "m032", "file": "ratelimit.py", "old": "        return False", "new": "        return True"}
+{"id": "m033", "file": "ratelimit.py", "old": "        if cost > self.capacity:", "new": "        if cost >= self.capacity:"}
+{"id": "m035", "file": "ratelimit.py", "old": "        ms = deficit / self.refill_per_sec * 1000.0", "new": "        ms = deficit / self.refill_per_sec * 100.0"}
+{"id": "m036", "file": "ratelimit.py", "old": "        return int(ms) + (0 if ms == int(ms) else 1)", "new": "        return int(ms) + (0 if ms != int(ms) else 1)"}
+{"id": "m037", "file": "csvlite.py", "old": "                    buf.append('\"')", "new": "                    buf.append('')"}
+{"id": "m038", "file": "csvlite.py", "old": "                    in_quotes = False", "new": "                    in_quotes = True"}
+{"id": "m039", "file": "csvlite.py", "old": "            elif ch == ',':", "new": "            elif ch == ';':"}
+{"id": "m040", "file": "csvlite.py", "old": "        return '\"' + field.replace('\"', '\"\"') + '\"'", "new": "        return '\"' + field + '\"'"}
+{"id": "m041", "file": "csvlite.py", "old": "    return ','.join(format_field(f) for f in fields)", "new": "    return ' ,'.join(format_field(f) for f in fields)"}
+{"id": "m042", "file": "csvlite.py", "old": "    return '\\n'.join(format_line(r) for r in rows)", "new": "    return '\\n'.join(format_line(r) for r in rows[:-1])"}
+{"id": "m043", "file": "csvlite.py", "old": "        raise ValueError(\"unterminated quote\")", "new": "        fields.append('')"}
+{"id": "m044", "file": "csvlite.py", "old": "                in_quotes = True", "new": "                buf.append(ch)"}
+{"id": "m045", "file": "pathmatch.py", "old": "        return not names", "new": "        return True"}
+{"id": "m046", "file": "pathmatch.py", "old": "    if head == '**':", "new": "    if head == '*':"}
+{"id": "m047", "file": "pathmatch.py", "old": "            star = pi", "new": "            star = pi - 1"}
+{"id": "m048", "file": "pathmatch.py", "old": "            ni = star_ni", "new": "            ni = star_ni + 1"}
+{"id": "m049", "file": "pathmatch.py", "old": "    return _match_parts(pats[1:], names[1:])", "new": "    return _match_parts(pats, names[1:])"}
+{"id": "m051", "file": "ratelimit.py", "old": "        self.last_ms = now_ms", "new": "        self.last_ms = self.last_ms"}
+{"id": "m052", "file": "ratelimit.py", "old": "        deficit = cost - self.tokens", "new": "        deficit = cost"}
+{"id": "m053", "file": "ratelimit.py", "old": "        self.tokens = float(capacity)", "new": "        self.tokens = 0.0"}
+{"id": "m054", "file": "ratelimit.py", "old": "    bucket = TokenBucket(capacity, refill_per_sec)", "new": "    bucket = TokenBucket(capacity, refill_per_sec * 2)"}

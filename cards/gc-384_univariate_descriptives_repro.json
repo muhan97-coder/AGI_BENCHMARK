@@ -1,0 +1,48 @@
+{
+ "id": "gc-384",
+ "title": "Reproduce 12 sealed univariate descriptives from a sensor log slice",
+ "category": "data_repro",
+ "goal": "assets/gc-384/data.csv is a 900-row sensor temperature slice with injected heat spikes. Plan and build an independent pipeline (any language or libraries) that computes the 12 statistics exactly as defined in assets/gc-384/spec.md and writes them to artifacts/gc-384/stats.json. Several definitions are deliberately version-sensitive (Type-7 quantiles, biased skewness g1), so common library defaults will not all match on the first attempt. Run python3 assets/gc-384/grade.py, read back the mismatched statistic names, fix each definition, and re-verify until all 12 match the sealed values within tolerance.",
+ "horizon": "1d",
+ "budget_usd": 4.0,
+ "resources": [
+  "assets/gc-384/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-384/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-384/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-384/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-384/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-384/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

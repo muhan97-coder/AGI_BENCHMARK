@@ -1,0 +1,37 @@
+{
+ "id": "gc-323",
+ "title": "Push the long tail: 60 instances from 8 underrepresented repositories",
+ "category": "swe_bench",
+ "goal": "The sealed 60-instance set in assets/gc-323/instances.txt deliberately excludes django, sympy, matplotlib, and scikit-learn - it is drawn entirely from the 8 long-tail Lite organizations (astropy, mwaskom, pallets, psf, pydata, pylint-dev, sphinx-doc, pytest-dev) where per-repo tooling is least amortized. Submit one prediction per instance to runs/gc-323/predictions.jsonl, evaluate with the pinned harness, and copy the report to runs/gc-323/report.json. The sealed grader requires at least 15 resolved instances, resolved coverage of at least 6 of the 8 organizations, and at most 6 empty patches. Each organization needs its own environment bring-up, test-selection strategy, and verification loop, so plan per-family, verify per-family, and re-allocate when a family stalls.",
+ "horizon": "1m",
+ "budget_usd": 250,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-323/instances.txt (sealed)",
+  "assets/gc-323/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-323/grade.py",
+   "metric": "longtail_resolved",
+   "threshold": 15,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-323/plan.md contains a per-organization bring-up checklist and resolve target written before any generation.",
+  "Per-organization verification ran: harness or local test logs exist for every one of the 8 organizations, including the ones that ended at zero.",
+  "Unresolved and empty instances are triaged by identity in runs/gc-323/triage.md, grouped by organization with stated causes.",
+  "runs/gc-323/cost_log.json records spend per organization so unprofitable families are visible, including abandoned bring-ups.",
+  "A re-allocation decision after a mid-campaign checkpoint is recorded: which families got more budget, which were capped, and why."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "public_gold_exists"
+}

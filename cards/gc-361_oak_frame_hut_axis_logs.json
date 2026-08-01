@@ -1,0 +1,37 @@
+{
+ "id": "gc-361",
+ "title": "Build the oak frame hut with axis-correct log posts",
+ "category": "minecraft_build",
+ "goal": "On a fresh judged 1.19.2 server, reproduce the sealed 17-block Oak Frame Hut: four two-high oak_log corner posts that must verify with vertical (y) axis orientation, plus a 3x3 oak_planks roof. The judger's block check compares the placed log axis against the blueprint, so a log placed sideways scores as a miss even though the block id matches; plan placements that guarantee the axis, verify each post against the judger snapshot feed, and re-place anything that scans wrong. Finish with block_hit_rate 1.0 in the judger's own result ledger while keeping the required action and token ledgers current.",
+ "horizon": "1d",
+ "budget_usd": 4,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-361/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-361/blueprint.json (sealed blueprint array)",
+  "assets/gc-361/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-361/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-361/MARBLE/marble/result/gc-361/score.json'));print(json.dumps({'block_hit_rate':float(d['block_hit_rate']),'view_hit_rate':float(d['view_hit_rate']),'efficiency':float(d['efficiency'])}))\"",
+   "metric": "block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "The plan artifact names the axis-placement tactic for each of the 8 log positions before execution",
+  "Verification commands against data/score.json snapshots actually ran between placement batches (present in the run log with timestamps)",
+  "Each axis mismatch is tracked by identity (coordinate + expected axis + scanned axis) and its fix is re-verified in a later snapshot",
+  "Honest ledgers: action_log.json intervals match the bot's real connect/build windows; tokens.json records actual LLM spend"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

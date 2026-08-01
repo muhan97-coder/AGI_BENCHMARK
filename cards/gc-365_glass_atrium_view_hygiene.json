@@ -1,0 +1,37 @@
+{
+ "id": "gc-365",
+ "title": "Build the glass atrium and keep its interior perfectly clean",
+ "category": "minecraft_build",
+ "goal": "Reproduce the sealed 82-block Glass Atrium (stone floor, hollow glass shell, empty 3x3x2 interior) on a fresh judged server, and pass on view_hit_rate, the judger's five-direction occlusion metric. Scaffolding or stray blocks left inside the bounding box occlude the expected surfaces and hold view_hit_rate below 1.0 even when every blueprint block is correct, so the plan must include a cleanup phase and the verify loop must compare both metrics to localize strays. Iterate build, scan, cleanup and re-verify until the judger records view_hit_rate 1.0.",
+ "horizon": "1w",
+ "budget_usd": 12,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-365/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-365/blueprint.json (sealed blueprint array)",
+  "assets/gc-365/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-365/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-365/MARBLE/marble/result/gc-365/score.json'));print(json.dumps({'block_hit_rate':float(d['block_hit_rate']),'view_hit_rate':float(d['view_hit_rate']),'efficiency':float(d['efficiency'])}))\"",
+   "metric": "view_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "The plan artifact includes an explicit scaffold budget and a cleanup phase with a sweep order over the interior volume",
+  "Both block_hit_rate and view_hit_rate snapshot series are recorded, and every divergence between them triggers a logged stray-block search",
+  "Stray/occluding blocks are tracked by identity (coordinate + block id) when found and shown removed in a later snapshot",
+  "The final verify pass (both metrics at 1.0 in data/score.json) ran before the server was torn down, and the teardown is in the run log"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

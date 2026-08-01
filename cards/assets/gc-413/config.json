@@ -1,0 +1,94 @@
+{
+ "card": "gc-413",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3"
+   ],
+   "min_bytes": 500,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-413/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-413/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-413/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-413/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-413/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-413/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-413/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 11,
+   "name": "defect_suite_green",
+   "path": "assets/gc-413/test_defects.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 3,
+   "name": "comparison_budget_met",
+   "path": "assets/gc-413/test_perf.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 8,
+   "name": "feature_suite_green",
+   "path": "assets/gc-413/test_feature.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_field_len": 10,
+   "name": "failure_identities_ledgered",
+   "path": "work/gc-413/ledger.jsonl",
+   "required_ids": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05"
+   ],
+   "type": "ledger"
+  },
+  {
+   "min_lines": 3,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-413/runs.log",
+   "stages": [
+    1,
+    2,
+    3
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-413/SPEC.md": "ea39c8317dd490d383ec7427dc8f0c72ee050b525a80e02c4d4d3bd7a2cbc763",
+  "assets/gc-413/starter/textindex.py": "33a95ba3203c053858da6ff218aa1b1e3966fab0ea4d28c0a1b94965ad9bf5ae",
+  "assets/gc-413/test_defects.py": "a32098fd75c423e00cf348cd35e96511f07ec80e3e0d04d57efc709ee86f79ca",
+  "assets/gc-413/test_feature.py": "f3f68c2ed83dbdba910ae2f989cfe99ac97a4bcb93998a19a141a9a5e1fbe264",
+  "assets/gc-413/test_perf.py": "06f82094965039fe3f0f96da389ffc765f15c67687363f93416b8036af0b0b07"
+ }
+}

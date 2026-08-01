@@ -1,0 +1,31 @@
+{
+ "id": "gc-423",
+ "title": "Drive kill rate to 0.85 on 21 sealed interval-arithmetic mutants",
+ "category": "mutation_testing",
+ "goal": "assets/gc-423/target/interval.py implements closed-interval arithmetic (merge, intersect, clip, gaps, coverage). assets/gc-423/mutants.jsonl seals 21 single-site mutants spanning boundary flips, operand swaps, and pipeline shortcuts. Build a unittest suite under work/gc-423/tests/ (>=16 tests, green on the pristine module) whose kill rate over the sealed set reaches 0.85, iterating strengthen-and-re-sweep rounds on survivors. File an honest work/gc-423/kill_report.json naming the exact mutant ids killed; the grader recomputes the kill set and disqualifies any mismatch in either direction, so guessing instead of running the harness is fatal.",
+ "horizon": "1w",
+ "budget_usd": 15,
+ "resources": [
+  "files under assets/gc-423/ (target/interval.py, mutants.jsonl sealed mutant set, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python3 assets/gc-423/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.85,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/gc-423/plan.md (>=200 bytes) groups the sealed mutants by site and names the intended killer test per group",
+  "baseline green run on the pristine module executed before any mutant sweep",
+  "at least one full mutant sweep actually ran; kill_report.json lists killed mutant identities matching recomputation exactly",
+  "survivor list from each sweep drives the next test-strengthening iteration (RED evidence kept, not scrubbed)",
+  "sealed target module and mutant list stay byte-identical (grader hash-checks)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "robustness",
+ "contamination_risk": "low"
+}

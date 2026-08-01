@@ -1,0 +1,37 @@
+{
+ "id": "gc-315",
+ "title": "Generalize across 8 repositories on a sealed 40-instance set",
+ "category": "swe_bench",
+ "goal": "Run a week-long campaign over the sealed 40-instance set in assets/gc-315/instances.txt, which spans 8 GitHub organizations (django, sympy, matplotlib, scikit-learn, pytest-dev, sphinx-doc, astropy, pydata). Submit exactly one prediction per instance to runs/gc-315/predictions.jsonl, evaluate with the pinned harness, and copy the report to runs/gc-315/report.json. The sealed grader requires at least 10 resolved instances AND resolved coverage of at least 5 distinct organizations, so a django-only strategy fails: you must decompose per-repo setup work, verify intermediate results per organization, and re-allocate budget when a repo family stalls.",
+ "horizon": "1w",
+ "budget_usd": 60,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-315/instances.txt (sealed)",
+  "assets/gc-315/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-315/grade.py",
+   "metric": "multirepo_resolved",
+   "threshold": 10,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-315/plan.md maps instances to repo families with a per-family budget and a mid-week checkpoint criterion.",
+  "Per-family verification actually ran: at least one harness or local test invocation log exists for every organization attempted.",
+  "Unresolved instances are tracked by identity with per-instance cause in runs/gc-315/triage.md, grouped by organization.",
+  "runs/gc-315/cost_log.json records spend per organization, including families that produced zero resolves.",
+  "A recorded re-plan exists: after the first full evaluation, the log shows which families were dropped or reinforced and why."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "public_gold_exists"
+}

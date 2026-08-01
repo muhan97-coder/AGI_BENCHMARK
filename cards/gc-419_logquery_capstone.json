@@ -1,0 +1,46 @@
+{
+ "id": "gc-419",
+ "title": "Run the logquery capstone: build on logfmt, kill 18/20 mutants, aggregate, prove the CLI three ways",
+ "category": "campaign",
+ "goal": "The band capstone chains four stages over a log-analysis stack built on the shipped sealed logfmt parser. Stage 1 implements loading and typed filtering on top of the sealed parser; stage 2 hardens that dependency by killing at least 18 of 20 sealed logfmt mutants (quote escapes, flag keys, duplicate-key and empty-value semantics hide the stubborn survivors); stage 3 adds aggregations with exact rounding and ordering contracts; stage 4 ships a CLI proven three independent ways - byte-exact sealed goldens, a grader-executed determinism double-run, and a probe log generated fresh at grading time and checked against the grader's internal reference, so memorizing goldens cannot pass. A frozen plan, four hash-chained markers, an 8-entry run journal, and an honest cost record are graded with final state as one campaign_score.",
+ "horizon": "1m",
+ "budget_usd": 65,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-419/SPEC.md (module, mutation, and CLI contracts + artifact contract)",
+  "assets/gc-419/logfmt.py (sealed parser) + assets/gc-419/mutants/ (20 sealed mutants)",
+  "assets/gc-419/sample.log, expected_countby.txt, expected_stats.txt (sealed goldens)",
+  "assets/gc-419/test_stage1.py, test_features.py, test_cli.py (sealed suites)",
+  "assets/gc-419/grade.py + assets/gc-419/config.json (sealed campaign grader with probe generator)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-419/grade.py",
+   "metric": "campaign_score",
+   "threshold": 12,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen four-stage plan predates code and survives the campaign unmodified, proven by the sha256 chain plan -> stage1 -> ... -> stage4.",
+  "Kill-test work is behavioral and identity-driven: no source introspection (grader-enforced), and runs.log stage-2 entries show the kill count climbing across at least two grading attempts.",
+  "runs.log carries at least 8 honest entries spanning all four stages, including RED runs with their real failed counts.",
+  "The CLI is proven against unseen data: the grader-generated probe log must reproduce its reference count-by output exactly, on top of byte-exact goldens and an identical double-run.",
+  "cost.json reports honest llm_usd and grader_runs for the whole campaign; earlier suites are re-run at the end to catch late regressions."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [],
+  "sealed": [
+   "expected_countby.txt",
+   "expected_stats.txt"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

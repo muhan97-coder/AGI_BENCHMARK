@@ -1,0 +1,10 @@
+astropy__astropy-12907
+django__django-13447
+matplotlib__matplotlib-24149
+mwaskom__seaborn-2848
+pallets__flask-4992
+psf__requests-1963
+pydata__xarray-4094
+pylint-dev__pylint-7114
+sphinx-doc__sphinx-8595
+sympy__sympy-21055

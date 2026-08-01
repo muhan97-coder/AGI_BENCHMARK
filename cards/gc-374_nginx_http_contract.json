@@ -1,0 +1,35 @@
+{
+ "id": "gc-374",
+ "title": "Fix and extend an nginx config until the sealed 8-point HTTP contract passes",
+ "category": "infra_ops",
+ "goal": "The starter config assets/gc-374/conf/nginx.conf does not even parse, and once it parses it satisfies almost none of the sealed HTTP contract: correct root, a /health endpoint returning exactly 'ok', a 301 redirect from /old to /new, proper 404 behavior, an X-Frame-Options DENY header, and gzip negotiation. Work through the contract incrementally: validate syntax (nginx -t), start the container, probe each endpoint yourself, fix, and re-run the sealed check after each change until all 8 checks pass. Only conf/nginx.conf may be edited; the html content and check.sh are sealed.",
+ "horizon": "1d",
+ "budget_usd": 4,
+ "resources": [
+  "docker image nginx:1.25.4",
+  "docker image curlimages/curl:8.5.0",
+  "assets/gc-374/conf/nginx.conf (deliverable, editable)",
+  "assets/gc-374/html/ (sealed site content)",
+  "assets/gc-374/check.sh (sealed contract check, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-374/check.sh",
+   "metric": "checks_passed",
+   "threshold": 8,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact maps each of the 8 contract points to the nginx directive(s) that will satisfy it, written before editing",
+  "nginx -t (or equivalent container start log) is actually run and captured after every config edit",
+  "Each failing contract point is tracked by identity (e.g. 'C7 x-frame-options missing'), not as a pass count alone",
+  "The sealed check is re-run after each fix; the full checks_passed trajectory including red runs is logged",
+  "No edits to assets/gc-374/check.sh or the html content"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

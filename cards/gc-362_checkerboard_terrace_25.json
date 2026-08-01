@@ -1,0 +1,37 @@
+{
+ "id": "gc-362",
+ "title": "Lay the 5x5 checkerboard terrace with zero pattern errors",
+ "category": "minecraft_build",
+ "goal": "Reproduce the sealed 25-block Checkerboard Terrace (alternating stone_bricks and oak_planks) on a fresh judged server. The pattern makes every off-by-one placement visible to the judger but easy for a bot to commit, so the loop matters: plan the parity mapping from blueprint coordinates to the world coordinates in data/map.json, place in a verifiable order, poll the judger snapshots, and repair the exact cells that scan wrong before re-verifying. The card is only GREEN when the judger's own score.json records block_hit_rate 1.0.",
+ "horizon": "1d",
+ "budget_usd": 5,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-362/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-362/blueprint.json (sealed blueprint array)",
+  "assets/gc-362/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-362/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-362/MARBLE/marble/result/gc-362/score.json'));print(json.dumps({'block_hit_rate':float(d['block_hit_rate']),'view_hit_rate':float(d['view_hit_rate']),'efficiency':float(d['efficiency'])}))\"",
+   "metric": "block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A parity map (world coordinate -> expected material) is derived from data/map.json and saved as a plan artifact before building",
+  "At least two verify passes over judger snapshots ran during the build, with the failing cell identities listed each time",
+  "Every repaired cell is named (coordinate, wrong material -> right material) and confirmed fixed in a subsequent snapshot",
+  "docker compose lifecycle (up, down after scoring) is visible in the run log; no pre-existing server is assumed"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

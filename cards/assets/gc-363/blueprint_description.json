@@ -1,0 +1,9 @@
+{
+ "task_0": [
+  "Structure 'Furnace Kiln Row': 28 blocks, footprint x=0..4, z=0..2, height y=0..2.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (15 blocks): (0,0)stone_bricks (0,1)stone_bricks (0,2)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (1,2)stone_bricks (2,0)stone_bricks (2,1)stone_bricks (2,2)stone_bricks (3,0)stone_bricks (3,1)stone_bricks (3,2)stone_bricks (4,0)stone_bricks (4,1)stone_bricks (4,2)stone_bricks",
+  "Layer y=1 (8 blocks): (0,0)stone_bricks (0,1)furnace/W (0,2)stone_bricks (2,0)furnace/N (2,2)furnace/S (4,0)stone_bricks (4,1)furnace/E (4,2)stone_bricks",
+  "Layer y=2 (5 blocks): (1,1)oak_log/x (2,0)oak_log/z (2,1)oak_log/x (2,2)oak_log/z (3,1)oak_log/x"
+ ]
+}

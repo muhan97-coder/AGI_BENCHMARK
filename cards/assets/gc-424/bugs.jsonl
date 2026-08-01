@@ -1,0 +1,5 @@
+{"id": "b1", "file": "ledgerlib.py", "old": "            total += e[\"debit\"] - e[\"credit\"]\n    return total", "new": "            total += e[\"credit\"] - e[\"debit\"]\n    return total"}
+{"id": "b2", "file": "ledgerlib.py", "old": "    if debit == 0 and credit == 0:", "new": "    if debit == 0 and credit < 0:"}
+{"id": "b3", "file": "ledgerlib.py", "old": "    return debits - credits", "new": "    return debits + credits"}
+{"id": "b4", "file": "ledgerlib.py", "old": "    new = list(journal)", "new": "    new = journal"}
+{"id": "b5", "file": "ledgerlib.py", "old": "        amt = max(e[\"debit\"], e[\"credit\"])", "new": "        amt = min(e[\"debit\"], e[\"credit\"])"}

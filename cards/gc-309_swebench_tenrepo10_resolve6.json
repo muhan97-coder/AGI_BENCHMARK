@@ -1,0 +1,35 @@
+{
+ "id": "gc-309",
+ "title": "Resolve 6 of 10 instances spanning ten different repos",
+ "category": "swe_bench",
+ "goal": "The sealed list in assets/gc-309/instances.txt contains exactly one instance from each of ten different projects; resolve at least six under the docker harness. Because every instance means a new codebase, the card rewards a repeatable per-repo workflow - orient, reproduce, patch, harness-verify, record - rather than accumulated familiarity with one project. Plan the order to front-load cheap wins, keep an explicit budget ledger per repo, and after each unresolved verdict decide (and log) whether to iterate or move on, revisiting parked instances in a final recovery pass.",
+ "horizon": "1m",
+ "budget_usd": 75.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-309/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-309/instances.txt (sealed instance-id list, one id per line)",
+  "output convention: runs/gc-309/predictions.jsonl with model_name_or_path set exactly to 'gc-309', so the harness report is written to gc-309.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Lite --split test --predictions_path runs/gc-309/predictions.jsonl --instance_ids $(cat assets/gc-309/instances.txt) --max_workers 4 --report_dir . --run_id gc-309 && python3 -c \"import json; r=json.load(open('gc-309.gc-309.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 6,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-309/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-309/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-309/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: at least one instance shows an unresolved harness verdict followed by a revised patch and a later resolved verdict, visible in run artifacts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_small",
+ "contamination_risk": "public_gold_exists"
+}

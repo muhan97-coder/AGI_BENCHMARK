@@ -1,0 +1,35 @@
+{
+ "id": "gc-302",
+ "title": "Triage a 3-instance batch and resolve at least one",
+ "category": "swe_bench",
+ "goal": "Given three sealed instances from three different repos (assets/gc-302/instances.txt), triage all three, rank them by expected tractability with a one-line rationale each, and work them in that order until at least one is resolved by the docker harness. Every attempted instance must get a local harness verification before you move on, and abandoned attempts must be closed out with a recorded failure reason. The point is disciplined ordering and honest intermediate verification, not a lucky one-shot patch.",
+ "horizon": "1d",
+ "budget_usd": 10.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-302/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-302/instances.txt (sealed instance-id list, one id per line)",
+  "output convention: runs/gc-302/predictions.jsonl with model_name_or_path set exactly to 'gc-302', so the harness report is written to gc-302.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Lite --split test --predictions_path runs/gc-302/predictions.jsonl --instance_ids $(cat assets/gc-302/instances.txt) --max_workers 2 --report_dir . --run_id gc-302 && python3 -c \"import json; r=json.load(open('gc-302.gc-302.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 1,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-302/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-302/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-302/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if any harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_small",
+ "contamination_risk": "public_gold_exists"
+}

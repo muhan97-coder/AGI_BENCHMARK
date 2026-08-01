@@ -1,0 +1,50 @@
+{
+ "id": "gc-387",
+ "title": "Reproduce a sealed OLS decomposition on a bundled xy slice",
+ "category": "data_repro",
+ "goal": "Fit the bundled 640-point slice assets/gc-387/data.csv with closed-form simple OLS and reproduce the sealed decomposition -- slope, intercept, SSE/SSR/SST, residual std with n-2 degrees of freedom, residual extremes, and a fixed-point prediction -- per assets/gc-387/spec.md, into artifacts/gc-387/stats.json. Before grading, validate intermediates with at least one independent cross-check (for example, confirm r_squared equals both 1 - SSE/SST and pearson_r squared, and SSR + SSE equals SST). Then run python3 assets/gc-387/grade.py and drive every named mismatch to zero across repeated verify cycles.",
+ "horizon": "1w",
+ "budget_usd": 10.0,
+ "resources": [
+  "assets/gc-387/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-387/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-387/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-387/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-387/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "pypi:scipy==1.13.1 (optional cross-check library)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-387/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "Intermediate self-verification commands ran, with captured output, before the first grader invocation.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

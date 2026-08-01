@@ -1,0 +1,10 @@
+{
+ "task_0": [
+  "Structure 'Timber and Stone Lodge': 26 blocks, footprint x=0..2, z=0..2, height y=0..3.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (9 blocks): (0,0)stone_bricks (0,1)stone_bricks (0,2)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (1,2)stone_bricks (2,0)stone_bricks (2,1)stone_bricks (2,2)stone_bricks",
+  "Layer y=1 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (2,0)oak_log/y (2,2)oak_log/y",
+  "Layer y=2 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (2,0)oak_log/y (2,2)oak_log/y",
+  "Layer y=3 (9 blocks): (0,0)oak_planks (0,1)oak_planks (0,2)oak_planks (1,0)oak_planks (1,1)oak_planks (1,2)oak_planks (2,0)oak_planks (2,1)oak_planks (2,2)oak_planks"
+ ]
+}

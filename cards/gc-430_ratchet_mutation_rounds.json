@@ -1,0 +1,31 @@
+{
+ "id": "gc-430",
+ "title": "Ratchet a test suite through four sealed-mutant rounds to a 0.90 kill rate",
+ "category": "mutation_testing",
+ "goal": "assets/gc-430/target/datex.py is a from-scratch Gregorian date-arithmetic module and assets/gc-430/mutants.jsonl seals 36 single-site mutants (leap rules, ordinal math, ISO weeks, parsing, clamping). Run a four-round strengthening campaign leaving a snapshot per round under work/gc-430/rounds/r1..r4/: each round's suite must stay green on the pristine module, extend the previous round's test files byte-identically (append-only ratchet), strictly enlarge the recomputed kill set, and file a round report naming the exact mutant ids killed. Round 4 must reach a 0.90 kill rate. Every report is recomputed from scratch at grading time: a single over- or under-claimed mutant id in any round, a rewritten historical test file, or a stagnant round voids the run.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "files under assets/gc-430/ (target/datex.py, mutants.jsonl sealed 36-mutant set, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python3 assets/gc-430/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.9,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/gc-430/plan.md (>=250 bytes) commits to the four-round ratchet and maps mutant families to planned rounds before round 1",
+  "each round snapshot is a real intermediate state: green on pristine, test files of earlier rounds carried forward byte-identical, kill set strictly larger than the previous round",
+  "every round_report.json lists killed mutant identities (not counts) and matches the live recomputation exactly in both directions",
+  "survivor identities from each sweep visibly drive the next round's new tests; RED evidence is kept, not scrubbed",
+  "sealed target module and mutant list stay byte-identical (grader hash-checks both)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "robustness",
+ "contamination_risk": "low"
+}

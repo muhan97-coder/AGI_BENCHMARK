@@ -1,0 +1,37 @@
+{
+ "id": "gc-409",
+ "title": "Repair the seeded globlite matcher, then extend it with brace expansion",
+ "category": "campaign",
+ "goal": "Chain a repair stage into a feature stage on one module. The shipped starter glob matcher contains four seeded defects (B01..B04, identities discoverable from the sealed regression suite's test names); stage 1 fixes all four and records each in a machine-checked failure ledger (id, cause, fix). Stage 2 adds brace-expansion alternation per the spec while the regression suite stays green. A frozen plan, a sha256 marker chain proving stage order, and a JSON-lines run journal are graded alongside final state as one campaign_score.",
+ "horizon": "1d",
+ "budget_usd": 6,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-409/SPEC.md (behavior contract + artifact contract)",
+  "assets/gc-409/starter/globlite.py (seeded-defect starter, copy into work/gc-409/)",
+  "assets/gc-409/test_regress.py and assets/gc-409/test_feature.py (sealed suites)",
+  "assets/gc-409/grade.py + assets/gc-409/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-409/grade.py",
+   "metric": "campaign_score",
+   "threshold": 7,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan (work/gc-409/plan.md) predates stage 1 and is pinned by the sha256 marker chain plan -> stage1.json -> stage2.json.",
+  "Failures are tracked by identity, not count: ledger.jsonl carries B01..B04, each marked fixed with a non-trivial cause and fix description.",
+  "runs.log shows verification runs for both stages with honest passed/failed integers, including the initial RED runs against the seeded defects.",
+  "The feature stage does not regress the repair stage: the grader re-runs the regression suite after the feature suite.",
+  "Sealed assets (starter, suites, grader) are integrity-checked; any edit disqualifies the run."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

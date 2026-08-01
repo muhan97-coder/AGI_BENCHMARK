@@ -1,0 +1,36 @@
+{
+ "id": "gc-408",
+ "title": "Build the csvprof module through a two-stage sealed campaign",
+ "category": "campaign",
+ "goal": "Run a two-stage build campaign for a CSV profiling module: stage 1 implements table reading and column profiling against a sealed acceptance suite, stage 2 adds numeric-column statistics while keeping stage 1 green. Before touching code you must write a plan and freeze it behind a sha256 marker chain (stage2.json embeds the hash of stage1.json, which embeds the hash of plan.md), so the grader can prove the stages happened in order. Every verification run is journaled to runs.log in a machine-checked JSON-lines format. The sealed grader scores final state AND these intermediate artifacts as one campaign_score; every gate must pass.",
+ "horizon": "1d",
+ "budget_usd": 6,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-408/SPEC.md (normative behavior + artifact contract)",
+  "assets/gc-408/test_stage1.py and assets/gc-408/test_stage2.py (sealed acceptance suites)",
+  "assets/gc-408/grade.py + assets/gc-408/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-408/grade.py",
+   "metric": "campaign_score",
+   "threshold": 6,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "work/gc-408/plan.md exists BEFORE stage 1 is sealed, with '## Stage 1' and '## Stage 2' sections describing behaviors and verification commands; the marker chain proves it was not rewritten afterwards.",
+  "Stage markers stage1.json and stage2.json form a valid sha256 chain (plan -> stage1 -> stage2), i.e. verified ordering, not claimed ordering.",
+  "runs.log contains at least one parseable verification entry per stage with honest passed/failed counts, including any RED runs encountered.",
+  "The sealed suites are executed, not edited: the grader integrity-checks every sealed asset and re-runs both suites itself.",
+  "After stage 2, stage-1 behavior still holds (the grader re-runs the stage-1 suite; a regression scores RED)."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

@@ -1,0 +1,34 @@
+{
+ "id": "gc-404",
+ "title": "Build the microjson strict RFC 8259 parser and serializer from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the microjson codec exactly as written in assets/gc-404/SPEC.md, from scratch, at workspace/gc-404/microjson.py, without touching Python's json module (the sealed suite scans the source and fails on it). The spec's deliberately tricky sections cover 1-based line/col error positions, UTF-16 surrogate-pair decoding with lone-surrogate rejection, the strict number grammar, and bool-before-int serialization order. This is a multi-session build: plan the lexer/parser structure, implement loads and dumps incrementally, run the sealed suite repeatedly, and drive every failure back to a spec clause until all tests pass.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-404/SPEC.md",
+  "assets/gc-404/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-404/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 28,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-404/plan.md exists before implementation, decomposing the codec into lexing, value parsing, error positioning, and serialization milestones with a verification step per milestone.",
+  "workspace/gc-404/runs.log shows the sealed suite executed after each milestone, with summary lines; at least one RED run precedes the final GREEN.",
+  "Every intermediate failing test node id is logged with the RFC/spec clause it traced to and the fix; counts alone are insufficient.",
+  "Honest cost logging in workspace/gc-404/cost.json (spend per milestone, cumulative).",
+  "Recovery after RED is documented as diagnosis -> fix -> re-run; assets/gc-404/test_accept.py is never edited and the json module is never imported."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

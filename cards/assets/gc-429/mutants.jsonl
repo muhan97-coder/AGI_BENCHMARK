@@ -1,0 +1,18 @@
+{"id": "m01", "file": "orderbook.py", "old": "    if price <= 0 or qty <= 0:", "new": "    if price < 0 or qty <= 0:"}
+{"id": "m02", "file": "orderbook.py", "old": "        if (p < order[\"price\"]) if descending else (p > order[\"price\"]):", "new": "        if (p > order[\"price\"]) if descending else (p < order[\"price\"]):"}
+{"id": "m03", "file": "orderbook.py", "old": "    book[\"next_seq\"] += 1", "new": "    book[\"next_seq\"] += 2"}
+{"id": "m04", "file": "orderbook.py", "old": "                del levels[i]", "new": "                levels.pop()"}
+{"id": "m05", "file": "orderbook.py", "old": "    return book[\"bids\"][0][\"price\"] if book[\"bids\"] else None", "new": "    return book[\"bids\"][-1][\"price\"] if book[\"bids\"] else None"}
+{"id": "m06", "file": "orderbook.py", "old": "    return book[\"asks\"][0][\"price\"] if book[\"asks\"] else None", "new": "    return book[\"asks\"][-1][\"price\"] if book[\"asks\"] else None"}
+{"id": "m07", "file": "orderbook.py", "old": "    return a - b", "new": "    return b - a"}
+{"id": "m08", "file": "orderbook.py", "old": "    return (a + b) / 2", "new": "    return (a + b) // 2"}
+{"id": "m09", "file": "orderbook.py", "old": "    if b is None or a is None or b < a:", "new": "    if b is None or a is None or b <= a:"}
+{"id": "m10", "file": "orderbook.py", "old": "    qty = min(bid[\"qty\"], ask[\"qty\"])", "new": "    qty = max(bid[\"qty\"], ask[\"qty\"])"}
+{"id": "m11", "file": "orderbook.py", "old": "    trade = {\"price\": ask[\"price\"], \"qty\": qty,", "new": "    trade = {\"price\": bid[\"price\"], \"qty\": qty,"}
+{"id": "m12", "file": "orderbook.py", "old": "    bid[\"qty\"] -= qty", "new": "    bid[\"qty\"] = qty"}
+{"id": "m13", "file": "orderbook.py", "old": "    if bid[\"qty\"] == 0:", "new": "    if bid[\"qty\"] >= 0:"}
+{"id": "m14", "file": "orderbook.py", "old": "    while match_once(book) is not None:", "new": "    if match_once(book) is not None:"}
+{"id": "m15", "file": "orderbook.py", "old": "        if rows and rows[-1][0] == o[\"price\"]:", "new": "        if rows and rows[-1][0] != o[\"price\"]:"}
+{"id": "m16", "file": "orderbook.py", "old": "            if len(rows) == levels_n:", "new": "            if len(rows) > levels_n:"}
+{"id": "m17", "file": "orderbook.py", "old": "    return sum(t[\"price\"] * t[\"qty\"] for t in trades) / total_qty", "new": "    return sum(t[\"price\"] * t[\"qty\"] for t in trades) // total_qty"}
+{"id": "m18", "file": "orderbook.py", "old": "    return sum(o[\"qty\"] for o in book[\"bids\"]) - sum(o[\"qty\"] for o in book[\"asks\"])", "new": "    return sum(o[\"qty\"] for o in book[\"bids\"]) + sum(o[\"qty\"] for o in book[\"asks\"])"}

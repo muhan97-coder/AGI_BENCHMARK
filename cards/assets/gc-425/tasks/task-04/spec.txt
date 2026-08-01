@@ -1,0 +1,2 @@
+Output a single line: the number of vowels (aeiou, case-insensitive) in input.txt.
+Output file: work/gc-425/out/task-04.txt

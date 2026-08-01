@@ -1,0 +1,37 @@
+{
+ "id": "gc-360",
+ "title": "Reproduce the sealed stone podium exactly on a fresh judged server",
+ "category": "minecraft_build",
+ "goal": "Bring up a fresh Minecraft 1.19.2 server from the pinned compose file, wire the MARBLE build_judger pipeline at the pinned sha to it, and have one mineflayer bot reproduce the sealed 10-block Stone Podium blueprint exactly on the judged plot. The judger shifts the blueprint into world space, stocks the material chest, and re-scans the world every ~10 seconds; you must plan the placement order first, poll its snapshot feed to verify progress, repair any mismatched placement it reveals, and re-verify until block_hit_rate reaches 1.0. Keep the honest action and token ledgers the judger requires, or it cannot write the final score.json at all.",
+ "horizon": "1d",
+ "budget_usd": 4,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-360/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-360/blueprint.json (sealed blueprint array)",
+  "assets/gc-360/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-360/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;d=json.load(open('work/gc-360/MARBLE/marble/result/gc-360/score.json'));print(json.dumps({'block_hit_rate':float(d['block_hit_rate']),'view_hit_rate':float(d['view_hit_rate']),'efficiency':float(d['efficiency'])}))\"",
+   "metric": "block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A placement plan artifact (build order + material manifest + chest withdrawal plan) exists before the first block is placed",
+  "docker compose up and the judger launch command appear in the run log before any builder bot connects, and load_status.cache is polled to 'loaded' before building starts",
+  "Judger snapshots in data/score.json are polled and recorded; every sub-1.0 reading is followed by the identities of mismatched coordinates (expected vs observed block), not just a count",
+  "data/action_log.json and data/tokens.json are appended during the run and reflect real bot activity and LLM spend, not a single backfilled entry"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

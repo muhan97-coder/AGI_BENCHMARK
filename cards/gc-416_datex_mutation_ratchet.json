@@ -1,0 +1,37 @@
+{
+ "id": "gc-416",
+ "title": "Build datex from pure arithmetic, kill 18/20 calweeks mutants, extend, and pass the audit seal",
+ "category": "campaign",
+ "goal": "A four-stage month-scale campaign. Stage 1 implements a proleptic-Gregorian date library for years 1..9999 with the standard date modules banned in the implementation file (the grader scans import lines), pinned to sealed ordinal and weekday anchors. Stage 2 hardens the shipped ISO-week library calweeks by killing at least 18 of 20 sealed mutants - ISO week-53 and year-boundary rules make the last few survivors genuinely hard and demand survivor-by-survivor triage. Stage 3 adds recurrence helpers without regressing stage 1; stage 4 is an audit seal over a complete run journal, an honest cost record, and a 60-second total suite runtime budget. Everything - including the four-marker sha256 chain proving stage order - is scored as one campaign_score.",
+ "horizon": "1m",
+ "budget_usd": 55,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-416/SPEC.md (API contract, import ban, artifact contract)",
+  "assets/gc-416/calweeks.py (sealed mutation target) + assets/gc-416/mutants/ (20 sealed mutants)",
+  "assets/gc-416/test_stage1.py and assets/gc-416/test_stage3.py (sealed suites)",
+  "assets/gc-416/grade.py + assets/gc-416/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-416/grade.py",
+   "metric": "campaign_score",
+   "threshold": 12,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen four-stage plan predates implementation and survives unmodified (sha256 chain across plan and four stage markers).",
+  "The implementation is genuinely arithmetic: the grader rejects datetime/calendar/time/zoneinfo/dateutil imports in work/gc-416/datex.py.",
+  "Mutation work shows survivor triage: runs.log has at least 8 honest entries across stages, with stage-2 entries reflecting climbing kill counts rather than one opaque attempt.",
+  "Recurrence features do not regress the core: the grader re-runs the stage-1 suite after stage 3.",
+  "The audit seal (stage4 marker) is only valid on top of a complete journal, an honest cost.json, and suites inside the runtime budget - process evidence is graded, not narrated."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

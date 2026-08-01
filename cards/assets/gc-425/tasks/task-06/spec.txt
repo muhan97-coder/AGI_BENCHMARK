@@ -1,0 +1,2 @@
+Output the first 20 Fibonacci numbers (starting 0, 1) comma-separated on one line.
+Output file: work/gc-425/out/task-06.txt

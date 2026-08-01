@@ -1,0 +1,62 @@
+{
+ "card": "gc-408",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2"
+   ],
+   "min_bytes": 400,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-408/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-408/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-408/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-408/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-408/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 11,
+   "name": "stage1_suite_green",
+   "path": "assets/gc-408/test_stage1.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 12,
+   "name": "stage2_suite_green",
+   "path": "assets/gc-408/test_stage2.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 2,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-408/runs.log",
+   "stages": [
+    1,
+    2
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-408/SPEC.md": "27225348d8b7eb3224f837e7b433b702c3392ff2b42daac2f7438829d84f18cd",
+  "assets/gc-408/test_stage1.py": "64b7a0f2e8ba94c2340e790561018a8dcb5a6e0244a867ec42541f671831aa47",
+  "assets/gc-408/test_stage2.py": "bd159095e111aa0093be3db6e6476eb3ac906e28916c8f0add0386887d4a60e4"
+ }
+}

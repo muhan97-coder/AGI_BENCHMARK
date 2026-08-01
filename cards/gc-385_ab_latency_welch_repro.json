@@ -1,0 +1,49 @@
+{
+ "id": "gc-385",
+ "title": "Reproduce sealed Welch A/B statistics for a latency experiment",
+ "category": "data_repro",
+ "goal": "Reproduce the sealed two-group analysis of assets/gc-385/data.csv (latency experiment, groups A and B): means, spreads, pooled effect size, and Welch statistics, exactly as defined in assets/gc-385/spec.md, written to artifacts/gc-385/stats.json. The sealed values follow one specific convention set (sample std, B-minus-A direction, Welch rather than Student), so verify each of your formulas against the spec instead of trusting library defaults. Iterate grader run -> named mismatches -> targeted fixes until stats_matched reaches 12.",
+ "horizon": "1d",
+ "budget_usd": 4.0,
+ "resources": [
+  "assets/gc-385/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-385/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-385/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-385/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-385/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "pypi:scipy==1.13.1 (optional cross-check library)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-385/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

@@ -1,0 +1,37 @@
+{
+ "id": "gc-413",
+ "title": "Rescue the textindex legacy module: repair, meet the comparison budget, extend",
+ "category": "campaign",
+ "goal": "A three-stage legacy-rescue campaign on one inverted-index module. Stage 1 repairs five seeded defects (D01..D05, identities in the sealed suite's test names) and records each in a machine-checked failure ledger. Stage 2 is algorithmic: the sealed perf suite counts rich comparisons via instrumented lookup keys, and the linear-scan starter measures ~100k against a sealed budget of 2500, forcing an ordered-lookup rewrite that must not break stage 1. Stage 3 adds prefix search. A frozen plan, sha256 marker chain, ledger, and run journal are graded with final state as one campaign_score.",
+ "horizon": "1w",
+ "budget_usd": 22,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-413/SPEC.md (behavior + representation contract, artifact contract)",
+  "assets/gc-413/starter/textindex.py (seeded-defect starter, copy into work/gc-413/)",
+  "assets/gc-413/test_defects.py, assets/gc-413/test_perf.py, assets/gc-413/test_feature.py (sealed suites)",
+  "assets/gc-413/grade.py + assets/gc-413/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-413/grade.py",
+   "metric": "campaign_score",
+   "threshold": 9,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan sequences repair before optimization before features, pinned by the sha256 chain plan -> stage1 -> stage2 -> stage3.",
+  "All five defect identities appear in ledger.jsonl with status fixed and substantive cause/fix fields - identities, not counts.",
+  "runs.log shows per-stage verification including the initial RED perf runs with their measured comparison counts reflected as failed entries.",
+  "The perf rewrite preserves behavior: defect and feature suites are re-run by the grader after stage 2 and stage 3.",
+  "Sealed suites and the starter are integrity-checked; editing them disqualifies."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

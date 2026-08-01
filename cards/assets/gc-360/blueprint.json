@@ -1,0 +1,102 @@
+[
+ {
+  "name": "Stone Podium",
+  "size": [
+   2,
+   1,
+   2
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     1,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   }
+  ]
+ }
+]

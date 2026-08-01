@@ -1,0 +1,112 @@
+{
+ "card": "gc-418",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3",
+    "## Stage 4"
+   ],
+   "min_bytes": 700,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-418/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-418/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-418/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-418/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-418/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-418/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-418/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-418/stage4.json",
+   "name": "stage4_marker_chained",
+   "prev": "work/gc-418/stage3.json",
+   "prev_key": "prev_sha256",
+   "stage": 4,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 14,
+   "name": "stage1_suite_green",
+   "path": "assets/gc-418/test_stage1.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 10,
+   "name": "stage2_suite_green",
+   "path": "assets/gc-418/test_stage2.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 10,
+   "name": "stage3_suite_green",
+   "path": "assets/gc-418/test_stage3.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 9,
+   "name": "stage4_suite_green",
+   "path": "assets/gc-418/test_stage4.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 8,
+   "min_per_stage": 2,
+   "name": "run_journal_complete",
+   "path": "work/gc-418/runs.log",
+   "stages": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "type": "runslog"
+  },
+  {
+   "fields": [
+    "llm_usd",
+    "grader_runs"
+   ],
+   "name": "honest_cost_record",
+   "path": "work/gc-418/cost.json",
+   "type": "cost"
+  },
+  {
+   "max_total_suite_seconds": 60,
+   "name": "suite_runtime_budget",
+   "type": "runtime"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-418/SPEC.md": "545825da33edd8d0a383fa5b980a02a05c6a82a2d65567c433af589e525795aa",
+  "assets/gc-418/test_stage1.py": "8bfe8bdee19087c371937565c712517a0563bad97995a75a45d47ca6b40d7ed8",
+  "assets/gc-418/test_stage2.py": "b1687b522b8b1094fd73da49c5c223ec7437b7b15a63a54f0007e0b469a9baa6",
+  "assets/gc-418/test_stage3.py": "4111784d6e0d6d1eea6278b45a0dff52f58f1c3658ca744532bd879e80e6f51e",
+  "assets/gc-418/test_stage4.py": "be63f688fa22c42c50d55d140aaf5b4e493e0cd062484acff96a932d0a518b84"
+ }
+}

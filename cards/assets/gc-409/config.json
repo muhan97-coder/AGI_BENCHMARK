@@ -1,0 +1,75 @@
+{
+ "card": "gc-409",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2"
+   ],
+   "min_bytes": 400,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-409/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-409/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-409/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-409/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-409/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 12,
+   "name": "regression_suite_green",
+   "path": "assets/gc-409/test_regress.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 8,
+   "name": "feature_suite_green",
+   "path": "assets/gc-409/test_feature.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_field_len": 10,
+   "name": "failure_identities_ledgered",
+   "path": "work/gc-409/ledger.jsonl",
+   "required_ids": [
+    "B01",
+    "B02",
+    "B03",
+    "B04"
+   ],
+   "type": "ledger"
+  },
+  {
+   "min_lines": 2,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-409/runs.log",
+   "stages": [
+    1,
+    2
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-409/SPEC.md": "e443d9c62a5eed8d4c7462bd69ea291c62c25128f408046f87d2ee9fb0e3a5cc",
+  "assets/gc-409/starter/globlite.py": "30d2f35b86e8e274b29840e9b436731167acedbe4dc6b4c00277508d6693f76c",
+  "assets/gc-409/test_feature.py": "4da0aafdb60fd694dbcfd8795c67e1043d6ac92e508d92f2d037af30ee15721f",
+  "assets/gc-409/test_regress.py": "afe34baafa02b4a3f9d8d56288bfe7fbf6be451357bc500761e91e227d82b000"
+ }
+}

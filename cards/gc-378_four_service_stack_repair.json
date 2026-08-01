@@ -1,0 +1,36 @@
+{
+ "id": "gc-378",
+ "title": "Repair a 4-service compose stack (nginx, redis, postgres, worker) to 10/10 sealed checks",
+ "category": "infra_ops",
+ "goal": "The stack in assets/gc-378/stack/ wires nginx, redis, postgres, and a heartbeat worker together, and it is broken in at least six distinct ways spanning image pinning, port exposure policy, database bootstrap, cross-service hostnames, mount paths, and restart policy. The sealed check verifies 10 properties including things that must NOT happen (redis must not be published to the host) and liveness that only emerges when the wiring is right (a fresh worker heartbeat key inside redis, the seeded items table under user app/appdb). Debug the services in dependency order, verify each fix with your own compose/exec probes, and re-run the sealed check between fixes; note that postgres only applies init scripts on a fresh data directory, so re-verification requires clean recreation. Only files under assets/gc-378/stack/ may be edited, except init.sql which is sealed.",
+ "horizon": "1w",
+ "budget_usd": 15,
+ "resources": [
+  "docker image nginx:1.25.4",
+  "docker image redis:7.2.4",
+  "docker image postgres:12.22",
+  "docker image curlimages/curl:8.5.0",
+  "assets/gc-378/stack/ (broken starter stack, editable except init.sql)",
+  "assets/gc-378/check.sh (sealed healthcheck, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-378/check.sh",
+   "metric": "checks_passed",
+   "threshold": 10,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A defect inventory artifact is produced before repairs, mapping each suspected defect to the sealed check it should unblock",
+  "Each repair is verified by an actually-run probe (docker compose logs/exec/port, psql, redis-cli) whose output is captured before moving on",
+  "Failure identities are tracked by name (e.g. 'init.sql mounted to wrong entrypoint dir', 'worker resolves wrong hostname'), not as counts",
+  "Re-verification accounts for postgres init semantics: at least one full down/up cycle with a clean volume is logged after db fixes",
+  "The checks_passed trajectory across sealed runs is logged honestly, including regressions caused by a fix"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

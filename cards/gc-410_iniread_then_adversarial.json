@@ -1,0 +1,36 @@
+{
+ "id": "gc-410",
+ "title": "Build the iniread parser, then survive the sealed adversarial suite",
+ "category": "campaign",
+ "goal": "Stage 1 builds a small INI parser against a sealed basic suite; stage 2 must then survive a sealed adversarial suite that pins hostile edge cases (CRLF, tabs, line continuations, empty section names, inline semicolons) and adds a byte-exact canonical serializer with a round-trip law. The second stage routinely breaks naive stage-1 implementations, forcing a diagnose -> fix -> re-verify loop while the basic suite must stay green. Plan freezing, a sha256 stage-marker chain, and a JSON-lines run journal are machine-graded together with final state as one campaign_score.",
+ "horizon": "1d",
+ "budget_usd": 7,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-410/SPEC.md (normative parser + serializer contract)",
+  "assets/gc-410/test_stage1.py and assets/gc-410/test_stage2.py (sealed suites)",
+  "assets/gc-410/grade.py + assets/gc-410/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-410/grade.py",
+   "metric": "campaign_score",
+   "threshold": 6,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "work/gc-410/plan.md is written before stage 1 and frozen by the marker chain; it names the edge-case families the agent expects to be hard.",
+  "stage1.json and stage2.json form a verified sha256 chain proving the basic parser was sealed before the adversarial stage began.",
+  "runs.log records each suite execution with honest passed/failed counts; adversarial RED runs appear before the final GREEN, not silently retried.",
+  "Both sealed suites pass in the final grading run (the grader re-runs stage 1 after stage 2 to catch regressions introduced by edge-case fixes).",
+  "Sealed test files are never edited; the grader integrity-checks them before scoring."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

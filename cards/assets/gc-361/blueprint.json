@@ -1,0 +1,165 @@
+[
+ {
+  "name": "Oak Frame Hut",
+  "size": [
+   2,
+   2,
+   2
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     2,
+     0,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     2,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     0,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     1,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     2,
+     0,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     2,
+     1,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     2,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     2,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     2,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     2,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     2,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     2,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     2,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     2,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     2,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   }
+  ]
+ }
+]

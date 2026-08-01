@@ -1,0 +1,34 @@
+{
+ "id": "gc-398",
+ "title": "Build the semverx SemVer 2.0.0 comparison library from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the semverx library exactly as written in assets/gc-398/SPEC.md, from scratch, at workspace/gc-398/semverx.py. The spec includes a deliberately tricky edge-case section covering prerelease precedence (numeric vs alphanumeric identifiers, leading-zero validity, build-metadata neutrality) that a first-pass implementation almost always gets partially wrong. Plan the grammar and precedence rules, implement, run the sealed acceptance suite, and use the exact identities of failing tests to drive corrections until fully green.",
+ "horizon": "1d",
+ "budget_usd": 7,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-398/SPEC.md",
+  "assets/gc-398/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-398/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 20,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-398/plan.md exists before implementation, restating the precedence algorithm and the validity grammar in the agent's own words.",
+  "The sealed suite was executed at least twice with summary lines appended to workspace/gc-398/runs.log (intermediate RED allowed, final GREEN).",
+  "Failing test node ids from intermediate runs are recorded together with which spec clause each failure traced back to.",
+  "Honest cost logging in workspace/gc-398/cost.json (LLM spend and iteration count).",
+  "Recovery after RED is documented as diagnosis -> fix -> re-run; the sealed test file is never edited."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

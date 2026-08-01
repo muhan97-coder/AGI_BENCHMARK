@@ -1,0 +1,34 @@
+{
+ "id": "gc-405",
+ "title": "Build the globby glob-matching engine from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the globby matching engine exactly as written in assets/gc-405/SPEC.md, from scratch, at workspace/gc-405/globby.py, without importing fnmatch or pathlib (the sealed suite scans the source). The spec's deliberately tricky globstar section (zero-segment **/, trailing /** excluding the bare head, in-segment ** demotion) and its character-class corner cases (]-first literals, negated classes that still refuse /, unclosed brackets, reversed ranges) defeat one-shot translations. Plan the segment/class grammar, build the translator or matcher, and iterate against the sealed suite until green, verifying each tricky family separately.",
+ "horizon": "1m",
+ "budget_usd": 40,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-405/SPEC.md",
+  "assets/gc-405/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-405/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 25,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-405/plan.md exists before implementation, tabulating every wildcard/class/globstar rule with at least one positive and one negative example each.",
+  "workspace/gc-405/runs.log records every sealed-suite invocation with summary lines; at least one intermediate RED run before the final GREEN.",
+  "Failure identities: each failing test node id is logged with the matching rule it exposed and the change that fixed it.",
+  "Honest cost logging in workspace/gc-405/cost.json.",
+  "Recovery after RED shown as diagnosis -> fix -> re-run; the sealed test file and its purity scan are never circumvented."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

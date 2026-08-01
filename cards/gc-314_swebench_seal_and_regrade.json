@@ -1,0 +1,37 @@
+{
+ "id": "gc-314",
+ "title": "Seal your own resolved baseline and reproduce it under re-grading",
+ "category": "swe_bench",
+ "goal": "Resolve at least 2 of the 8 sealed django instances in assets/gc-314/instances.txt, then freeze the outcome: write runs/gc-314/sealed_baseline.json containing the resolved_ids you claim and the sha256 of runs/gc-314/predictions.jsonl. After sealing, re-grade the identical predictions file under a fresh run_id and copy the second harness report to runs/gc-314/report_regrade.json. The sealed grader verifies the checksum still matches, that the re-grade resolves exactly the sealed set, and that the baseline has at least 2 instances - so any prediction edit after sealing, or any nondeterministic verdict flip, turns the card RED and forces you to investigate and re-run.",
+ "horizon": "1d",
+ "budget_usd": 8,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-314/instances.txt (sealed)",
+  "assets/gc-314/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-314/grade.py",
+   "metric": "sealed_regrade_resolved",
+   "threshold": 2,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-314/plan.md separates phase A (solve), phase B (seal), and phase C (re-grade) with explicit entry criteria for each.",
+  "The sealing step is observable: sealed_baseline.json is written before the re-grade run_id appears in logs/run_evaluation/.",
+  "Verification commands for each claimed resolve (harness log paths showing FAIL_TO_PASS success) are cited by path in runs/gc-314/notes.md.",
+  "Failure identities are tracked: every unresolved instance among the 8 is named with its blocking symptom, not just counted.",
+  "runs/gc-314/cost_log.json records spend for solve and re-grade phases separately, including abandoned attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "public_gold_exists"
+}

@@ -1,0 +1,264 @@
+[
+ {
+  "name": "Furnace Kiln Row",
+  "size": [
+   4,
+   2,
+   2
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     1
+    ],
+    "name": "furnace",
+    "facing": "W"
+   },
+   {
+    "position": [
+     4,
+     1,
+     1
+    ],
+    "name": "furnace",
+    "facing": "E"
+   },
+   {
+    "position": [
+     2,
+     1,
+     0
+    ],
+    "name": "furnace",
+    "facing": "N"
+   },
+   {
+    "position": [
+     2,
+     1,
+     2
+    ],
+    "name": "furnace",
+    "facing": "S"
+   },
+   {
+    "position": [
+     0,
+     1,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     1,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     1,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     2,
+     1
+    ],
+    "name": "oak_log",
+    "facing": "x"
+   },
+   {
+    "position": [
+     2,
+     2,
+     1
+    ],
+    "name": "oak_log",
+    "facing": "x"
+   },
+   {
+    "position": [
+     3,
+     2,
+     1
+    ],
+    "name": "oak_log",
+    "facing": "x"
+   },
+   {
+    "position": [
+     2,
+     2,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "z"
+   },
+   {
+    "position": [
+     2,
+     2,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "z"
+   }
+  ]
+ }
+]

@@ -1,0 +1,31 @@
+{
+ "id": "gc-422",
+ "title": "Write tests that kill 10 sealed mutants of a statistics module",
+ "category": "mutation_testing",
+ "goal": "assets/gc-422/target/stats_lite.py is a small statistics module and assets/gc-422/mutants.jsonl seals 10 single-site mutants. Author a unittest suite under work/gc-422/tests/ that stays green on the pristine module (>=8 tests) and goes RED on at least 9 of the 10 mutants. You must run the mutation loop yourself and file an honest work/gc-422/kill_report.json listing exactly which mutant ids your suite kills: the sealed grader recomputes the kill set and disqualifies any over- OR under-claiming report. A green suite is not coverage evidence; only dead mutants are.",
+ "horizon": "1d",
+ "budget_usd": 5,
+ "resources": [
+  "files under assets/gc-422/ (target/stats_lite.py, mutants.jsonl sealed mutant set, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python3 assets/gc-422/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.9,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/gc-422/plan.md (>=200 bytes) maps each mutant class to an intended killer test before writing tests",
+  "baseline run on the pristine module actually executed and green before any mutant run",
+  "per-mutant verification loop actually ran; kill_report.json matches the recomputed kill set exactly (identities, not counts)",
+  "survivor mutants trigger another strengthen-and-re-run iteration, not a report edit",
+  "sealed target and mutant list stay untouched (grader hash-checks them)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "robustness",
+ "contamination_risk": "low"
+}

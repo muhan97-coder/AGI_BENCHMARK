@@ -1,0 +1,50 @@
+{
+ "id": "gc-388",
+ "title": "Reproduce sealed trend and autocorrelation figures of a daily series",
+ "category": "data_repro",
+ "goal": "Reproduce the sealed temporal profile of the 730-day series in assets/gc-388/data.csv: OLS trend on the day index, autocorrelation at lags 1-3 under the exact estimator in assets/gc-388/spec.md, rolling-window extremes, first-difference volatility, and run-length figures, written to artifacts/gc-388/stats.json. The sealed ACF estimator (single overall mean, full-sample denominator) differs from several library defaults, so verify it two independent ways before submitting. Iterate grader -> named mismatch -> fix until all 12 statistics match.",
+ "horizon": "1w",
+ "budget_usd": 12.0,
+ "resources": [
+  "assets/gc-388/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-388/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-388/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-388/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-388/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "pypi:scipy==1.13.1 (optional cross-check library)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-388/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "Intermediate self-verification commands ran, with captured output, before the first grader invocation.",
+  "A second, independent computation path (different library or hand-rolled code) was run for the highest-risk statistics and the reconciliation is recorded.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

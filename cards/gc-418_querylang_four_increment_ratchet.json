@@ -1,0 +1,36 @@
+{
+ "id": "gc-418",
+ "title": "Grow querylang through four sealed increments without ever breaking an earlier one",
+ "category": "campaign",
+ "goal": "One expression-evaluator module grown through four sealed increments: literals/fields/comparisons, then boolean logic with strict bool operands and short-circuit semantics, then a function library, then an error-identity audit that pins exact QueryError positions for eight failure classes. Each increment routinely breaks earlier ones (precedence, short-circuit, and position bookkeeping interact), so the campaign is a ratchet: all previous suites are re-verified at every stage and the grader runs all four at the end. A frozen plan, four hash-chained stage markers, a run journal with at least two honest entries per stage, a cost record, and a 60-second runtime budget combine with final state into one campaign_score.",
+ "horizon": "1m",
+ "budget_usd": 50,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-418/SPEC.md (language contract per increment + artifact contract)",
+  "assets/gc-418/test_stage1.py .. test_stage4.py (sealed increment suites)",
+  "assets/gc-418/grade.py + assets/gc-418/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-418/grade.py",
+   "metric": "campaign_score",
+   "threshold": 12,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan commits to grammar, precedence, and the error-position model before stage 1, pinned by the sha256 chain across four markers.",
+  "runs.log shows at least two entries per stage (verify, then re-verify after later work) with honest passed/failed integers - the ratchet is journaled, not asserted.",
+  "Regressions surface and are repaired: later-stage REDs against earlier suites appear in the journal with recovery runs, never silent edits of sealed tests.",
+  "Failure identity is graded literally in stage 4: QueryError.pos values must match the sealed pins for all eight error classes.",
+  "All four sealed suites are green in one final grading run within the 60-second suite runtime budget."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

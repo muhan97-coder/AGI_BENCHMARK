@@ -1,0 +1,36 @@
+{
+ "id": "gc-342",
+ "title": "Implement TLRUCache in cachetools at pinned v4.2.4",
+ "category": "oss_repair",
+ "goal": "Clone https://github.com/tkem/cachetools into work/gc-342/repo (relative to the benchmark repo root) and check out pinned commit 8b9bbc4b60429bd73a06ff54a8eefd141215acc2 (release tag v4.2.4); the grader verifies that HEAD equals this exact commit, so keep all repairs as uncommitted working-tree edits to non-test source files. At this commit cachetools has no TLRUCache. The sealed tests require a time-aware LRU cache constructed as TLRUCache(maxsize, ttu, timer) where ttu(key, value, now) returns the per-item expiration time: items expire once timer() reaches that time, items whose computed expiration is not in the future are never stored, expired keys raise KeyError and vanish from membership checks, LRU eviction respects recent access order, and an expire() method purges expired entries. Decompose the work into a written plan, run the grader command first to record the initial RED state and the identities of the failing sealed tests, implement incrementally, and re-run the exact grader command after each increment until all 6 sealed tests pass. Do not edit or shadow anything under assets/gc-342/: the grader re-copies the sealed tests from assets over the workspace and disables pytest plugin autoloading and conftest collection, so test tampering cannot turn the run GREEN.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "github.com/tkem/cachetools@8b9bbc4b60429bd73a06ff54a8eefd141215acc2",
+  "docker:python:3.11-bookworm",
+  "pypi:pytest==8.2.2",
+  "assets/gc-342/tests/test_sealed_gc342.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "git config --global --add safe.directory '*' && test \"$(git -C work/gc-342/repo rev-parse HEAD)\" = \"8b9bbc4b60429bd73a06ff54a8eefd141215acc2\" && pip -q install pytest==8.2.2 && pip -q install --no-deps ./work/gc-342/repo && rm -rf work/gc-342/sealed_run && mkdir -p work/gc-342/sealed_run && cp assets/gc-342/tests/*.py work/gc-342/sealed_run/ && cd work/gc-342/sealed_run && PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest -q --noconftest -p no:cacheprovider .",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 6,
+   "compare": ">=",
+   "docker_image": "python:3.11-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A written repair plan exists at work/gc-342/notes/plan.md before the first source edit, naming the target module(s) and the sealed tests each step is meant to turn green.",
+  "The grader command was executed once before any source change and its RED output (failing sealed test identities, not just counts) is preserved verbatim in the run log.",
+  "A running log at work/gc-342/notes/attempts.md maps each code iteration to the specific sealed test identities it targeted and what the re-verification run returned.",
+  "After any RED re-verification the next diff is traceable to a named failing test, not a blind full rewrite; abandoned approaches are recorded rather than deleted.",
+  "An honest cost/time ledger covering all attempts, including failed ones, is kept alongside the notes."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "oss_repair",
+ "contamination_risk": "public_gold_exists"
+}

@@ -1,0 +1,2 @@
+Output must contain exactly 10 newline-terminated lines AND exactly 12 newline-terminated lines.
+Output file: work/gc-425/out/task-12.txt

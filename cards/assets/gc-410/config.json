@@ -1,0 +1,62 @@
+{
+ "card": "gc-410",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2"
+   ],
+   "min_bytes": 400,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-410/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-410/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-410/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-410/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-410/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 11,
+   "name": "stage1_suite_green",
+   "path": "assets/gc-410/test_stage1.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 13,
+   "name": "adversarial_suite_green",
+   "path": "assets/gc-410/test_stage2.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 2,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-410/runs.log",
+   "stages": [
+    1,
+    2
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-410/SPEC.md": "803e3901ba75f1961f6c4c9ebe28ba1f602b40b6edb4cbcf7cc3c046c463232b",
+  "assets/gc-410/test_stage1.py": "634397478f2de76d71be79a92cd74d3278b2d913d06ef68cba93274d6ce190c3",
+  "assets/gc-410/test_stage2.py": "771dde8a04c832e4d6f98a8251bf3cfe3ee94ebdc6a15b757a129574e12ec5a5"
+ }
+}

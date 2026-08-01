@@ -1,0 +1,37 @@
+{
+ "id": "gc-333",
+ "title": "Implement MARBLE MultiAgentMaze engine with BFS hints and pass the sealed suite",
+ "category": "marble_coding",
+ "goal": "Implement the MARBLE coding benchmark task MultiAgentMaze (task_id=17 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-333/solution.py per assets/gc-333/SPEC.md: a grid game engine with role-locked players (pathfinder, blocker, swapper), block pushing and teleport-swapping, a BFS hint system that must treat blocks as obstacles, multi-level progression, and an exact scoring formula with a teamwork bonus. Correctness spans geometry, graph search, and game-state bookkeeping, so stage the work (grid model, movement rules, BFS, scoring/levels), verify each stage against the sealed suite, and track red tests by name between runs. Finish with a green re-verification inside the pinned container.",
+ "horizon": "1m",
+ "budget_usd": 14,
+ "resources": [
+  "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=17)",
+  "docker image python:3.11.9-slim",
+  "pypi pytest==8.3.3",
+  "assets/gc-333/SPEC.md (interface contract)",
+  "assets/gc-333/test_accept.py (sealed acceptance suite)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python -m pip install -q pytest==8.3.3 && python -m pytest assets/gc-333/test_accept.py -q --tb=no -p no:cacheprovider",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 17,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim"
+  }
+ },
+ "process_expectations": [
+  "A staged plan artifact exists before coding covering grid model, movement legality, BFS hints, and scoring/level flow",
+  "The sealed suite was executed at each stage with logs retained, showing the red-to-green progression by named test",
+  "Red tests are tracked by pytest node id across iterations, not by count",
+  "Verification runs and their costs/outcomes are logged honestly, including failed runs and dead-end attempts",
+  "The sealed suite file is never edited; all recovery happens in workspace/gc-333/solution.py"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

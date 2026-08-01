@@ -1,0 +1,2 @@
+Output exactly the ASCII string 'hello benchmark' (no trailing newline) AND ensure the output file's SHA-256 hex digest equals c8ab33c47610a76e3d6d2d03d33e81f006c3ad90a5217ea72ef049c8bf973481.
+Output file: work/gc-425/out/task-10.txt

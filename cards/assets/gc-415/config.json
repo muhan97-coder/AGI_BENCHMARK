@@ -1,0 +1,82 @@
+{
+ "card": "gc-415",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3"
+   ],
+   "min_bytes": 500,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-415/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-415/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-415/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-415/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-415/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-415/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-415/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 13,
+   "name": "toksmith_suite_green",
+   "path": "assets/gc-415/test_toksmith.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 8,
+   "name": "tableform_suite_green",
+   "path": "assets/gc-415/test_tableform.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 6,
+   "name": "integration_suite_green",
+   "path": "assets/gc-415/test_report.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 3,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-415/runs.log",
+   "stages": [
+    1,
+    2,
+    3
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-415/SPEC.md": "188bd458c869b0a34a459ea9f9d9f2c74e7184f7586ffbe827b3014846351486",
+  "assets/gc-415/expected_report.txt": "46cd136c1b7a03c01dc01cf53a5912a00de0773362c1ddb285fde8dcd6927375",
+  "assets/gc-415/sample_input.txt": "67f47dee9edcba44ef0425b36843e26bbd9bd94d791ccafc2cf3815c471caae8",
+  "assets/gc-415/test_report.py": "3e2f51d81750d2e25d84ef289ede4ee6ac0335e48aef10dac9601addb48e7982",
+  "assets/gc-415/test_tableform.py": "3463e63cd12d54d62fe1bc0bc226e8cee564e7dc1cbd558fa1e1beb4b839907e",
+  "assets/gc-415/test_toksmith.py": "97cfe63c34c0e6434c73d967159412931f861037d9a83bba2cb5507ba66ddfa9"
+ }
+}

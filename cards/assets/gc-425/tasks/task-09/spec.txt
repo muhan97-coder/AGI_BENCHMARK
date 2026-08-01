@@ -1,0 +1,2 @@
+input.txt is a CSV of integers. Output its transpose as CSV (no spaces).
+Output file: work/gc-425/out/task-09.txt

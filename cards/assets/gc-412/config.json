@@ -1,0 +1,89 @@
+{
+ "card": "gc-412",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3"
+   ],
+   "min_bytes": 500,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-412/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-412/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-412/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-412/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-412/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-412/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-412/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "csv": "assets/gc-412/data_dev.csv",
+   "mode": "dataset",
+   "name": "dev_dataset_exact",
+   "pipeline": "work/gc-412/pipeline.py",
+   "type": "etl"
+  },
+  {
+   "csv": "assets/gc-412/data_dev.csv",
+   "mode": "double_run",
+   "name": "deterministic_double_run",
+   "pipeline": "work/gc-412/pipeline.py",
+   "type": "etl"
+  },
+  {
+   "csv": "assets/gc-412/data_holdout.csv",
+   "mode": "dataset",
+   "name": "holdout_dataset_exact",
+   "pipeline": "work/gc-412/pipeline.py",
+   "type": "etl"
+  },
+  {
+   "mode": "probe",
+   "name": "generated_probe_exact",
+   "pipeline": "work/gc-412/pipeline.py",
+   "rows": 400,
+   "seed": 20260801,
+   "type": "etl"
+  },
+  {
+   "min_lines": 3,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-412/runs.log",
+   "stages": [
+    1,
+    2,
+    3
+   ],
+   "type": "runslog"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-412/SPEC.md": "f784c6a823d159ef228d121ce3b115a975d70e2b4d63b764cfe17656fb2bc278",
+  "assets/gc-412/data_dev.csv": "e309b91b6e71195205b6fe221b055e7b6ca722147b75b9708daf0232b2c5deb9",
+  "assets/gc-412/data_holdout.csv": "ceeaf21352756ed32e4de4593a3f32af2fc4c0a2a793b4ec2bfe17158866a06b",
+  "assets/gc-412/expected_dev.json": "8b7bc0c2941aa4fedb66a590726af9a35c754b4efa33878a356c61cbb16dc3f3",
+  "assets/gc-412/expected_holdout.json": "9682ca954c63c00f0f21d3d7ea7b3fa387ffaab2da75132581c25b8bb37134e1"
+ }
+}

@@ -1,0 +1,23 @@
+services:
+  minecraft:
+    image: itzg/minecraft-server:2024.6.1-java17
+    container_name: gc-370-mc
+    ports:
+      - "25565:25565"
+    environment:
+      EULA: "TRUE"                # you accept the Minecraft EULA by starting this server
+      VERSION: "1.19.2"
+      TYPE: "VANILLA"
+      ONLINE_MODE: "FALSE"
+      MODE: "survival"
+      DIFFICULTY: "peaceful"
+      LEVEL_TYPE: "minecraft:flat"
+      GENERATE_STRUCTURES: "false"
+      SPAWN_PROTECTION: "0"
+      OPS: "build_judge"          # judger bot needs op; it then ops the builder bots
+      ALLOW_FLIGHT: "TRUE"
+      VIEW_DISTANCE: "16"
+      MAX_TICK_TIME: "-1"
+      MEMORY: "2G"
+    # No volume on purpose: `docker compose down` discards the world,
+    # so every `up` starts from a FRESH flat world.

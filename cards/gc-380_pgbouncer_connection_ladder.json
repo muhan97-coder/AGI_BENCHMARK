@@ -1,0 +1,36 @@
+{
+ "id": "gc-380",
+ "title": "Size a pgbouncer+postgres stack to survive a 50/100/200 client connection ladder",
+ "category": "infra_ops",
+ "goal": "The sealed grader drives pgbench in select-only mode with per-transaction reconnects (-C) through pgbouncer at 50, then 100, then 200 concurrent clients; the starter pgbouncer.ini is undersized on every axis and collapses at the first rung. You must do real capacity planning: reason about pool mode versus reconnect churn, client connection limits versus postgres max_connections, and pool sizing versus available server slots, then encode that plan in assets/gc-380/tuned/pgbouncer.ini and tuned/postgresql.conf. All three stages must complete with nonzero throughput and no error abort, and the 200-client stage must retain at least half the 50-client throughput, so a config that merely queues everything into a trickle also fails. Validate each rung yourself before invoking the sealed ladder, and iterate on the failures it exposes.",
+ "horizon": "1m",
+ "budget_usd": 35,
+ "resources": [
+  "docker image postgres:12.22",
+  "docker image edoburu/pgbouncer:v1.23.1-p2",
+  "assets/gc-380/tuned/pgbouncer.ini (deliverable, editable)",
+  "assets/gc-380/tuned/postgresql.conf (deliverable, editable)",
+  "assets/gc-380/sealed/userlist.txt (sealed auth file)",
+  "assets/gc-380/check.sh (sealed ladder grader, read-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "bash assets/gc-380/check.sh",
+   "metric": "stages_ok",
+   "threshold": 3,
+   "compare": "=="
+  }
+ },
+ "process_expectations": [
+  "A capacity plan artifact exists before tuning: expected connection math (clients vs max_client_conn vs pool size vs max_connections) written down per ladder rung",
+  "Each rung is tested in isolation with self-run pgbench commands and the raw tps/error output is captured before the full sealed ladder is attempted",
+  "Failure identities are recorded (e.g. 'rung 2: max_client_conn exhausted', 'rung 3: server slots saturated in session mode'), with the config change that addressed each",
+  "Throughput-retention analysis (tps@200 vs tps@50) is computed by the agent from its own runs, not first discovered via the sealed grader",
+  "The sealed grader's stages_ok trajectory across attempts is logged honestly, including collapses after config changes"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "infra_ops",
+ "contamination_risk": "low"
+}

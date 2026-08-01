@@ -1,0 +1,106 @@
+{
+ "card": "gc-414",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3"
+   ],
+   "min_bytes": 500,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-414/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-414/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-414/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-414/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-414/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-414/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-414/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "baseline_min_tests": 8,
+   "min_killed": 10,
+   "mutant_total": 12,
+   "mutants_dir": "assets/gc-414/mutants",
+   "name": "sealed_mutants_killed",
+   "reference": "assets/gc-414/romanx.py",
+   "target_module": "romanx",
+   "tests_dir": "work/gc-414/killtests",
+   "timeout": 120,
+   "type": "mutation"
+  },
+  {
+   "expected_pass": 14,
+   "name": "full_module_suite_green",
+   "path": "assets/gc-414/test_full.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "expected_pass": 8,
+   "name": "cli_suite_green",
+   "path": "assets/gc-414/test_cli.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "min_lines": 3,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-414/runs.log",
+   "stages": [
+    1,
+    2,
+    3
+   ],
+   "type": "runslog"
+  },
+  {
+   "fields": [
+    "llm_usd",
+    "grader_runs"
+   ],
+   "name": "honest_cost_record",
+   "path": "work/gc-414/cost.json",
+   "type": "cost"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-414/SPEC.md": "b7e0552ead3cc3cc1314f87eb51a80d376dd525bc3a22c34aa958bbbadae63bb",
+  "assets/gc-414/mutants/m01.py": "99dbe8f807c8f4ea9d28e00274d55636d1f4b76bb10f26419d2074eeecb940bd",
+  "assets/gc-414/mutants/m02.py": "298ba84a665fa51e3c7138fb6431ee6df2a57fa2a0cdc3ae5358997381eee4b7",
+  "assets/gc-414/mutants/m03.py": "19a2b38ad0b22dd899455d8fabd94497fb9a1069a2ec97ceadc3cd67f210997c",
+  "assets/gc-414/mutants/m04.py": "be145d2e3cdda45d40860e85d2d08f3cf53e768305bde5d3022b1bbccf39baea",
+  "assets/gc-414/mutants/m05.py": "262b0f911747f3ae850be76336003f15469b02c73fc80fb0c4d03d053d821212",
+  "assets/gc-414/mutants/m06.py": "d47f6e94e7715b416e0a36dfa268b4eb3ccec9d88150b74d0f3f70b27e3291d5",
+  "assets/gc-414/mutants/m07.py": "a8239c1f85c67dafa6292c7726fb44cd6e78932611e0e4183146c88989d99e7c",
+  "assets/gc-414/mutants/m08.py": "00923171397d4d2062c4ca805d45a096f2609d012ca6263ee2a5a3c0e1225f1c",
+  "assets/gc-414/mutants/m09.py": "c1ad32db25630c5f3f0a63319e81a47830be59e3959378bbb140dbe003f99d4a",
+  "assets/gc-414/mutants/m10.py": "14225f699eb001c37f5ba984a9b851121dc75014070923c6922bda4d13fbae93",
+  "assets/gc-414/mutants/m11.py": "0196a2fafe1b99adf4bfbe35e9b58cb745af5f59d1dc1f010ba87d55030d578f",
+  "assets/gc-414/mutants/m12.py": "4aa56f5dd133dc32a1465b593d0c23e7bcb25d56b6c280109e3bedc4af55ce18",
+  "assets/gc-414/romanx.py": "c2071575cfe07f22f738435243571e7b5b19c3c2a4e37fd9252639d86eb903e5",
+  "assets/gc-414/test_cli.py": "8ee488cf332e6d8bece32c2bde10a41252673659e38cfd2ad9f84ffb54822a09",
+  "assets/gc-414/test_full.py": "d3547ec50071106c515c8647590640b932f29d71681f69caaaa7c719d82332d0"
+ }
+}

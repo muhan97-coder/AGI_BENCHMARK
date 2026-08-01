@@ -1,0 +1,50 @@
+{
+ "id": "gc-389",
+ "title": "Reproduce a sealed correlation and covariance profile of four channels",
+ "category": "data_repro",
+ "goal": "Reproduce the sealed dependence profile of the four channels in assets/gc-389/data.csv: all six pairwise Pearson correlations, two Spearman correlations with average-rank tie handling, and the trace and determinant of the sample covariance matrix, per assets/gc-389/spec.md, into artifacts/gc-389/stats.json. Plan the estimator conventions first, implement the pipeline, and self-verify the determinant with a second method before grading. Then run the grader and close every named mismatch across verify cycles until stats_matched = 12.",
+ "horizon": "1w",
+ "budget_usd": 12.0,
+ "resources": [
+  "assets/gc-389/data.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-389/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-389/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-389/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-389/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "pypi:scipy==1.13.1 (optional cross-check library)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-389/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "Intermediate self-verification commands ran, with captured output, before the first grader invocation.",
+  "A second, independent computation path (different library or hand-rolled code) was run for the highest-risk statistics and the reconciliation is recorded.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "Cost and wall-clock are logged honestly per phase (plan / implement / verify), including failed attempts."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "data.csv",
+   "grade.py",
+   "make_dataset.py",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

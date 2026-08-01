@@ -1,0 +1,38 @@
+{
+ "id": "gc-322",
+ "title": "Run full SWE-bench Lite with anchors, hygiene, and double-grade determinism",
+ "category": "robustness",
+ "goal": "Take on all 300 SWE-bench Lite instances (assets/gc-322/instances.txt): one prediction each in runs/gc-322/predictions.jsonl, with at most 60 empty patches. Grade the identical predictions file twice under different run_ids and copy the reports to runs/gc-322/report_a.json and report_b.json; all four verdict lists must match exactly between runs. The sealed 10-instance anchor list assets/gc-322/anchors.txt must be fully resolved, and total resolves must reach at least 75. This is the band's capstone: scale, hygiene, retention, and grading determinism must all hold simultaneously, which realistically requires staged execution, mid-course audits, and recovery from at least one failed stage.",
+ "horizon": "1m",
+ "budget_usd": 500,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-322/instances.txt (sealed)",
+  "assets/gc-322/anchors.txt (sealed)",
+  "assets/gc-322/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-322/grade.py",
+   "metric": "anchored_resolved",
+   "threshold": 75,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-322/plan.md stages the 300 instances into tranches with anchor instances scheduled and verified first.",
+  "Anchor verification ran early: harness logs show all 10 anchors resolved before the bulk tranches were launched.",
+  "Both full grading run_ids exist in logs/run_evaluation/ and any verdict flip found during the determinism audit is documented by instance_id in runs/gc-322/flips.md.",
+  "Every empty patch and unresolved anchor-adjacent failure has an identity and cause in runs/gc-322/triage.md, not an aggregate count.",
+  "runs/gc-322/cost_log.json shows tranche-by-tranche spend against the budget with at least one recorded re-plan after a RED checkpoint."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "low"
+}

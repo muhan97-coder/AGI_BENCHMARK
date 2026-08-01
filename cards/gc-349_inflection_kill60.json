@@ -1,0 +1,36 @@
+{
+ "id": "gc-349",
+ "title": "Kill 60 percent of mutants in inflection",
+ "category": "mutation_testing",
+ "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 286 mutants in the installed inflection/__init__.py of inflection==0.5.1, a regex-rule-driven English inflection library (pluralize, singularize, camelize, underscore, ordinalize and friends). Author a pytest suite from scratch under work/gc-349/tests/ that kills at least 60 percent of those mutants using only the stdlib, pytest==8.2.2, and the target package. The rule tables make many mutants subtle: plan a word list per rule family, grade, inspect survivors by mutant ID, add targeted words that distinguish each mutated rule, and re-grade until the threshold holds. The grader is fail-closed: red baseline, a suite slower than 6 seconds, source-introspection tokens, or mutant-total drift scores kill_rate -1.",
+ "horizon": "1d",
+ "budget_usd": 4,
+ "resources": [
+  "pypi inflection==0.5.1 (target under mutation; single-module string-inflection library)",
+  "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-349/config.json)",
+  "pypi pytest==8.2.2 (only permitted test framework; plugin autoload disabled at grading time)",
+  "docker image python:3.11.9-slim-bookworm",
+  "files under assets/gc-349/ (sealed grader grade.py + config.json with expected mutant totals)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python assets/gc-349/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.6,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A behavior-inventory plan exists at work/gc-349/plan.md, written before the first grading run, mapping the target module's behaviors to planned test groups.",
+  "At least two full grading runs are logged under work/gc-349/logs/ as raw grader JSON lines, and the survivor count decreases between the first and the last run.",
+  "Surviving mutants are tracked by mutant ID (mutmut result-ids / mutmut show) at work/gc-349/survivors.md, each with a verdict of killable-next or suspected-equivalent -- identities, not just counts.",
+  "Every RED or disqualified grading run is recorded with its cause and the concrete recovery action taken; no silent retries.",
+  "An honest per-iteration log of wall-clock and LLM spend exists at work/gc-349/cost_log.md, including failed iterations."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

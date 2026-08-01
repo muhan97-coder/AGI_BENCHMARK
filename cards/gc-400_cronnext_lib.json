@@ -1,0 +1,34 @@
+{
+ "id": "gc-400",
+ "title": "Build the cronnext cron-schedule computation library from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the cronnext library exactly as written in assets/gc-400/SPEC.md, from scratch, at workspace/gc-400/cronnext.py. The spec contains a deliberately tricky section: Vixie day-of-month/day-of-week OR semantics, step anchoring at field minimums, dual Sunday encodings (0 and 7) including the 5-7 range, leap-day schedules, and an unsatisfiability horizon. Getting this green requires a parser, a field-expansion model, and a date-walking engine, verified iteratively against the sealed suite; plan the calendar semantics before coding and re-verify after every fix.",
+ "horizon": "1w",
+ "budget_usd": 22,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-400/SPEC.md",
+  "assets/gc-400/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-400/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 24,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-400/plan.md exists before implementation, explicitly restating the restricted-field rule and the DOM/DOW OR table with worked examples.",
+  "workspace/gc-400/runs.log shows at least three sealed-suite invocations with summary lines (RED runs allowed before the final GREEN).",
+  "Each intermediate failing test node id is logged with the calendar rule it exposed and the fix applied.",
+  "Honest cost logging in workspace/gc-400/cost.json including wall time per run.",
+  "A recovery cycle after at least one RED run is documented; assets/gc-400/test_accept.py is never modified."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

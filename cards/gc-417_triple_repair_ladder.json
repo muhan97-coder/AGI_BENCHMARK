@@ -1,0 +1,37 @@
+{
+ "id": "gc-417",
+ "title": "Clear the triple-project repair ladder in sealed order with a full failure ledger",
+ "category": "campaign",
+ "goal": "Three small projects (a JSON-lines toolkit, a stable priority queue, a template renderer) ship with four seeded defects each - twelve failure identities A01..A04, Q01..Q04, T01..T04 discoverable from sealed test names. The campaign forces a declared order: jsonl in stage 1, queue in stage 2, tmpl in stage 3, proven by a sha256 marker chain, then a stage-4 combined seal where the grader runs all three sealed suites together TWICE and requires identical green results. The failure ledger is machine-checked for all twelve identities with per-defect cause, fix, and the stage number matching the sealed order. Plan, chain, ledger, journal, and final state combine into one campaign_score.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-417/SPEC.md (three behavior contracts + artifact contract)",
+  "assets/gc-417/starters/ (three seeded-defect starters, copy into work/gc-417/pkgs/)",
+  "assets/gc-417/test_proj_jsonl.py, test_proj_queue.py, test_proj_tmpl.py (sealed suites)",
+  "assets/gc-417/grade.py + assets/gc-417/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-417/grade.py",
+   "metric": "campaign_score",
+   "threshold": 11,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A frozen plan orders the three projects and predicts the defect families before any fix, pinned by the sha256 chain across four stage markers.",
+  "All twelve failure identities appear in ledger.jsonl with status fixed, substantive cause/fix text, and stage numbers matching the sealed order (A->1, Q->2, T->3).",
+  "runs.log holds at least 8 honest entries covering stages 1..4, including the initial REDs on each project's seeded defects.",
+  "Cross-project regressions are caught mechanically: the stage-4 combined run executes all three suites in one invocation, twice, and both runs must be identical and fully green.",
+  "Sealed starters and suites are integrity-checked; edits disqualify the whole campaign."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

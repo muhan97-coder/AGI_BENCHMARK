@@ -1,0 +1,37 @@
+{
+ "id": "gc-317",
+ "title": "Double-grade 40 instances with byte-identical verdict sets",
+ "category": "robustness",
+ "goal": "Produce predictions for the sealed 40-instance set in assets/gc-317/instances.txt (one per instance, in runs/gc-317/predictions.jsonl) and grade the identical file twice with the pinned harness under two different run_ids, copying the reports to runs/gc-317/report_a.json and runs/gc-317/report_b.json. The sealed grader demands that all four verdict lists (resolved, unresolved, empty-patch, error) match exactly as sets between the two runs, and that at least 8 instances are resolved. Flaky tests, container race conditions, or unpinned dependencies will surface as verdict flips: you must find each source of nondeterminism, fix or avoid it, and re-run both gradings until the audit is clean.",
+ "horizon": "1w",
+ "budget_usd": 50,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-317/instances.txt (sealed)",
+  "assets/gc-317/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-317/grade.py",
+   "metric": "deterministic_resolved",
+   "threshold": 8,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-317/plan.md fixes harness flags (workers, cache level, timeout) for both runs before the first grading starts.",
+  "Both run_ids exist under logs/run_evaluation/ with per-instance logs preserved for diffing.",
+  "Every verdict flip observed during the audit is recorded by instance_id with the diverging log excerpts in runs/gc-317/flips.md.",
+  "runs/gc-317/cost_log.json records grading wall time and spend for every audit iteration, not only the final clean pair.",
+  "The final submission shows recovery: at least one earlier non-identical pair (if any occurred) is retained in the logs alongside the fix that removed the flip."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "low"
+}

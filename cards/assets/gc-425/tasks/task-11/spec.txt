@@ -1,0 +1,2 @@
+Output must parse (json.loads) as a JSON array AND its first non-whitespace byte must be an opening curly brace.
+Output file: work/gc-425/out/task-11.txt

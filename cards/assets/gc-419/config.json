@@ -1,0 +1,123 @@
+{
+ "card": "gc-419",
+ "gates": [
+  {
+   "headings": [
+    "## Stage 1",
+    "## Stage 2",
+    "## Stage 3",
+    "## Stage 4"
+   ],
+   "min_bytes": 700,
+   "name": "plan_exists_and_frozen",
+   "path": "work/gc-419/plan.md",
+   "type": "plan"
+  },
+  {
+   "marker": "work/gc-419/stage1.json",
+   "name": "stage1_marker_chained",
+   "prev": "work/gc-419/plan.md",
+   "prev_key": "plan_sha256",
+   "stage": 1,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-419/stage2.json",
+   "name": "stage2_marker_chained",
+   "prev": "work/gc-419/stage1.json",
+   "prev_key": "prev_sha256",
+   "stage": 2,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-419/stage3.json",
+   "name": "stage3_marker_chained",
+   "prev": "work/gc-419/stage2.json",
+   "prev_key": "prev_sha256",
+   "stage": 3,
+   "type": "chain"
+  },
+  {
+   "marker": "work/gc-419/stage4.json",
+   "name": "stage4_marker_chained",
+   "prev": "work/gc-419/stage3.json",
+   "prev_key": "prev_sha256",
+   "stage": 4,
+   "type": "chain"
+  },
+  {
+   "expected_pass": 10,
+   "name": "stage1_suite_green",
+   "path": "assets/gc-419/test_stage1.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "baseline_min_tests": 10,
+   "min_killed": 18,
+   "mutant_total": 20,
+   "mutants_dir": "assets/gc-419/mutants",
+   "name": "sealed_mutants_killed",
+   "reference": "assets/gc-419/logfmt.py",
+   "target_module": "logfmt",
+   "tests_dir": "work/gc-419/killtests",
+   "timeout": 120,
+   "type": "mutation"
+  },
+  {
+   "expected_pass": 10,
+   "name": "features_suite_green",
+   "path": "assets/gc-419/test_features.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "double_run": true,
+   "expected_pass": 7,
+   "name": "cli_suite_double_run_green",
+   "path": "assets/gc-419/test_cli.py",
+   "timeout": 300,
+   "type": "suite"
+  },
+  {
+   "cli": "work/gc-419/cli.py",
+   "lines": 500,
+   "name": "generated_probe_countby",
+   "seed": 74113,
+   "type": "logprobe"
+  },
+  {
+   "min_lines": 8,
+   "min_per_stage": 1,
+   "name": "run_journal_complete",
+   "path": "work/gc-419/runs.log",
+   "stages": [
+    1,
+    2,
+    3,
+    4
+   ],
+   "type": "runslog"
+  },
+  {
+   "fields": [
+    "llm_usd",
+    "grader_runs"
+   ],
+   "name": "honest_cost_record",
+   "path": "work/gc-419/cost.json",
+   "type": "cost"
+  }
+ ],
+ "pytest_version": "8.3.4",
+ "sealed_files": {
+  "assets/gc-419/SPEC.md": "cb2b1f33a3e99f713d86a74ce918d3447937f33c4d0724936b2fc276b8e9a486",
+  "assets/gc-419/expected_countby.txt": "4431e8faaab69851e89b36caf8f2b26d08c1a095b147fd853e5cc0ca095711e6",
+  "assets/gc-419/expected_stats.txt": "b4f8733dc3cf3dade2d007b2c798f98e55c638cc7dcedcecf1214d59d6180d09",
+  "assets/gc-419/logfmt.py": "5c72aab8fd4199473949d57c0c5eb474ff1995b6ac21a78a34252bcf2290b060",
+  "assets/gc-419/sample.log": "e71a4ebae7127ee4ef7a657c41bdf5955b1726240470c631b3e991c7df4be149",
+  "assets/gc-419/test_cli.py": "64c427f7c43c729a25a31878b26f00e5753dd31eb14a32ae95e9c8373ec677b8",
+  "assets/gc-419/test_features.py": "f633d84706fb4aa1fe15dd046f3d3579c1e9edcaf39836962f4587db08f7c939",
+  "assets/gc-419/test_stage1.py": "d992997a7bc667cf451e666bc3204f72ea9768a6145e466b3ac67fd3d88b1781"
+ }
+}

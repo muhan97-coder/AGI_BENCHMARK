@@ -1,0 +1,38 @@
+{
+ "id": "gc-371",
+ "title": "Complete the three-build campaign with audited above-par efficiency",
+ "category": "minecraft_build",
+ "goal": "Run the three sealed builds (relay platform, twin arch gate, market stall) as independent judged runs on fresh worlds with two bots each, and finish the campaign with every run ending 'complete task' and mean efficiency >= 1.2 across the three result ledgers. Efficiency is computed by the judger from your own action-interval ledger, so the campaign forces a process: predict the interval union per task, execute, compare the prediction to the judger's recorded use_time, and feed the error into the next task's plan. Any run that times out or loses its ledgers zeroes the whole campaign score.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-371/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-371/blueprint.json (sealed blueprint array)",
+  "assets/gc-371/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-371/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;rs=[json.load(open('work/gc-371/MARBLE/marble/result/gc-371-t%d/score.json'%i)) for i in range(3)];ok=all(r['end_reason']=='complete task' for r in rs);m=(sum(float(r['efficiency']) for r in rs)/3.0) if ok else 0.0;print(json.dumps({'mean_gated_efficiency':round(m,4)}))\"",
+   "metric": "mean_gated_efficiency",
+   "threshold": 1.2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "Three compose lifecycles and three judger launches (task names gc-371-t0..t2) appear in order in the run log, each on a fresh world",
+  "Per-task prediction artifacts (expected interval union and efficiency) exist before each run and are compared to the judger's recorded use_time afterwards, with the delta logged",
+  "Prediction error from task N is explicitly referenced in the plan for task N+1 (a written adjustment, not a vibe)",
+  "Both bots show overlapping real intervals in every task's action_log.json; idle-bot stretches are flagged in the campaign ledger with causes",
+  "Every timeout, disconnect, or failed placement across the campaign is logged by identity with its recovery action; the campaign summary reconciles total LLM spend against the budget"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

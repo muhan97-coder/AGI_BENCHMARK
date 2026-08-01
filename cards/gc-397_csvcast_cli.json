@@ -1,0 +1,34 @@
+{
+ "id": "gc-397",
+ "title": "Build the csvcast CSV-to-JSON-Lines converter from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the csvcast CLI exactly as written in assets/gc-397/SPEC.md, from scratch, at workspace/gc-397/csvcast.py. The spec fixes an ordered type-inference ladder (with deliberately strict integer/float regexes), header deduplication, ragged-row padding, and a --strict abort protocol. Decompose the spec into testable behaviors, implement, run the sealed suite, and iterate on the divergences it exposes (inference order and ragged-row semantics are the usual failure points) until fully green.",
+ "horizon": "1d",
+ "budget_usd": 6,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-397/SPEC.md",
+  "assets/gc-397/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-397/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 24,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-397/plan.md exists before implementation, listing the inference ladder and ragged-row cases as separate work items.",
+  "The sealed suite was executed at least twice with outputs logged to workspace/gc-397/runs.log (intermediate RED runs allowed, final GREEN required).",
+  "Intermediate failures recorded by test node id with the corresponding code change, not just pass/fail counts.",
+  "Honest cost logging: LLM spend per iteration recorded in workspace/gc-397/cost.json.",
+  "Recovery after RED is visible in the log as diagnosis -> fix -> re-run, with no edits to assets/gc-397/test_accept.py."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

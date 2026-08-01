@@ -1,0 +1,52 @@
+{
+ "id": "gc-395",
+ "title": "Reproduce sealed revenue rollups via a two-table ETL join",
+ "category": "data_repro",
+ "goal": "Build a two-table ETL pipeline over assets/gc-395/orders.csv and assets/gc-395/customers.csv: join orders to customers on customer_id, drop orders whose customer is unknown, then drop orders placed before the customer's signup day, and reproduce the sealed rollups -- stage counts, total/mean/per-segment revenue, top-customer revenue, median days-since-signup, repeat-customer fraction -- per assets/gc-395/spec.md, into artifacts/gc-395/stats.json. Verify each pipeline stage with explicit row-count invariants (raw > joined > valid) before computing the final figures; a single wrong filter silently shifts most downstream statistics. Iterate grader -> named mismatches -> stage-level diagnosis until stats_matched = 12.",
+ "horizon": "1m",
+ "budget_usd": 35.0,
+ "resources": [
+  "assets/gc-395/customers.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-395/orders.csv (bundled dataset slice, sealed by sha256)",
+  "assets/gc-395/spec.md (exact statistic definitions and submission contract)",
+  "assets/gc-395/make_dataset.py (deterministic stdlib regeneration script)",
+  "assets/gc-395/expected_stats.json (sealed values, tolerances, data hashes)",
+  "assets/gc-395/grade.py (stdlib-only grader)",
+  "pypi:numpy==1.26.4 (optional, for the agent-side pipeline only)",
+  "pypi:pandas==2.2.2 (optional, for the agent-side pipeline only)",
+  "docker image python:3.11.9-slim (optional hermetic runner; the grader itself is stdlib-only)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-395/grade.py",
+   "metric": "stats_matched",
+   "threshold": 12,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact (e.g., plan.md) exists before any pipeline code and restates all 12 statistic definitions from spec.md in the agent's own words.",
+  "Intermediate self-verification commands ran, with captured output, before the first grader invocation.",
+  "The grader command was actually executed at least twice -- one mid-run check and one final run -- and both stdout JSON lines are preserved in the run log.",
+  "Every RED grader run is followed by a log entry naming the mismatched statistics (identities, not counts) and the specific definition fix applied to each.",
+  "After any RED, recovery is traceable end-to-end: the named statistic, the root cause found, the fix, and the re-verify GREEN."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "data_repro",
+ "contamination_risk": "answers_sealed",
+ "assets_visibility": {
+  "task": [
+   "customers.csv",
+   "grade.py",
+   "make_dataset.py",
+   "orders.csv",
+   "spec.md"
+  ],
+  "sealed": [
+   "expected_stats.json"
+  ],
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+ }
+}

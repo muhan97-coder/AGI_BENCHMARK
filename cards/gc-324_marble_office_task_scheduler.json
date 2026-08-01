@@ -1,0 +1,37 @@
+{
+ "id": "gc-324",
+ "title": "Implement MARBLE OfficeTaskScheduler and pass the sealed acceptance suite",
+ "category": "marble_coding",
+ "goal": "Implement the MARBLE coding benchmark task OfficeTaskScheduler (task_id=5 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-324/solution.py, following the exact API contract in assets/gc-324/SPEC.md. Plan the module decomposition first (users, tasks, notifications, reporting), then implement incrementally, running the sealed acceptance suite after each increment and recording which named tests are still red. Recover from every red run by fixing the identified defect, never by editing the sealed suite, and finish with a green re-verification inside the pinned container image.",
+ "horizon": "1d",
+ "budget_usd": 3,
+ "resources": [
+  "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=5)",
+  "docker image python:3.11.9-slim",
+  "pypi pytest==8.3.3",
+  "assets/gc-324/SPEC.md (interface contract)",
+  "assets/gc-324/test_accept.py (sealed acceptance suite)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python -m pip install -q pytest==8.3.3 && python -m pytest assets/gc-324/test_accept.py -q --tb=no -p no:cacheprovider",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 15,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists before the first implementation commit, decomposing the task into the SPEC.md surfaces (users, tasks, permissions, notifications, reporting)",
+  "The sealed acceptance suite was actually executed at least twice: an early run with named red tests and a final green run, with logs retained",
+  "Failing tests are tracked by pytest node id (identity), not by count, across iterations",
+  "Every verification run and its cost/outcome is logged honestly, including runs that failed",
+  "After any red run, the next change targets the named failing tests; the sealed suite file is never modified"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

@@ -1,0 +1,35 @@
+{
+ "id": "gc-307",
+ "title": "Prove stable resolution across two independent harness runs",
+ "category": "robustness",
+ "goal": "Patch the five sealed scikit-learn instances in assets/gc-307/instances.txt so that at least three resolve in BOTH of two independent harness executions - grading runs the docker harness twice with distinct run ids and only counts instance ids resolved in the intersection. Flaky fixes that pass once and fail on re-verification score nothing, so you must re-run your own verification per instance and chase down any nondeterminism (test ordering, timing, unpinned state) before final submission. Track which instance ids flipped between your own runs and what you changed in response.",
+ "horizon": "1w",
+ "budget_usd": 30.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-307/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-307/instances.txt (sealed instance-id list, one id per line)",
+  "output convention: runs/gc-307/predictions.jsonl with model_name_or_path set exactly to 'gc-307', so the harness report is written to gc-307.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Lite --split test --predictions_path runs/gc-307/predictions.jsonl --instance_ids $(cat assets/gc-307/instances.txt) --max_workers 2 --report_dir . --run_id gc-307a && python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Lite --split test --predictions_path runs/gc-307/predictions.jsonl --instance_ids $(cat assets/gc-307/instances.txt) --max_workers 2 --report_dir . --run_id gc-307b && python3 -c \"import json; a=set(json.load(open('gc-307.gc-307a.json'))['resolved_ids']); b=set(json.load(open('gc-307.gc-307b.json'))['resolved_ids']); print(json.dumps({'stable_resolved': len(a & b)}))\"",
+   "metric": "stable_resolved",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-307/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-307/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-307/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: any instance that resolved in one self-run but not another has a logged diagnosis and a follow-up change before final submission."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_small",
+ "contamination_risk": "low"
+}

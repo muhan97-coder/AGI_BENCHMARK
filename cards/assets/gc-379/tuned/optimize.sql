@@ -1,0 +1,4 @@
+-- gc-379: your optimization script -- this is your deliverable. Edit freely.
+-- Allowed: CREATE INDEX, ANALYZE, ALTER TABLE ... SET STATISTICS, session settings, etc.
+-- NOT allowed: anything that changes the data. The sealed grader snapshots row counts
+-- and a content hash of both tables before and after this script; any mismatch fails.

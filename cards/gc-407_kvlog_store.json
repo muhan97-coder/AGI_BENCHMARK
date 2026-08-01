@@ -1,0 +1,34 @@
+{
+ "id": "gc-407",
+ "title": "Build the kvlog crash-tolerant key-value store CLI from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the kvlog append-only key-value store CLI exactly as written in assets/gc-407/SPEC.md, from scratch, at workspace/gc-407/kvlog.py. The spec pins an exact on-disk log format, six commands with per-command exit codes, torn-tail crash recovery, and a fatal interior-corruption rule; the sealed suite inspects raw file bytes, so behavior that merely looks right is not enough. Plan the state machine and the read/repair/append path first, then build up command by command, running the sealed suite between increments; the torn-tail-versus-corruption distinction and the write-nothing guarantees on error paths typically require several diagnose-fix-rerun cycles.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-407/SPEC.md",
+  "assets/gc-407/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-407/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 29,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-407/plan.md exists before implementation, mapping each SPEC.md section (format, commands, the five tricky edge cases, exit codes) to intended behavior and a test strategy.",
+  "The sealed suite was actually executed multiple times across increments, with command lines and pytest summary lines logged to workspace/gc-407/runs.log.",
+  "Intermediate failures are tracked by test node id (failure identities, not just counts), each paired with the diagnosis and the fix applied.",
+  "Honest cost/failure logging: LLM spend and wall time per iteration recorded in workspace/gc-407/cost.json, including iterations that ended RED.",
+  "After any RED run the log shows a diagnosis -> fix -> re-run recovery cycle on the implementation; the sealed test file is never modified."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

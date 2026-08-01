@@ -1,0 +1,34 @@
+{
+ "id": "gc-406",
+ "title": "Build the taskgraph deterministic dependency scheduler from its sealed spec",
+ "category": "tool_from_spec",
+ "goal": "Implement the taskgraph library exactly as written in assets/gc-406/SPEC.md, from scratch, at workspace/gc-406/taskgraph.py. The spec demands four interlocking algorithms: Kahn ordering with lexicographic tie-breaks, parallel wave layering, a critical-path DP with a sequence-lexicographic tie-break, and cycle extraction that must report a real normalized cycle (direction and rotation both pinned) via a custom CycleError. Validation ordering (ValueError before CycleError) and bool-vs-int traps are tested. Plan the shared validation core and each algorithm, then iterate against the sealed suite until green.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "pypi pytest==8.3.4",
+  "assets/gc-406/SPEC.md",
+  "assets/gc-406/test_accept.py"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python3 -m pytest assets/gc-406/test_accept.py -q --tb=line -p no:cacheprovider",
+   "metric": "passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 22,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact workspace/gc-406/plan.md exists before implementation, working the spec's pipeline example through all four algorithms by hand.",
+  "workspace/gc-406/runs.log records every sealed-suite invocation with summary lines; at least one intermediate RED run before the final GREEN.",
+  "Failure identities: failing test node ids logged with the algorithm and rule (tie-break, direction, normalization, validation order) each traced to.",
+  "Honest cost logging in workspace/gc-406/cost.json.",
+  "Recovery after RED documented as diagnosis -> fix -> re-run; the sealed test file is never modified."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "tool_from_spec",
+ "contamination_risk": "low"
+}

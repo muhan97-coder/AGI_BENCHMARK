@@ -1,0 +1,38 @@
+{
+ "id": "gc-368",
+ "title": "Run the five-blueprint campaign to perfect scores on fresh worlds",
+ "category": "minecraft_build",
+ "goal": "Complete all five sealed blueprints (waystone, walkway, kiosk, pergola, gazebo - indices 0 through 4) as five independent judged runs, each starting from a fresh compose-up world and ending with the judger recording block_hit_rate 1.0 under its own task name. The set spans plain blocks, checker patterns, a facing-critical furnace, axis-critical log frames, and glass, so a single generic placement routine will fail somewhere; the campaign requires a per-task plan, per-task verification, and a running defect ledger that carries failure identities forward so the same mistake is not paid for twice. The score is the minimum block_hit_rate across all five result ledgers.",
+ "horizon": "1m",
+ "budget_usd": 35,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-368/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-368/blueprint.json (sealed blueprint array)",
+  "assets/gc-368/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-368/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;rs=[json.load(open('work/gc-368/MARBLE/marble/result/gc-368-t%d/score.json'%i)) for i in range(5)];print(json.dumps({'min_block_hit_rate':min(float(r['block_hit_rate']) for r in rs)}))\"",
+   "metric": "min_block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "Five compose lifecycles and five judger launches (idx 0..4, task names gc-368-t0..t4) appear in the run log in order",
+  "A campaign defect ledger accumulates failure identities (task, coordinate, expected vs observed) across runs, and later task plans reference earlier entries",
+  "Each task's plan artifact exists before that task's first placement, and re-verification after each repair is visible per task",
+  "Honest cost logging: cumulative LLM spend per task is recorded in the tokens.json ledgers and summarized at campaign end",
+  "Recovery after RED: every judger run that ended below 1.0 (if any) is followed by a logged diagnosis and a re-run, not silent abandonment"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}

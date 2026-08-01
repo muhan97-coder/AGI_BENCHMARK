@@ -1,0 +1,923 @@
+[
+ {
+  "name": "Relay Platform",
+  "size": [
+   4,
+   2,
+   4
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     3
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     3
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     4
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     3
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     3
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     4
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     3
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     2,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     2,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     1,
+     4
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     2,
+     4
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     1,
+     4
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     2,
+     4
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   }
+  ]
+ },
+ {
+  "name": "Twin Arch Gate",
+  "size": [
+   4,
+   3,
+   4
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     2,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     1,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     2,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     2,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     1,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     2,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     3,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     3,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     3,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     4
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     3
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     3
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   }
+  ]
+ },
+ {
+  "name": "Market Stall",
+  "size": [
+   4,
+   3,
+   2
+  ],
+  "blocks": [
+   {
+    "position": [
+     0,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     0
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     1
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     0,
+     2
+    ],
+    "name": "oak_planks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     2,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     1,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     2,
+     0
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     1,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     2,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     1,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     4,
+     2,
+     2
+    ],
+    "name": "oak_log",
+    "facing": "y"
+   },
+   {
+    "position": [
+     0,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     0,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     1,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     2,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     3,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     0
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     1
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   },
+   {
+    "position": [
+     4,
+     3,
+     2
+    ],
+    "name": "stone_bricks",
+    "facing": "A"
+   }
+  ]
+ }
+]

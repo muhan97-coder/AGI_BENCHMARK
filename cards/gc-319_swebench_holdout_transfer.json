@@ -1,0 +1,38 @@
+{
+ "id": "gc-319",
+ "title": "Tune on django, then transfer to a sealed non-django holdout",
+ "category": "swe_bench",
+ "goal": "Split your effort into a tuning phase and a frozen transfer phase. During tuning, iterate freely on the 20 sealed django instances in assets/gc-319/tuning.txt until a harness report at runs/gc-319/tuning_report.json shows at least 8 resolved - this proves your pipeline works before transfer. Then freeze the pipeline and run it once against the sealed 20-instance non-django holdout in assets/gc-319/holdout.txt (sympy, matplotlib, scikit-learn, sphinx-doc, pytest-dev), writing exactly those 20 predictions to runs/gc-319/holdout_predictions.jsonl and the report to runs/gc-319/holdout_report.json. The sealed grader rejects any leakage (holdout predictions must cover exactly the holdout set) and requires at least 5 holdout resolves gated on the tuning precondition.",
+ "horizon": "1w",
+ "budget_usd": 70,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-319/tuning.txt (sealed)",
+  "assets/gc-319/holdout.txt (sealed)",
+  "assets/gc-319/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-319/grade.py",
+   "metric": "holdout_resolved",
+   "threshold": 5,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-319/plan.md declares the pipeline-freeze criterion before tuning starts and timestamps the freeze when it happens.",
+  "Tuning iterations are observable: multiple tuning evaluation run_ids exist under logs/run_evaluation/ with improving resolved counts recorded.",
+  "Holdout instances never appear in any tuning-phase log or prediction file - the transfer boundary is auditable.",
+  "Failure identities on the holdout are recorded per instance in runs/gc-319/triage.md even though no second holdout attempt is allowed.",
+  "runs/gc-319/cost_log.json splits tuning spend from the single transfer run honestly."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "public_gold_exists"
+}

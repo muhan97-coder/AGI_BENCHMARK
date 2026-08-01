@@ -1,0 +1,9 @@
+{
+ "task_0": [
+  "Structure 'Oak Frame Hut': 17 blocks, footprint x=0..2, z=0..2, height y=0..2.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (2,0)oak_log/y (2,2)oak_log/y",
+  "Layer y=1 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (2,0)oak_log/y (2,2)oak_log/y",
+  "Layer y=2 (9 blocks): (0,0)oak_planks (0,1)oak_planks (0,2)oak_planks (1,0)oak_planks (1,1)oak_planks (1,2)oak_planks (2,0)oak_planks (2,1)oak_planks (2,2)oak_planks"
+ ]
+}

@@ -1,0 +1,37 @@
+{
+ "id": "gc-414",
+ "title": "Run the romanx test-first pipeline: kill mutants, implement the full module, ship the CLI",
+ "category": "campaign",
+ "goal": "A test-first three-stage campaign. Stage 1 inverts the usual order: before writing any implementation, author a behavioral kill-test suite for the sealed romanx reference that stays green on the original and fails on at least 10 of its 12 sealed mutants (strict canonical-form validation hides the subtle ones). Stage 2 implements the full module - same core contract plus is_valid and an eagerly-validating roman_range generator - against a sealed suite. Stage 3 ships a CLI with pinned exit codes and stderr prefixes, graded by a sealed subprocess suite while stage 2 stays green. Plan freezing, a sha256 marker chain, a run journal, and an honest cost record are graded with final state as one campaign_score.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
+  "docker image python:3.11.9-slim-bookworm",
+  "assets/gc-414/SPEC.md (reference contract, CLI contract, artifact contract)",
+  "assets/gc-414/romanx.py (sealed reference) + assets/gc-414/mutants/ (12 sealed mutants)",
+  "assets/gc-414/test_full.py and assets/gc-414/test_cli.py (sealed suites)",
+  "assets/gc-414/grade.py + assets/gc-414/config.json (sealed campaign grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python assets/gc-414/grade.py",
+   "metric": "campaign_score",
+   "threshold": 9,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "The frozen plan restates the strict-canonical grammar and enumerates the mutant-facing behavior classes BEFORE stage 1 kill tests are written.",
+  "Kill tests are behavioral only (the grader bans source-introspection tokens and shadow copies) and reach the 10/12 threshold with a green baseline.",
+  "runs.log journals kill counts across stage-1 iterations and suite results for stages 2-3 with honest passed/failed integers.",
+  "The CLI stage does not regress the module stage: the grader re-runs the stage-2 suite after the CLI suite.",
+  "cost.json carries honest llm_usd and grader_runs totals for the campaign."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "campaign",
+ "contamination_risk": "low"
+}

@@ -1,0 +1,2 @@
+Prefix each line of input.txt with its 1-based line number and a colon (e.g. '1:alpha').
+Output file: work/gc-425/out/task-05.txt

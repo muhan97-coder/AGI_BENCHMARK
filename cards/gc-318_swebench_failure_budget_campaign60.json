@@ -1,0 +1,37 @@
+{
+ "id": "gc-318",
+ "title": "Run a 60-instance campaign inside strict error and empty-patch budgets",
+ "category": "campaign",
+ "goal": "Execute a full campaign over the sealed 60-instance, 10-organization set in assets/gc-318/instances.txt: predictions for every instance in runs/gc-318/predictions.jsonl, one final harness report at runs/gc-318/report.json, and a failure ledger at runs/gc-318/failure_ledger.jsonl. Budgets are hard gates: at most 3 harness-error instances, at most 6 empty patches, and at least 12 resolved. Every non-resolved instance must appear in the ledger with a non-empty category and evidence string, so failures have identities, not counts. Expect several plan-verify-execute-reverify cycles: an error-heavy first evaluation must be triaged and re-run within budget before submission.",
+ "horizon": "1w",
+ "budget_usd": 80,
+ "resources": [
+  "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
+  "pypi: swebench==4.1.0",
+  "huggingface dataset: princeton-nlp/SWE-bench_Lite@6ec7bb89b9342f664a54a6e0a6ea6501d3437cc2 (test split, 300 instances, public)",
+  "docker image: python:3.11-slim (grading sandbox)",
+  "assets/gc-318/instances.txt (sealed)",
+  "assets/gc-318/grade.py (sealed grader)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-318/grade.py",
+   "metric": "gated_resolved",
+   "threshold": 12,
+   "compare": ">=",
+   "docker_image": "python:3.11-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact runs/gc-318/plan.md allocates the error and empty-patch budgets across repo families before generation begins.",
+  "Intermediate evaluations actually ran: logs/run_evaluation/ contains at least one triage run earlier than the final report's run_id.",
+  "The failure ledger names every unresolved, empty, and errored instance with category and evidence - the grader enforces this mechanically.",
+  "runs/gc-318/cost_log.json records per-phase spend including instances that consumed budget and still failed.",
+  "A budget breach reaction is observable: if any intermediate run exceeded a gate, the re-plan and the recovering run are both in the logs."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "swebench_scale",
+ "contamination_risk": "low"
+}

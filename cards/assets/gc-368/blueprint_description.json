@@ -1,0 +1,37 @@
+{
+ "task_0": [
+  "Structure 'Waystone Podium': 12 blocks, footprint x=0..2, z=0..2, height y=0..3.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (9 blocks): (0,0)stone_bricks (0,1)stone_bricks (0,2)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (1,2)stone_bricks (2,0)stone_bricks (2,1)stone_bricks (2,2)stone_bricks",
+  "Layer y=1 (1 blocks): (1,1)oak_log/y",
+  "Layer y=2 (1 blocks): (1,1)oak_log/y",
+  "Layer y=3 (1 blocks): (1,1)glass"
+ ],
+ "task_1": [
+  "Structure 'Checker Walkway': 21 blocks, footprint x=0..2, z=0..6, height y=0..0.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (21 blocks): (0,0)stone_bricks (0,1)oak_planks (0,2)stone_bricks (0,3)oak_planks (0,4)stone_bricks (0,5)oak_planks (0,6)stone_bricks (1,0)oak_planks (1,1)stone_bricks (1,2)oak_planks (1,3)stone_bricks (1,4)oak_planks (1,5)stone_bricks (1,6)oak_planks (2,0)stone_bricks (2,1)oak_planks (2,2)stone_bricks (2,3)oak_planks (2,4)stone_bricks (2,5)oak_planks (2,6)stone_bricks"
+ ],
+ "task_2": [
+  "Structure 'Furnace Kiosk': 23 blocks, footprint x=0..2, z=0..2, height y=0..2.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (9 blocks): (0,0)stone_bricks (0,1)stone_bricks (0,2)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (1,2)stone_bricks (2,0)stone_bricks (2,1)stone_bricks (2,2)stone_bricks",
+  "Layer y=1 (5 blocks): (0,1)glass (1,0)glass (1,1)furnace/W (1,2)glass (2,1)glass",
+  "Layer y=2 (9 blocks): (0,0)oak_planks (0,1)oak_planks (0,2)oak_planks (1,0)oak_planks (1,1)oak_planks (1,2)oak_planks (2,0)oak_planks (2,1)oak_planks (2,2)oak_planks"
+ ],
+ "task_3": [
+  "Structure 'Log Pergola': 21 blocks, footprint x=0..4, z=0..2, height y=0..2.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (4,0)oak_log/y (4,2)oak_log/y",
+  "Layer y=1 (4 blocks): (0,0)oak_log/y (0,2)oak_log/y (4,0)oak_log/y (4,2)oak_log/y",
+  "Layer y=2 (13 blocks): (0,0)oak_log/x (0,2)oak_log/x (1,0)oak_log/x (1,1)oak_log/z (1,2)oak_log/x (2,0)oak_log/x (2,1)oak_log/z (2,2)oak_log/x (3,0)oak_log/x (3,1)oak_log/z (3,2)oak_log/x (4,0)oak_log/x (4,2)oak_log/x"
+ ],
+ "task_4": [
+  "Structure 'Glass Gazebo': 23 blocks, footprint x=0..2, z=0..2, height y=0..3.",
+  "Coordinates below are blueprint-relative [x,y,z]; the judger shifts x and y into world space and writes final world coordinates to data/map.json.",
+  "Layer y=0 (9 blocks): (0,0)stone_bricks (0,1)stone_bricks (0,2)stone_bricks (1,0)stone_bricks (1,1)stone_bricks (1,2)stone_bricks (2,0)stone_bricks (2,1)stone_bricks (2,2)stone_bricks",
+  "Layer y=1 (4 blocks): (0,0)glass (0,2)glass (2,0)glass (2,2)glass",
+  "Layer y=2 (9 blocks): (0,0)oak_planks (0,1)oak_planks (0,2)oak_planks (1,0)oak_planks (1,1)oak_planks (1,2)oak_planks (2,0)oak_planks (2,1)oak_planks (2,2)oak_planks",
+  "Layer y=3 (1 blocks): (1,1)stone_bricks"
+ ]
+}

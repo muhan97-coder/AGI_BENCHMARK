@@ -1,0 +1,27 @@
+# gc-378 starter stack -- intentionally broken in several places. Repair it until
+# assets/gc-378/check.sh reports 10/10. Allowed images (pinned): nginx:1.25.4,
+# redis:7.2.4, postgres:12.22. The sealed checks expect: web on host port 8378,
+# cache NOT published to the host, db user/database app/appdb seeded from init.sql,
+# a live worker heartbeat in redis, and a restart policy on the worker.
+services:
+  web:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./html:/usr/share/site:ro
+  cache:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_DB: mydb
+    volumes:
+      - ./init.sql:/docker-entrypoint-init.d/init.sql:ro
+  worker:
+    image: redis:7.2.4
+    command: sh -c 'while true; do redis-cli -h redis set heartbeat "$(date +%s)" EX 10; sleep 2; done'

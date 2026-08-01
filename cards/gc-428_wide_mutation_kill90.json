@@ -1,0 +1,31 @@
+{
+ "id": "gc-428",
+ "title": "Sustain a 0.90 kill rate across 51 sealed mutants in three modules",
+ "category": "mutation_testing",
+ "goal": "assets/gc-428/target ships three unrelated modules (CSV quoting, glob-style path matching with backtracking, token-bucket rate limiting) and assets/gc-428/mutants.jsonl seals 51 single-site mutants across them. Build a unittest suite under work/gc-428/tests/ (>=30 tests, green on the pristine modules) that kills at least 90 percent of the sealed set. This requires a real campaign: classify mutants per module, run repeated sweep-strengthen-resweep cycles, and maintain an honest work/gc-428/kill_report.json naming the exact killed mutant ids. The grader recomputes the kill set from scratch; a report that overclaims or underclaims a single mutant id voids the run, and every mutant in the sealed set is independently verified killable.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "files under assets/gc-428/ (target/csvlite.py, target/pathmatch.py, target/ratelimit.py, mutants.jsonl sealed 51-mutant set, sealed grader grade.py)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python3 assets/gc-428/grade.py",
+   "metric": "kill_rate",
+   "threshold": 0.9,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "work/gc-428/plan.md (>=200 bytes) partitions the 51 mutants by module and operator class with an attack plan per class",
+  "baseline green run over all three modules precedes any mutant sweep; test count and result logged",
+  "multiple full sweeps actually executed; survivor identities (not counts) tracked between iterations",
+  "kill_report.json matches the recomputed kill set exactly in both directions -- the self-report is the honesty gate",
+  "sealed targets and mutant list stay byte-identical (grader hash-checks all four files)"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "robustness",
+ "contamination_risk": "low"
+}

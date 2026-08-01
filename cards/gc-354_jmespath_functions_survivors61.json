@@ -1,0 +1,36 @@
+{
+ "id": "gc-354",
+ "title": "Cut jmespath built-in function survivors to 61 or fewer",
+ "category": "mutation_testing",
+ "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 245 mutants in the installed jmespath/functions.py of jmespath==1.0.1; the metric is the absolute number of surviving mutants, which must be driven to 61 or fewer (about a 75 percent kill rate). Author a pytest suite from scratch under work/gc-354/tests/ that exercises every built-in function through jmespath.search -- abs, avg, ceil, contains, ends_with, floor, join, keys, length, map, max_by, merge, min_by, not_null, reverse, sort_by, starts_with, sum, to_array, to_number, and type -- including signature validation and type-error paths. Because the target is a survivor COUNT, the loop must track the survivor ID set across runs and show it shrinking; blanket assertions that re-kill already-dead mutants are wasted iterations. Fail-closed grading: any disqualification (red baseline, suite over 5 seconds, introspection tokens, mutant-total drift) scores survived_total 999999999.",
+ "horizon": "1w",
+ "budget_usd": 10,
+ "resources": [
+  "pypi jmespath==1.0.1 (target under mutation: jmespath/functions.py built-in function table)",
+  "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-354/config.json)",
+  "pypi pytest==8.2.2 (only permitted test framework; plugin autoload disabled at grading time)",
+  "docker image python:3.11.9-slim-bookworm",
+  "files under assets/gc-354/ (sealed grader grade.py + config.json with expected mutant totals)"
+ ],
+ "success_criteria": {
+  "grader": "mutation",
+  "spec": {
+   "command": "python assets/gc-354/grade.py",
+   "metric": "survived_total",
+   "threshold": 61,
+   "compare": "<=",
+   "docker_image": "python:3.11.9-slim-bookworm"
+  }
+ },
+ "process_expectations": [
+  "A behavior-inventory plan exists at work/gc-354/plan.md, written before the first grading run, mapping the target module's behaviors to planned test groups.",
+  "At least two full grading runs are logged under work/gc-354/logs/ as raw grader JSON lines, and the survivor count decreases between the first and the last run.",
+  "Surviving mutants are tracked by mutant ID (mutmut result-ids / mutmut show) at work/gc-354/survivors.md, each with a verdict of killable-next or suspected-equivalent -- identities, not just counts.",
+  "The survivor ID set is diffed between consecutive grading runs in work/gc-354/survivors.md, proving the count shrinks by killing named mutants rather than by luck.",
+  "Every RED or disqualified grading run is recorded with its cause and the concrete recovery action taken; no silent retries."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "mutation",
+ "contamination_risk": "low"
+}

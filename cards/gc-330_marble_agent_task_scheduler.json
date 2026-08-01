@@ -1,0 +1,37 @@
+{
+ "id": "gc-330",
+ "title": "Implement MARBLE MultiAgentTaskScheduler and pass the sealed suite",
+ "category": "marble_coding",
+ "goal": "Implement the MARBLE coding benchmark task MultiAgentTaskScheduler (task_id=90 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-330/solution.py per assets/gc-330/SPEC.md: a deterministic auto-assignment engine with capacities, priorities, agent outages with requeueing, an append-only event history, messaging, and task search. The event-log identity test enforces the exact assignment order, so plan the scheduling loop before coding, implement in increments, and rerun the sealed suite after each increment while tracking red tests by name. Finish with a green re-verification inside the pinned container.",
+ "horizon": "1w",
+ "budget_usd": 8,
+ "resources": [
+  "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=90)",
+  "docker image python:3.11.9-slim",
+  "pypi pytest==8.3.3",
+  "assets/gc-330/SPEC.md (interface contract)",
+  "assets/gc-330/test_accept.py (sealed acceptance suite)"
+ ],
+ "success_criteria": {
+  "grader": "pytest",
+  "spec": {
+   "command": "python -m pip install -q pytest==8.3.3 && python -m pytest assets/gc-330/test_accept.py -q --tb=no -p no:cacheprovider",
+   "metric": "tests_passed",
+   "extract_regex": "^(\\d+) passed",
+   "threshold": 15,
+   "compare": ">=",
+   "docker_image": "python:3.11.9-slim"
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists before coding that writes out the auto-assignment loop and its tie-breaking rules",
+  "The sealed suite was executed after each increment with logs retained, including at least one red run before the final green",
+  "Red tests are tracked by pytest node id across iterations, not by count",
+  "Verification runs and their costs/outcomes are logged honestly, including failures",
+  "The sealed suite file is never edited; all recovery happens in workspace/gc-330/solution.py"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "marble_coding",
+ "contamination_risk": "low"
+}

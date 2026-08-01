@@ -1,0 +1,16 @@
+sensor,site,temp_c,humidity,ok,note
+s-01,alpha,21.4,55,yes,
+s-02,beta,19.8,61,yes,calibrated
+s-03,alpha,-3.2,70,no,frost
+s-04,gamma,25.0,,yes,
+s-05,beta,30.6,44,yes,heat
+s-06,alpha,,48,no,gap
+s-07,gamma,18.1,52,yes,
+s-08,beta,22.9,58,yes,calibrated
+s-09,alpha,16.7,63,no,drift
+s-10,gamma,28.3,41,yes
+s-11,beta,20.0,50,yes,
+s-12,alpha,-1.5,72,no,frost
+s-13,gamma,24.4,47,yes,heat
+s-14,beta,26.8,39,yes,
+s-15,alpha,17.3,66,no,drift

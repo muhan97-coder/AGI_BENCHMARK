@@ -1,0 +1,37 @@
+{
+ "id": "gc-367",
+ "title": "Complete two sealed builds back-to-back on fresh worlds",
+ "category": "minecraft_build",
+ "goal": "Complete both sealed blueprints - the Stone Arch (idx 0) and the Step Pyramid (idx 1) - as separate judged runs, each on a completely fresh world: compose up, seed, judge, build to block_hit_rate 1.0, score, compose down, then repeat for the second task without reusing any world state. The card verifies the whole campaign, so the minimum of the two recorded block_hit_rate values must be 1.0; a shortcut on either run (stale world, skipped teardown, missing ledger) leaves the campaign RED. Carry lessons from the first run into a written adjustment for the second.",
+ "horizon": "1w",
+ "budget_usd": 12,
+ "resources": [
+  "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
+  "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-367/docker-compose.yml)",
+  "docker image node:20.15.1 (Node 20 runtime for mineflayer bots and the judger's JS bridge)",
+  "npm: mineflayer@4.20.1, vec3@0.1.10, minecraft-data@3.59.3, mineflayer-pathfinder@2.4.5",
+  "pypi: javascript==1!1.2.6, numpy==1.26.4, colorlog==6.8.2",
+  "assets/gc-367/blueprint.json (sealed blueprint array)",
+  "assets/gc-367/blueprint_description.json (sealed task descriptions)",
+  "assets/gc-367/RUNBOOK.md (sealed setup + path contract)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 -c \"import json;rs=[json.load(open('work/gc-367/MARBLE/marble/result/gc-367-t%d/score.json'%i)) for i in range(2)];print(json.dumps({'min_block_hit_rate':min(float(r['block_hit_rate']) for r in rs)}))\"",
+   "metric": "min_block_hit_rate",
+   "threshold": 1.0,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "Two full compose lifecycles (up ... down) appear in the run log, one per task, with no builds started on a leftover world",
+  "Separate plan artifacts exist for task 0 and task 1, and the task-1 plan records at least one adjustment learned from task 0",
+  "Each run's snapshot verification and mismatch-identity repairs are logged independently under its own task name",
+  "Both result ledgers (gc-367-t0, gc-367-t1) were produced by the judger, not hand-written: their end_reason and progression snapshots are consistent with the run log"
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "minecraft_build",
+ "contamination_risk": "low"
+}
