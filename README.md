@@ -52,6 +52,36 @@ threshold), and `process_expectations` (what observable good process looks
 like). All resources are public and pinned (git SHAs, package versions, docker
 tags); everything else ships in `cards/assets/`.
 
+## Environment
+
+Grading is the easy part — the environment is the boss fight. What you need,
+by card category:
+
+| categories | requirements |
+|---|---|
+| data_repro, tool_from_spec, ARC-AGI-2 | Python ≥ 3.10 only (pinned pip deps per card) |
+| mutation, oss_repair, MARBLE coding | + git clones at pinned SHAs, pinned pip packages |
+| infra_ops, minecraft | + Docker & docker compose (pinned images; minecraft also needs Node 20 + pinned npm packages) |
+| swe_bench, frontier_swe_hard | + the swebench docker harness — **heavy**: several GB of images *per instance environment*; budget 50 GB+ of disk for the larger batches |
+
+**Reference environment** (what the baseline runs on): Linux x86_64 (a WSL2
+VM, nothing exotic), 8 cores / 19 GB RAM, Docker 24+, Python 3.10, Node 20.
+The grader itself (`tools/goal_grader.py`) is stdlib-only.
+
+**Setup pitfalls we actually hit** (so you don't):
+
+- A native PostgreSQL already squatting on `5432` silently breaks container
+  DB cards — remap container ports, don't fight the host.
+- Unpinned image tags drift (`postgres` pulled 18 against data written by 12).
+  Every image in these cards is tag-pinned for a reason.
+- A stray empty `tests/` directory higher up your path can shadow a package
+  under pytest's rootdir rules and produce phantom failures — run graders from
+  the repo root.
+- `__pycache__/` embeds absolute build paths; if you fork this benchmark,
+  keep compiled artifacts out of your assets.
+- Concurrent cards that bind host ports (infra, minecraft) must not run in
+  parallel with each other — serialize those categories, parallelize the rest.
+
 ## Categories
 
 SWE-bench (pinned Lite instances) · OSS repair at pinned SHAs · mutation
