@@ -144,6 +144,20 @@ Add one entry to `results/leaderboard.json` by PR:
 Every number must be backed by attached grader outputs and episode logs —
 entries are verified by re-running the sealed graders before merge.
 
+**Trust tiers** (logs are self-emitted and therefore forgeable — the tier says
+how hard we checked):
+
+| tier | what it means |
+|---|---|
+| `self-reported` | logs submitted as-is; outcome re-graded, process taken on trust |
+| `replay-verified` | VERIFY events carry a `workspace_ref` (git SHA); we sample events and re-run their commands at that state — failure identities must reproduce or the entry is rejected |
+| `harness-run` | the agent ran inside the benchmark harness, which emits the logs itself — the agent never touches its own telemetry |
+
+`workspace_ref` on VERIFY events is required for anything above
+`self-reported`. Fabricating a replay-verified log means fabricating repo
+states where the claimed failures actually reproduce — the cost of forgery
+rises to the cost of doing the work.
+
 ## Contamination & leakage
 
 Honesty about what a score means (v1.0-alpha):
