@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Plan and execute a five-instance campaign over the sealed pydata/xarray list in assets/gc-454/instances.txt, finishing with at least two resolved under the swebench docker harness. Four of the five gold fixes touch more than one file, so single-hunk guesses will not survive the test patch: triage all five first, rank them by expected effort, and sequence attempts so environment setup and repo knowledge are reused. Verify each candidate with an intermediate harness run, record the verdict, and cut losses on instances that resist after a bounded number of iterations. Keep a running ledger of attempts, harness verdicts, and spend so the final report is reconstructable from artifacts.",
  "horizon": "1w",
- "budget_usd": 400.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-454/instances.txt are in scope)",

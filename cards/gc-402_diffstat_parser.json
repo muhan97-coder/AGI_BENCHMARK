@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the diffstat library plus CLI exactly as written in assets/gc-402/SPEC.md, from scratch, at workspace/gc-402/diffstat.py. The spec demands genuine hunk-count tracking from @@ headers (so removed lines whose content begins with dashes are never mistaken for file headers), git rename and binary handling, /dev/null path resolution, and tab-separated timestamp stripping for classic diffs. Naive line-prefix scanners fail the sealed suite; plan the block/hunk state machine first, implement, and iterate on failures until green.",
  "horizon": "1w",
- "budget_usd": 200.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-402/SPEC.md",

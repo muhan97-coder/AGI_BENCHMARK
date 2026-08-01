@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "Run the sealed Timber and Stone Lodge task in dig mode (--dig_needed True) on a fresh judged server: the judger deliberately withholds all 'log' and 'stone' materials from the chest, so the bot must first harvest oak_log and stone_bricks from the fenced material factory the judger erects near world (-12,-60,-12), manage its inventory, and only then build the 26-block lodge with axis-correct posts. Plan the harvest-transport-build pipeline, verify material counts against the blueprint's bill of materials before building, and drive the judger's block_hit_rate to 1.0 with snapshot-verified repairs.",
  "horizon": "1w",
- "budget_usd": 150.0,
+ "budget_usd": 600.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-366/docker-compose.yml)",

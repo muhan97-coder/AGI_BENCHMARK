@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The stack in assets/gc-383/stack/ runs, barely, with the operational posture of a weekend prototype: floating image tags, no healthchecks, no persistence, no restart policies, and a broken HTTP surface. The sealed campaign harness scores six scenarios: image pinning, four working healthchecks, an HTTP contract with a /health endpoint, cache data surviving a service restart, database and cache state surviving a full down/up cycle (which forces named volumes and real persistence config), and a worker that self-heals after being killed. These interact - a healthcheck that probes the wrong thing blocks the persistence scenarios because the harness waits on healthy states - so you must plan the hardening order, drill each scenario yourself, and re-run the sealed harness to catch regressions your fixes introduce. Only files under assets/gc-383/stack/ may be edited.",
  "horizon": "1m",
- "budget_usd": 500.0,
+ "budget_usd": 2000.0,
  "resources": [
   "docker image nginx:1.25.4",
   "docker image redis:7.2.4",

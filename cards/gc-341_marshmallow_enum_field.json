@@ -4,7 +4,7 @@
  "category": "oss_repair",
  "goal": "Clone https://github.com/marshmallow-code/marshmallow into work/gc-341/repo (relative to the benchmark repo root) and check out pinned commit 22e063270fea6ef6669425f53216e47eb8b04cc5 (release tag 3.17.1); the grader verifies that HEAD equals this exact commit, so keep all repairs as uncommitted working-tree edits to non-test source files. At this commit marshmallow has no fields.Enum. The sealed tests require an Enum field that serializes and deserializes by symbol name by default, by member value when by_value=True or when by_value is a field class such as fields.Integer, and reports invalid inputs as a ValidationError with the message 'Must be one of: ...' listing the permitted names or values. Decompose the work into a written plan, run the grader command first to record the initial RED state and the identities of the failing sealed tests, implement incrementally, and re-run the exact grader command after each increment until all 7 sealed tests pass. Do not edit or shadow anything under assets/gc-341/: the grader re-copies the sealed tests from assets over the workspace and disables pytest plugin autoloading and conftest collection, so test tampering cannot turn the run GREEN.",
  "horizon": "1w",
- "budget_usd": 200.0,
+ "budget_usd": 600.0,
  "resources": [
   "github.com/marshmallow-code/marshmallow@22e063270fea6ef6669425f53216e47eb8b04cc5",
   "docker:python:3.11-bookworm",

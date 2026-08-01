@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Reproduce the sealed two-group analysis of assets/gc-385/data.csv (latency experiment, groups A and B): means, spreads, pooled effect size, and Welch statistics, exactly as defined in assets/gc-385/spec.md, written to artifacts/gc-385/stats.json. The sealed values follow one specific convention set (sample std, B-minus-A direction, Welch rather than Student), so verify each of your formulas against the spec instead of trusting library defaults. Iterate grader run -> named mismatches -> targeted fixes until stats_matched reaches 12.",
  "horizon": "1d",
- "budget_usd": 40.0,
+ "budget_usd": 100.0,
  "resources": [
   "assets/gc-385/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-385/spec.md (exact statistic definitions and submission contract)",

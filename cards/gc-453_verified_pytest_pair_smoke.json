@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Resolve at least one of the two sealed pytest instances in assets/gc-453/instances.txt under the SWE-bench Verified docker harness. Both bugs live in pytest's own collection and reporting machinery, so the test framework is also the subject under test: plan first, state which internal component you believe is at fault and how you will verify it, reproduce the failure in the instance repo, patch, and self-grade with a real harness run before the final one. On a red verdict, extract the failing test names from the harness log, revise, and re-verify rather than resubmitting blind.",
  "horizon": "1d",
- "budget_usd": 80.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-453/instances.txt are in scope)",

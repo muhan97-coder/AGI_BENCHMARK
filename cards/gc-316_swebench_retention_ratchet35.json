@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "This card tests retention under expansion. First resolve all 5 instances of the sealed core set assets/gc-316/core.txt and verify them with the pinned harness. Then expand to the sealed 30-instance extension set assets/gc-316/extension.txt, iterating on tooling and prompts as needed, and produce one final predictions file runs/gc-316/predictions.jsonl covering all 35 instances plus one final report runs/gc-316/report.json from a single evaluation run. The sealed grader awards only newly resolved extension instances (at least 8 required) and returns -1 if any core instance regressed, so every tooling change must be re-verified against the core before it ships.",
  "horizon": "1w",
- "budget_usd": 550.0,
+ "budget_usd": 600.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

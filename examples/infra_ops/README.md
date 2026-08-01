@@ -170,11 +170,11 @@ The sealed check itself is six independent probes:
 | C5 | HTTP 200 carrying the content token | an independent stdlib client cannot fetch `ex-infra-ops-stack-ok` |
 | C6 | the cache is alive | `cache-cli ping` does not answer `PONG` |
 
-Note C5's design: the token lives in the *shipped* `html/index.html`, which the
-agent may not edit. You cannot satisfy it by writing the token somewhere
-convenient — the stack has to actually mount and serve that directory. That is
-what keeps the card from being gameable by a `stack.json` that merely *looks*
-right.
+Note C5's design: the token is read out of an **HTTP response body**, fetched by
+a client that is not part of the stack. Writing it into a file, or into a
+config, proves nothing — some directory has to be really mounted and really
+served before that check moves. That is what keeps the card from being gameable
+by a `stack.json` that merely *looks* right.
 
 ## What good process would have looked like here
 

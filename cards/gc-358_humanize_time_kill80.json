@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 326 mutants in the installed humanize/time.py of humanize==4.9.0. An 80 percent kill rate demands exhaustive boundary work on naturaldelta, naturaltime, naturalday, naturaldate, and precisedelta: unit rollover points (seconds/minutes/hours/days/months/years), future versus past phrasing, minimum_unit and suppress combinations, and month approximation arithmetic -- always with explicit datetime or timedelta values and an explicit when argument, never the wall clock, or the suite becomes flaky and a red baseline disqualifies. The mutation residue at 80 percent sits in off-by-one threshold mutants, so the campaign lives or dies on reading survivor diffs and constructing inputs that straddle each mutated boundary. Fail-closed grading: red baseline, suite slower than 4 seconds, source-introspection tokens, or mutant-total drift scores kill_rate -1.",
  "horizon": "1m",
- "budget_usd": 250.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi humanize==4.9.0 (target under mutation: humanize/time.py natural-language time deltas)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-358/config.json)",

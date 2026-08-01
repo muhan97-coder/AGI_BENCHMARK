@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least one of the five sealed ARC-AGI-2 training tasks in assets/gc-441/task_ids.txt, but in a hypothesis-first discipline: for each task, write the candidate rule in plain language before producing any grid, mechanically re-derive every train output from that rule, and only then apply it to the test input. If the re-derivation misses even one train pair the hypothesis must be revised and re-verified, not patched by eye. Ship runs/gc-441/predictions.json, grade it with assets/gc-441/grade.py, and if the verdict is short of threshold, pick the nearest-miss task, revise its rule, and grade again inside the one-day horizon.",
  "horizon": "1d",
- "budget_usd": 40.0,
+ "budget_usd": 100.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-441/task_ids.txt (sealed list of 5 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

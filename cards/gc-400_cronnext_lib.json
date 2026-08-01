@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the cronnext library exactly as written in assets/gc-400/SPEC.md, from scratch, at workspace/gc-400/cronnext.py. The spec contains a deliberately tricky section: Vixie day-of-month/day-of-week OR semantics, step anchoring at field minimums, dual Sunday encodings (0 and 7) including the 5-7 range, leap-day schedules, and an unsatisfiability horizon. Getting this green requires a parser, a field-expansion model, and a date-walking engine, verified iteratively against the sealed suite; plan the calendar semantics before coding and re-verify after every fix.",
  "horizon": "1w",
- "budget_usd": 220.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-400/SPEC.md",

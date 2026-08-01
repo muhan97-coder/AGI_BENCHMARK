@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the kvlog append-only key-value store CLI exactly as written in assets/gc-407/SPEC.md, from scratch, at workspace/gc-407/kvlog.py. The spec pins an exact on-disk log format, six commands with per-command exit codes, torn-tail crash recovery, and a fatal interior-corruption rule; the sealed suite inspects raw file bytes, so behavior that merely looks right is not enough. Plan the state machine and the read/repair/append path first, then build up command by command, running the sealed suite between increments; the torn-tail-versus-corruption distinction and the write-nothing guarantees on error paths typically require several diagnose-fix-rerun cycles.",
  "horizon": "1m",
- "budget_usd": 450.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-407/SPEC.md",

@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Resolve at least 2 of the 8 sealed django instances in assets/gc-314/instances.txt, then freeze the outcome: write runs/gc-314/sealed_baseline.json containing the resolved_ids you claim and the sha256 of runs/gc-314/predictions.jsonl. After sealing, re-grade the identical predictions file under a fresh run_id and copy the second harness report to runs/gc-314/report_regrade.json. The sealed grader verifies the checksum still matches, that the re-grade resolves exactly the sealed set, and that the baseline has at least 2 instances - so any prediction edit after sealing, or any nondeterministic verdict flip, turns the card RED and forces you to investigate and re-run.",
  "horizon": "1d",
- "budget_usd": 80.0,
+ "budget_usd": 100.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

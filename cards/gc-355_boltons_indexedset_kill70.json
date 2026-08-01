@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 446 mutants in the installed boltons/setutils.py of boltons==24.0.0. Kill at least 70 percent from scratch under work/gc-355/tests/: IndexedSet is an insertion-ordered set with lazy dead-index compaction, so meaningful coverage must drive interleaved add, discard, pop-at-index, slicing, and iteration sequences that force internal compaction, plus the set-operator overloads and the complement() machinery. Shallow API smoke tests will plateau far below the threshold; survivors must be triaged by mutant ID to find which internal transition each one hides in, and the suite grown iteratively with a grading run between batches. Fail-closed grading: red baseline, suite slower than 4 seconds, source-introspection tokens, or mutant-total drift scores kill_rate -1.",
  "horizon": "1w",
- "budget_usd": 140.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi boltons==24.0.0 (target under mutation: boltons/setutils.py, IndexedSet and complement sets)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-355/config.json)",

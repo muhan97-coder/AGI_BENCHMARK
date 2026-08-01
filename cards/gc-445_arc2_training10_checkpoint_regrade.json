@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-445/task_ids.txt under an explicit checkpoint protocol: after the first half of the attempt budget is spent, run the grader, record the checkpoint verdict in runs/gc-445/checkpoint.md, and re-plan the remaining budget against the observed solve rate -- including the decision to abandon tasks whose rule family has resisted two verified hypotheses. The final grade must be preceded by a second full pass over every shipped prediction re-deriving it from its stated rule; any prediction that cannot be re-derived must be fixed or withdrawn before the final run.",
  "horizon": "1w",
- "budget_usd": 200.0,
+ "budget_usd": 600.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-445/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

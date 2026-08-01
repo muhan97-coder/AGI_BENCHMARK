@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-446/task_ids.txt by writing an executable transform per attempted task: a small program (any language) that maps input grid to output grid, committed under runs/gc-446/solvers/, and demonstrated to reproduce every train output exactly before its test prediction is shipped. Hand-drawn grids that no program produced do not satisfy this card's process bar even if they happen to match. Plan the batch, verify each solver on all train pairs with a logged command, generate runs/gc-446/predictions.json from solver output only, grade, and iterate on the nearest-miss solvers until the threshold holds.",
  "horizon": "1w",
- "budget_usd": 220.0,
+ "budget_usd": 600.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-446/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

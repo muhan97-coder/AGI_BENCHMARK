@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Resolve at least two of the three sealed pytest instances in assets/gc-306/instances.txt while submitting a real, non-empty patch for every one of the three - the grader hard-fails the whole card if the harness report shows any empty-patch instance. That forces an honest attempt on all three: for each instance you must reproduce the bug, produce a substantive candidate patch, and verify it with a docker harness run, iterating on unresolved verdicts instead of silently dropping an instance.",
  "horizon": "1w",
- "budget_usd": 180.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-306/instances.txt are in scope)",

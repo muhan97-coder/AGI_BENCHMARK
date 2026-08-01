@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Three small projects (a JSON-lines toolkit, a stable priority queue, a template renderer) ship with four seeded defects each - twelve failure identities A01..A04, Q01..Q04, T01..T04 discoverable from sealed test names. The campaign forces a declared order: jsonl in stage 1, queue in stage 2, tmpl in stage 3, proven by a sha256 marker chain, then a stage-4 combined seal where the grader runs all three sealed suites together TWICE and requires identical green results. The failure ledger is machine-checked for all twelve identities with per-defect cause, fix, and the stage number matching the sealed order. Plan, chain, ledger, journal, and final state combine into one campaign_score.",
  "horizon": "1m",
- "budget_usd": 450.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

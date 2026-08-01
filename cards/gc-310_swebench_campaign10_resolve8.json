@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Run a month-horizon campaign over the ten sealed instances in assets/gc-310/instances.txt and finish with at least eight resolved - an 80 percent bar that leaves room for at most two write-offs. Expect several full plan-execute-verify cycles: an opening sweep, then targeted deep dives on the resisters, each backed by harness log analysis rather than fresh guesses. The campaign must show phase structure in its artifacts (phase plans, per-phase harness verdicts, spend per phase) and at least one documented recovery where an instance moved from unresolved to resolved between phases.",
  "horizon": "1m",
- "budget_usd": 1000.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-310/instances.txt are in scope)",

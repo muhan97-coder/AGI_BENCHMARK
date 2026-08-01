@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "assets/gc-386/data.csv logs 523 events across 12 categories. Build an independent pipeline that reproduces the sealed frequency profile -- top-share figures, Shannon entropy in bits, Gini impurity, chi-square against the uniform model, and the effective category count -- exactly as defined in assets/gc-386/spec.md, writing the 12 values to artifacts/gc-386/stats.json. Plan the definitions first, verify with the grader, then close every named mismatch (log base and expected-count conventions are the usual traps) before declaring done.",
  "horizon": "1d",
- "budget_usd": 50.0,
+ "budget_usd": 100.0,
  "resources": [
   "assets/gc-386/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-386/spec.md (exact statistic definitions and submission contract)",

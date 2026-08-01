@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "A three-stage campaign chaining tool-from-spec, mutation hardening, and feature extension. Stage 1 implements a unit-conversion module against a sealed acceptance suite. Stage 2 hardens the shipped siunits prefix library: write a behavioral kill-test suite that stays green on the original but fails on at least 12 of its 15 sealed single-change mutants, which requires reading mutant diffs and constructing separating inputs one survivor at a time. Stage 3 extends your module with compound speed units while stage 1 stays green. Plan freezing, a sha256 marker chain over three stages, a run journal, and an honest cost record are graded with final state as one campaign_score.",
  "horizon": "1w",
- "budget_usd": 250.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

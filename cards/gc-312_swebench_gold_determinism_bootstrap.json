@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Stand up the pinned SWE-bench Lite evaluation harness (swebench==4.1.0) from scratch and prove it grades deterministically before any model-generated patch is trusted. Build gold predictions (the dataset's reference patches, model_name_or_path tagged for this run) for the 6 sealed instances in assets/gc-312/instances.txt, write them to runs/gc-312/predictions.jsonl, and evaluate them twice under two different run_ids. Copy the two harness reports to runs/gc-312/report_a.json and runs/gc-312/report_b.json. The sealed grader passes only if both runs resolve the identical set and all 6 sealed instances are resolved, so you must diagnose and fix any environment, docker, or dataset-revision drift between the two runs before submitting.",
  "horizon": "1d",
- "budget_usd": 20.0,
+ "budget_usd": 100.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

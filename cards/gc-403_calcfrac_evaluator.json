@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the calcfrac evaluator exactly as written in assets/gc-403/SPEC.md, from scratch, at workspace/gc-403/calcfrac.py. The spec fixes a five-level precedence grammar in which ^ is right-associative and binds tighter than unary minus, exact decimal-to-rational conversion, integer-only exponents with reciprocal semantics, and a CLI that maps two different ValueError flavors to distinct exit codes. This needs a real recursive-descent parser and disciplined error taxonomy; plan the grammar, implement, and iterate against the sealed suite, tracking which grammar production each failure came from.",
  "horizon": "1w",
- "budget_usd": 200.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-403/SPEC.md",

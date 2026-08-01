@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Fit the bundled 640-point slice assets/gc-387/data.csv with closed-form simple OLS and reproduce the sealed decomposition -- slope, intercept, SSE/SSR/SST, residual std with n-2 degrees of freedom, residual extremes, and a fixed-point prediction -- per assets/gc-387/spec.md, into artifacts/gc-387/stats.json. Before grading, validate intermediates with at least one independent cross-check (for example, confirm r_squared equals both 1 - SSE/SST and pearson_r squared, and SSR + SSE equals SST). Then run python3 assets/gc-387/grade.py and drive every named mismatch to zero across repeated verify cycles.",
  "horizon": "1w",
- "budget_usd": 100.0,
+ "budget_usd": 600.0,
  "resources": [
   "assets/gc-387/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-387/spec.md (exact statistic definitions and submission contract)",

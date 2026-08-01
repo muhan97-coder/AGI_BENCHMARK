@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "Drive the ten sealed Django instances in assets/gc-308/instances.txt to at least six resolved under the swebench docker harness. A 60 percent bar on ten instances requires multiple planned passes: an initial sweep to classify each instance, focused patch-verify-revise loops on the tractable ones, and at least one recovery round that revisits earlier unresolved verdicts with information from harness logs. Maintain per-instance state (attempted, verified-green, blocked, abandoned-with-reason) as an artifact that evolves over the campaign rather than being written once at the end.",
  "horizon": "1m",
- "budget_usd": 700.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-308/instances.txt are in scope)",

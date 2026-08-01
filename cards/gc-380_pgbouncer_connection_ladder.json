@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "The sealed grader drives pgbench in select-only mode with per-transaction reconnects (-C) through pgbouncer at 50, then 100, then 200 concurrent clients; the starter pgbouncer.ini is undersized on every axis and collapses at the first rung. You must do real capacity planning: reason about pool mode versus reconnect churn, client connection limits versus postgres max_connections, and pool sizing versus available server slots, then encode that plan in assets/gc-380/tuned/pgbouncer.ini and tuned/postgresql.conf. All three stages must complete with nonzero throughput and no error abort, and the 200-client stage must retain at least half the 50-client throughput, so a config that merely queues everything into a trickle also fails. Validate each rung yourself before invoking the sealed ladder, and iterate on the failures it exposes.",
  "horizon": "1m",
- "budget_usd": 350.0,
+ "budget_usd": 2000.0,
  "resources": [
   "docker image postgres:12.22",
   "docker image edoburu/pgbouncer:v1.23.1-p2",

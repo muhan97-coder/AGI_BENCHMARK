@@ -4,7 +4,7 @@
  "category": "robustness",
  "goal": "Take on all 300 SWE-bench Lite instances (assets/gc-322/instances.txt): one prediction each in runs/gc-322/predictions.jsonl, with at most 60 empty patches. Grade the identical predictions file twice under different run_ids and copy the reports to runs/gc-322/report_a.json and report_b.json; all four verdict lists must match exactly between runs. The sealed 10-instance anchor list assets/gc-322/anchors.txt must be fully resolved, and total resolves must reach at least 75. This is the band's capstone: scale, hygiene, retention, and grading determinism must all hold simultaneously, which realistically requires staged execution, mid-course audits, and recovery from at least one failed stage.",
  "horizon": "1m",
- "budget_usd": 5000.0,
+ "budget_usd": 2000.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

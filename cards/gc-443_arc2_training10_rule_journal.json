@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least two of the ten sealed ARC-AGI-2 training tasks in assets/gc-443/task_ids.txt while maintaining an auditable rule journal at runs/gc-443/rules.md: one entry per attempted task containing the stated rule, the train-pair verification result (pass or fail per pair), and every revision with its reason. The journal is the point: an unverified rule must never be the source of a shipped prediction. Predictions go to runs/gc-443/predictions.json in the documented format, the grader is the only scoreboard, and a RED verdict must be followed by a journal-driven revision and a re-grade, not a silent stop.",
  "horizon": "1w",
- "budget_usd": 180.0,
+ "budget_usd": 600.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-443/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",

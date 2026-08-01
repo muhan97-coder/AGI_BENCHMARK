@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "Behind assets/gc-377/conf/nginx.conf sits a sealed origin that sleeps 250ms per request and counts every hit it receives. The starter config proxies every request straight through, so the sealed grader measures a 0.00 cache hit rate. Design a proxy_cache setup (cache path, keys, validity honoring the origin's Cache-Control) so that after a 10-URL warmup, at least 90% of 40 follow-up requests are served from cache, as proven by the origin's own request counter rather than by response headers you could fake. Verify your cache behavior yourself with repeated probes and the origin counter, then re-verify with the sealed script. Only conf/nginx.conf may be edited.",
  "horizon": "1w",
- "budget_usd": 140.0,
+ "budget_usd": 600.0,
  "resources": [
   "docker image nginx:1.25.4",
   "docker image python:3.11.9-slim",

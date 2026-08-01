@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task PriceTrackerCollaborator (task_id=4 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-328/solution.py per assets/gc-328/SPEC.md: multi-retailer price histories, latest-price resolution by timestamp, threshold alerts with once-per-event delivery, group alert sharing, and buy-timing insights. The alert deduplication and share-copy semantics are easy to get subtly wrong, so plan the event flow first, implement in increments, and rerun the sealed suite after each increment while tracking red tests by name. Finish with a green re-verification inside the pinned container.",
  "horizon": "1w",
- "budget_usd": 60.0,
+ "budget_usd": 600.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=4)",
   "docker image python:3.11.9-slim",

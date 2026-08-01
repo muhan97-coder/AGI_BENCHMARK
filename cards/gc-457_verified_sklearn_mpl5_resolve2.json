@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Run a five-instance campaign over the sealed mixed scikit-learn and matplotlib list in assets/gc-457/instances.txt and finish with at least two resolved under the swebench docker harness. Every gold fix in this set touches at least two files, and the two libraries have very different failure surfaces (estimator contracts versus rendering state), so a working loop must switch context deliberately: triage all five, group attempts by repo to amortize environment understanding, verify each candidate with an intermediate harness run, and record verdicts and per-attempt spend in a ledger. After any red run, extract the failing test identities from the harness logs and revise the plan before re-running.",
  "horizon": "1w",
- "budget_usd": 400.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-457/instances.txt are in scope)",

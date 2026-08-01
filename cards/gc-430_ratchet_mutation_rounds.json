@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "assets/gc-430/target/datex.py is a from-scratch Gregorian date-arithmetic module and assets/gc-430/mutants.jsonl seals 36 single-site mutants (leap rules, ordinal math, ISO weeks, parsing, clamping). Run a four-round strengthening campaign leaving a snapshot per round under work/gc-430/rounds/r1..r4/: each round's suite must stay green on the pristine module, extend the previous round's test files byte-identically (append-only ratchet), strictly enlarge the recomputed kill set, and file a round report naming the exact mutant ids killed. Round 4 must reach a 0.90 kill rate. Every report is recomputed from scratch at grading time: a single over- or under-claimed mutant id in any round, a rewritten historical test file, or a stagnant round voids the run.",
  "horizon": "1m",
- "budget_usd": 400.0,
+ "budget_usd": 2000.0,
  "resources": [
   "files under assets/gc-430/ (target/datex.py, mutants.jsonl sealed 36-mutant set, sealed grader grade.py)"
  ],

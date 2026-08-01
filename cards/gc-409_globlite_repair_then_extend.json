@@ -4,7 +4,7 @@
  "category": "campaign",
  "goal": "Chain a repair stage into a feature stage on one module. The shipped starter glob matcher contains four seeded defects (B01..B04, identities discoverable from the sealed regression suite's test names); stage 1 fixes all four and records each in a machine-checked failure ledger (id, cause, fix). Stage 2 adds brace-expansion alternation per the spec while the regression suite stays green. A frozen plan, a sha256 marker chain proving stage order, and a JSON-lines run journal are graded alongside final state as one campaign_score.",
  "horizon": "1d",
- "budget_usd": 60.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi pytest==8.3.4 (installed by the sealed grader inside the container)",
   "docker image python:3.11.9-slim-bookworm",

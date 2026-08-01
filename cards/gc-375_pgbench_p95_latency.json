@@ -4,7 +4,7 @@
  "category": "infra_ops",
  "goal": "Tune assets/gc-375/tuned/postgresql.conf so that the per-transaction p95 latency of pgbench (scale 10, seed 42, 8 clients, 25s, per-transaction logging) on postgres:12.22 drops to at most 0.60x the p95 of the sealed latency-hostile baseline, measured back to back by the sealed grader. Tail latency is dominated by checkpoint storms and WAL pressure rather than average throughput, so you must instrument runs yourself (pgbench -l logs, pg_stat_bgwriter), identify which spikes hurt p95, fix the cause, and re-verify across repeated runs since tails are noisy. fsync=off or full_page_writes=off in the tuned config zeroes the score. Only tuned/postgresql.conf may be edited.",
  "horizon": "1w",
- "budget_usd": 120.0,
+ "budget_usd": 600.0,
  "resources": [
   "docker image postgres:12.22",
   "assets/gc-375/tuned/postgresql.conf (deliverable, editable)",

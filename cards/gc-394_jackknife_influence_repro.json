@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "Run a full leave-one-out influence analysis on the 240 rows of assets/gc-394/data.csv: jackknife standard errors for the mean, median, and 10 percent trimmed mean of x, plus jackknife SE, jackknife bias, and extreme-influence figures for the x-y Pearson correlation, all per assets/gc-394/spec.md, into artifacts/gc-394/stats.json. This takes roughly a thousand re-estimates with exact per-subsample definitions (the trim count is recomputed on each leave-one-out subsample), so first verify your LOO machinery on a small hand-checkable case, then grade and drive every named mismatch to zero through repeated verify cycles.",
  "horizon": "1m",
- "budget_usd": 300.0,
+ "budget_usd": 2000.0,
  "resources": [
   "assets/gc-394/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-394/spec.md (exact statistic definitions and submission contract)",

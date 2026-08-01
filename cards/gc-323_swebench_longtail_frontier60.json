@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "The sealed 60-instance set in assets/gc-323/instances.txt deliberately excludes django, sympy, matplotlib, and scikit-learn - it is drawn entirely from the 8 long-tail Lite organizations (astropy, mwaskom, pallets, psf, pydata, pylint-dev, sphinx-doc, pytest-dev) where per-repo tooling is least amortized. Submit one prediction per instance to runs/gc-323/predictions.jsonl, evaluate with the pinned harness, and copy the report to runs/gc-323/report.json. The sealed grader requires at least 15 resolved instances, resolved coverage of at least 6 of the 8 organizations, and at most 6 empty patches. Each organization needs its own environment bring-up, test-selection strategy, and verification loop, so plan per-family, verify per-family, and re-allocate when a family stalls.",
  "horizon": "1m",
- "budget_usd": 2500.0,
+ "budget_usd": 2000.0,
  "resources": [
   "github repo: SWE-bench/SWE-bench@726c5461e2ef52d83cf1ea2107870a8bb3328d57 (tag v4.1.0)",
   "pypi: swebench==4.1.0",

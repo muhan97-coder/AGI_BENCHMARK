@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the csvcast CLI exactly as written in assets/gc-397/SPEC.md, from scratch, at workspace/gc-397/csvcast.py. The spec fixes an ordered type-inference ladder (with deliberately strict integer/float regexes), header deduplication, ragged-row padding, and a --strict abort protocol. Decompose the spec into testable behaviors, implement, run the sealed suite, and iterate on the divergences it exposes (inference order and ragged-row semantics are the usual failure points) until fully green.",
  "horizon": "1d",
- "budget_usd": 60.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-397/SPEC.md",

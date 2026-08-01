@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least five of the twenty sealed ARC-AGI-2 tasks in assets/gc-451/task_ids.txt, a mixed list of ten training-split and ten public-evaluation-split tasks, run as an explicit transfer experiment: phase one attacks the training portion and distills every solved task into reusable primitives and solving tactics under runs/gc-451/library/; phase two attacks the evaluation portion armed with that library, and the run log must state per evaluation task which library entries were tried and whether they transferred. The grader does not care which split the five solves come from, but the process record must make the transfer attempt auditable -- a campaign that solves five training tasks while leaving the library unused on the eval portion misses the point and the process bar.",
  "horizon": "1m",
- "budget_usd": 500.0,
+ "budget_usd": 2000.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-451/task_ids.txt (sealed list of 20 task ids, one per line; 10 ids from the public training split and 10 from the public evaluation split; every id verified to exist in the pinned commit)",

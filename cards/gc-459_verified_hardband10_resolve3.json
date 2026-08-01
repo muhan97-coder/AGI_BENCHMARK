@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Execute a ten-instance campaign over the sealed non-django list in assets/gc-459/instances.txt (astropy, pytest, pylint, sphinx, sympy) and finish with at least three resolved under the swebench docker harness. Every instance in this set carries a 1-4 hour human-difficulty rating in the Verified annotations, so one-shot patching will not clear the bar: run a full triage pass first, rank instances by tractability, and plan a multi-round schedule that reuses harness infrastructure across attempts. Each candidate patch must be verified in an intermediate harness run with its verdict recorded, unresolved instances must have named causes in a failure ledger, and every red round must be followed by a documented re-plan and re-run while budget remains. The trajectory of resolved counts across rounds is part of the deliverable.",
  "horizon": "1m",
- "budget_usd": 800.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-459/instances.txt are in scope)",

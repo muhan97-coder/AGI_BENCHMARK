@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Solve at least two of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-447/task_ids.txt under cell-exact grading. These are frontier-hard: state-of-the-art LLMs solve only a small fraction of this split, so the card demands a sustained month-long campaign, not a single pass -- triage all fifteen, attack the most tractable rule families first, keep a per-task hypothesis history, and return to near-misses with fresh decompositions after other tasks teach new primitives. Every shipped prediction must trace to a hypothesis verified on all train pairs, both attempts should be spent on genuinely distinct rules, and the grader verdict after each session drives the next session's plan.",
  "horizon": "1m",
- "budget_usd": 450.0,
+ "budget_usd": 2000.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-447/task_ids.txt (sealed list of 15 task ids, one per line; all from the public evaluation split; every id verified to exist in the pinned commit)",

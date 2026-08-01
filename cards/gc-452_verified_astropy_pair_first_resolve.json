@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Stand up the SWE-bench Verified docker evaluation loop from a clean checkout and drive at least one of the two sealed astropy instances in assets/gc-452/instances.txt to resolved. First write a plan that names the suspected fault location and the exact verification command for each candidate, then reproduce the failing behavior inside the instance's repo, implement a patch, and run the docker harness on your own candidate before final submission. If the harness reports both instances unresolved, read the per-instance test logs, revise the weaker patch, and re-run until one is green or budget is exhausted. These are Verified instances outside the Lite split, so no Lite-tuned shortcut applies; the loop itself is the deliverable.",
  "horizon": "1d",
- "budget_usd": 80.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-452/instances.txt are in scope)",

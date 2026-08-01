@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the globby matching engine exactly as written in assets/gc-405/SPEC.md, from scratch, at workspace/gc-405/globby.py, without importing fnmatch or pathlib (the sealed suite scans the source). The spec's deliberately tricky globstar section (zero-segment **/, trailing /** excluding the bare head, in-segment ** demotion) and its character-class corner cases (]-first literals, negated classes that still refuse /, unclosed brackets, reversed ranges) defeat one-shot translations. Plan the segment/class grammar, build the translator or matcher, and iterate against the sealed suite until green, verifying each tricky family separately.",
  "horizon": "1m",
- "budget_usd": 400.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-405/SPEC.md",

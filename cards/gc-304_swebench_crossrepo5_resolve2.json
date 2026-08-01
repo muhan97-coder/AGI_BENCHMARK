@@ -4,7 +4,7 @@
  "category": "swe_bench",
  "goal": "The five sealed instances in assets/gc-304/instances.txt come from five unrelated codebases (astropy, flask, seaborn, xarray, sphinx), so no single-repo familiarity will carry you. Build a per-repo orientation note before patching, then drive at least two instances to resolved via the docker harness. Each attempt must show a reproduce step, a candidate patch, and a harness verification run; after any unresolved verdict, either iterate on that instance or make an explicit, logged decision to reallocate remaining budget to another one.",
  "horizon": "1w",
- "budget_usd": 250.0,
+ "budget_usd": 600.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Lite, test split (only the sealed ids in assets/gc-304/instances.txt are in scope)",

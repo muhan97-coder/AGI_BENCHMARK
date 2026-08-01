@@ -4,7 +4,7 @@
  "category": "minecraft_build",
  "goal": "On a fresh judged 1.19.2 server, reproduce the sealed 17-block Oak Frame Hut: four two-high oak_log corner posts that must verify with vertical (y) axis orientation, plus a 3x3 oak_planks roof. The judger's block check compares the placed log axis against the blueprint, so a log placed sideways scores as a miss even though the block id matches; plan placements that guarantee the axis, verify each post against the judger snapshot feed, and re-place anything that scans wrong. Finish with block_hit_rate 1.0 in the judger's own result ledger while keeping the required action and token ledgers current.",
  "horizon": "1d",
- "budget_usd": 40.0,
+ "budget_usd": 100.0,
  "resources": [
   "github.com/ulab-uiuc/MARBLE@8d60fa17b5596b44458a52d4296061b9fc13d6f2 (build_judger pipeline: marble/environments/minecraft_utils/)",
   "docker image itzg/minecraft-server:2024.6.1-java17 (Minecraft 1.19.2 vanilla; compose file assets/gc-361/docker-compose.yml)",

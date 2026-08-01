@@ -4,7 +4,7 @@
  "category": "data_repro",
  "goal": "assets/gc-390/data.csv contains 600 rows with genuinely missing cells in x, y, and z (empty CSV fields). Reproduce the sealed missing-data census -- per-column missingness, the overall missing rate, available-case means versus complete-case estimands, and the complete-case Pearson correlation -- exactly as defined in assets/gc-390/spec.md, into artifacts/gc-390/stats.json. The available-case versus complete-case distinction is where naive pipelines silently diverge, so verify your row filters with explicit counts before grading, then iterate to 12/12.",
  "horizon": "1w",
- "budget_usd": 120.0,
+ "budget_usd": 600.0,
  "resources": [
   "assets/gc-390/data.csv (bundled dataset slice, sealed by sha256)",
   "assets/gc-390/spec.md (exact statistic definitions and submission contract)",

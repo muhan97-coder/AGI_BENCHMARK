@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the taskgraph library exactly as written in assets/gc-406/SPEC.md, from scratch, at workspace/gc-406/taskgraph.py. The spec demands four interlocking algorithms: Kahn ordering with lexicographic tie-breaks, parallel wave layering, a critical-path DP with a sequence-lexicographic tie-break, and cycle extraction that must report a real normalized cycle (direction and rotation both pinned) via a custom CycleError. Validation ordering (ValueError before CycleError) and bool-vs-int traps are tested. Plan the shared validation core and each algorithm, then iterate against the sealed suite until green.",
  "horizon": "1m",
- "budget_usd": 450.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-406/SPEC.md",

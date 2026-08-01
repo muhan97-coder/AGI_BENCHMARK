@@ -4,7 +4,7 @@
  "category": "tool_from_spec",
  "goal": "Implement the semverx library exactly as written in assets/gc-398/SPEC.md, from scratch, at workspace/gc-398/semverx.py. The spec includes a deliberately tricky edge-case section covering prerelease precedence (numeric vs alphanumeric identifiers, leading-zero validity, build-metadata neutrality) that a first-pass implementation almost always gets partially wrong. Plan the grammar and precedence rules, implement, run the sealed acceptance suite, and use the exact identities of failing tests to drive corrections until fully green.",
  "horizon": "1d",
- "budget_usd": 70.0,
+ "budget_usd": 100.0,
  "resources": [
   "pypi pytest==8.3.4",
   "assets/gc-398/SPEC.md",

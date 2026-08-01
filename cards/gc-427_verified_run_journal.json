@@ -4,7 +4,7 @@
  "category": "robustness",
  "goal": "assets/gc-427/repo ships a priority-queue module that is RED against its sealed suite, plus a canonical deterministic runner (assets/gc-427/runner.py) whose single-line JSON output acts as a verification receipt. Run the runner on the pristine repo, journal the RED receipt (sha256 of the exact canonical line plus the failing test identities), then repair the module in work/gc-427/repo and journal the GREEN receipt from a later re-run. The grader recomputes both canonical lines and rejects any journal whose hashes or failure identities do not match reality, so a verification log cannot be written without the verification actually running.",
  "horizon": "1w",
- "budget_usd": 150.0,
+ "budget_usd": 600.0,
  "resources": [
   "files under assets/gc-427/ (repo/queuecalc.py, repo/test_queuecalc.py sealed suite, runner.py canonical runner, sealed grader grade.py)"
  ],

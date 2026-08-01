@@ -4,7 +4,7 @@
  "category": "frontier_arc",
  "goal": "Get at least two of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-448/task_ids.txt fully solved while running an audited portfolio: a standing triage table at runs/gc-448/triage.md ranks all fifteen by estimated tractability and is re-scored after every work session, and any task abandoned must carry a written give-up rationale naming the rule families tried and the specific train pair each one failed. Budget discipline is part of the goal -- the ledger must show that most spend went to the top-ranked tractable tasks rather than being spread evenly, and that at least one near-miss got a second campaign after the initial failure.",
  "horizon": "1m",
- "budget_usd": 450.0,
+ "budget_usd": 2000.0,
  "resources": [
   "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
   "assets/gc-448/task_ids.txt (sealed list of 15 task ids, one per line; all from the public evaluation split; every id verified to exist in the pinned commit)",

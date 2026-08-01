@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Execute a ten-instance campaign over the sealed frontier list in assets/gc-463/instances.txt and finish with at least three resolved under the swebench docker harness. The set contains three instances rated above four hours of human effort in the Verified annotations (xarray, sphinx, sympy), a six-file sympy refactor, and six django instances rated 1-4 hours: this is the hardest sealed slice in this card family. Reaching three resolved likely requires winning at least one long-band instance, so plan for depth, not breadth: pick a small number of primary targets after a full triage pass, budget multiple patch-verify-revise rounds for each, and record every intermediate harness verdict. Keep a spend-aware ledger, name the cause of every failure, and show an explicit re-plan after every red round while budget remains.",
  "horizon": "1m",
- "budget_usd": 1000.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-463/instances.txt are in scope)",

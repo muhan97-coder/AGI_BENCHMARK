@@ -4,7 +4,7 @@
  "category": "frontier_swe_hard",
  "goal": "Run a ten-instance campaign over the sealed list in assets/gc-462/instances.txt, five sympy and five sphinx, finishing with at least three resolved under the swebench docker harness. The set concentrates on two deep codebases so that knowledge compounds across attempts: what you learn about sympy's printing and simplification internals on one instance should lower the cost of the next, and likewise for sphinx's autodoc pipeline. Plan the campaign to exploit that structure explicitly, stating after each attempt what transferred. Several gold patches exceed a hundred lines, so intermediate harness verification of candidate patches is mandatory before final submission, and each unresolved instance needs a named cause in the failure ledger. A red final run within budget requires a documented re-plan and re-run, not a silent stop.",
  "horizon": "1m",
- "budget_usd": 850.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
   "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-462/instances.txt are in scope)",

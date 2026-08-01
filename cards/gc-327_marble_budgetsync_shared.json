@@ -4,7 +4,7 @@
  "category": "marble_coding",
  "goal": "Implement the MARBLE coding benchmark task BudgetSync (task_id=12 in multiagentbench/coding/coding_main.jsonl at the pinned commit) as workspace/gc-327/solution.py per assets/gc-327/SPEC.md: multi-user auth, role-based shared budgets, category limits with threshold-crossing notifications, overshoot suggestions, and strict cross-budget isolation. The notification and permission semantics interact, so plan the state model first, implement in verified increments, and rerun the sealed suite after each increment while tracking red tests by name. Expect and log at least one genuine red-green recovery cycle; finish with a green re-verification inside the pinned container.",
  "horizon": "1w",
- "budget_usd": 60.0,
+ "budget_usd": 600.0,
  "resources": [
   "github.com/MultiagentBench/MARBLE@8892e9cfb69282db568e6b018f2b1cd8eec31ba6 (task text: multiagentbench/coding/coding_main.jsonl task_id=12)",
   "docker image python:3.11.9-slim",

@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "assets/gc-423/target/interval.py implements closed-interval arithmetic (merge, intersect, clip, gaps, coverage). assets/gc-423/mutants.jsonl seals 21 single-site mutants spanning boundary flips, operand swaps, and pipeline shortcuts. Build a unittest suite under work/gc-423/tests/ (>=16 tests, green on the pristine module) whose kill rate over the sealed set reaches 0.85, iterating strengthen-and-re-sweep rounds on survivors. File an honest work/gc-423/kill_report.json naming the exact mutant ids killed; the grader recomputes the kill set and disqualifies any mismatch in either direction, so guessing instead of running the harness is fatal.",
  "horizon": "1w",
- "budget_usd": 150.0,
+ "budget_usd": 600.0,
  "resources": [
   "files under assets/gc-423/ (target/interval.py, mutants.jsonl sealed mutant set, sealed grader grade.py)"
  ],

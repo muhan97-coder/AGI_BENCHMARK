@@ -4,7 +4,7 @@
  "category": "mutation_testing",
  "goal": "mutmut==2.4.4 with parso==0.8.4 generates exactly 262 mutants in jmespath/lexer.py and 245 in jmespath/functions.py of jmespath==1.0.1, and the score is the MINIMUM of the two module kill rates, which must reach 0.82. At that bar the residue is dominated by near-equivalent mutants, so the campaign must maintain a per-survivor ledger classifying each remaining ID as killable (with the planned distinguishing input) or suspected-equivalent (with an argument), and the suite must stay inside a 3-second budget even as it grows to hundreds of assertions. Expect many plan-grade-triage-regrade cycles over weeks, including recovery from runs where one module improves while the other drags the minimum down. Fail-closed grading: red baseline, slow suite, source-introspection tokens, or mutant-total drift in either module scores min_module_kill_rate -1.",
  "horizon": "1m",
- "budget_usd": 250.0,
+ "budget_usd": 2000.0,
  "resources": [
   "pypi jmespath==1.0.1 (targets under mutation: jmespath/lexer.py and jmespath/functions.py)",
   "pypi mutmut==2.4.4 + parso==0.8.4 (deterministic mutant generation; all transitive deps pinned in assets/gc-356/config.json)",
