@@ -1,0 +1,36 @@
+{
+ "id": "gc-461",
+ "title": "Verified multi-file gauntlet: three of ten cross-repo instances resolved",
+ "category": "frontier_swe_hard",
+ "goal": "Execute a ten-instance campaign over the sealed multi-file list in assets/gc-461/instances.txt (sympy, sphinx, pylint, django, pytest) and finish with at least three resolved under the swebench docker harness. Every gold fix in this set changes at least two files, and one sympy instance rewires more than twenty, so the card measures whether the loop can hold a coordinated multi-file edit together through reproduction, patching, and sealed-test verification across five unfamiliar codebases. Triage all ten first and classify each by edit topology (interface change, cross-module contract, mechanical rename); attempt the tractable topologies first, verify every candidate with an intermediate harness run, and abandon an instance only with a recorded cause. Ledger, failure identities, and post-red re-plans are required artifacts.",
+ "horizon": "1m",
+ "budget_usd": 85.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-461/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-461/instances.txt (sealed instance-id list, one id per line; every id is in the Verified 500 split and none is in the Lite 300 split)",
+  "output convention: runs/gc-461/predictions.jsonl with model_name_or_path set exactly to 'gc-461', so the harness report is written to gc-461.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path runs/gc-461/predictions.jsonl --instance_ids $(cat assets/gc-461/instances.txt) --max_workers 4 --report_dir . --run_id gc-461 && python3 -c \"import json; r=json.load(open('gc-461.gc-461.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-461/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-461/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-461/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if any harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop.",
+  "No gold consultation: the public dataset carries gold and test patches for every instance; the trajectory must show independent diagnosis from the problem statement and repo, and neither patch may be read or reused."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "contamination_risk": "public_gold_exists",
+ "author_agent": "frontier_swe"
+}

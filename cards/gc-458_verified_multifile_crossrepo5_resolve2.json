@@ -1,0 +1,36 @@
+{
+ "id": "gc-458",
+ "title": "Verified cross-repo multi-file five-pack: two of five resolved",
+ "category": "frontier_swe_hard",
+ "goal": "Plan and execute a five-instance campaign over the sealed cross-repo list in assets/gc-458/instances.txt (pylint, seaborn, astropy, pytest), finishing with at least two resolved under the swebench docker harness. All five gold fixes span multiple files, so this card measures coordinated edits across codebases you have never seen: for each instance, map the call path between the files you believe must change before writing any patch, then reproduce, patch, and self-grade with an intermediate harness run. Four different repos means four different build-and-test conventions; budget triage time explicitly, keep failure identities per instance, and show a revised plan plus re-run after every red verdict.",
+ "horizon": "1w",
+ "budget_usd": 45.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-458/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-458/instances.txt (sealed instance-id list, one id per line; every id is in the Verified 500 split and none is in the Lite 300 split)",
+  "output convention: runs/gc-458/predictions.jsonl with model_name_or_path set exactly to 'gc-458', so the harness report is written to gc-458.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path runs/gc-458/predictions.jsonl --instance_ids $(cat assets/gc-458/instances.txt) --max_workers 2 --report_dir . --run_id gc-458 && python3 -c \"import json; r=json.load(open('gc-458.gc-458.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-458/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-458/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-458/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if any harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop.",
+  "No gold consultation: the public dataset carries gold and test patches for every instance; the trajectory must show independent diagnosis from the problem statement and repo, and neither patch may be read or reused."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "contamination_risk": "public_gold_exists",
+ "author_agent": "frontier_swe"
+}

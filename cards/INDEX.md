@@ -1,9 +1,12 @@
 # Public Goal Cards Index
 
-**Valid cards: 131** (gc-300..gc-431, drafted 132, rejected 1). All cards are self-contained: every card grades via a sealed, machine-checkable `success_criteria.spec` (no LLM judging) and references only relative paths under `assets/gc-NNN/`.
+**Valid cards: 155** — core 131 (gc-300..gc-431, drafted 132, rejected 1) + frontier 24 (gc-440..gc-463, v1.0-beta). All cards are self-contained: every card grades via a sealed, machine-checkable `success_criteria.spec` (no LLM judging) and references only relative paths under `assets/gc-NNN/`.
 
-Category breakdown: campaign 16, data_repro 12, infra_ops 12, marble_coding 12, minecraft_build 12, mutation_testing 16, oss_repair 12, robustness 10, swe_bench 17, tool_from_spec 12.
-Difficulty bands (horizon): 1d 32, 1m 44, 1w 55.
+Core category breakdown: campaign 16, data_repro 12, infra_ops 12, marble_coding 12, minecraft_build 12, mutation_testing 16, oss_repair 12, robustness 10, swe_bench 17, tool_from_spec 12.
+Core difficulty bands (horizon): 1d 32, 1m 44, 1w 55.
+Frontier category breakdown: frontier_arc 12, frontier_swe_hard 12. Frontier difficulty bands (horizon): 1d 4, 1w 10, 1m 10.
+
+> **Note:** frontier categories are reported separately on the leaderboard — they measure raw problem-solving depth, while the core 131 measure loop quality. Frontier results never mix into core aggregates.
 
 ## Cards
 
@@ -140,6 +143,38 @@ Difficulty bands (horizon): 1d 32, 1m 44, 1w 55.
 | gc-429 | campaign | Run a triple-loop honesty campaign: kill mutants, name failures, refuse the fake | script: campaign_score >= 6 | 1m / $50 | assets/gc-429 ships a sealed order-book repo plus three interlocking sub-campaigns. |
 | gc-430 | mutation_testing | Ratchet a test suite through four sealed-mutant rounds to a 0.90 kill rate | mutation: kill_rate >= 0.9 | 1m / $40 | assets/gc-430/target/datex.py is a from-scratch Gregorian date-arithmetic module and assets/gc-430/mutants.jsonl seals 36 single-site mutants (leap rules,... |
 | gc-431 | robustness | Prove-or-refuse: solve nine deceptive tasks, refuse the three truly impossible | script: triage_score >= 12 | 1m / $40 | assets/gc-431/tasks ships twelve sealed specs. |
+
+
+## Frontier (v1.0-beta)
+
+Valid frontier cards: 24 (gc-440..gc-463, none rejected). Reported separately on the leaderboard: frontier categories measure raw problem-solving depth (ARC-AGI-2 abstraction, SWE-bench Verified hard band), while the core 131 measure loop quality.
+
+| id | category | title | grader | difficulty | one-liner |
+|---|---|---|---|---|---|
+| gc-440 | frontier_arc | ARC-AGI-2 smoke: solve 1 of 5 sealed training tasks | script: solved >= 1 | 1d / $4 | Work the five sealed ARC-AGI-2 training-split tasks in assets/gc-440/task_ids.txt end to end and get at least one task fully solved under cell-exact... |
+| gc-441 | frontier_arc | ARC-AGI-2 smoke: hypothesis-first pass on 5 fresh training tasks | script: solved >= 1 | 1d / $4 | Solve at least one of the five sealed ARC-AGI-2 training tasks in assets/gc-441/task_ids.txt, but in a hypothesis-first discipline: for each task... |
+| gc-442 | frontier_arc | Solve 2 of 10 sealed ARC-AGI-2 training tasks | script: solved >= 2 | 1w / $18 | Treat the ten sealed ARC-AGI-2 training tasks in assets/gc-442/task_ids.txt as a planned batch and get at least two fully solved under cell-exact grading. |
+| gc-443 | frontier_arc | Rule-journal batch: 2 of 10 ARC-AGI-2 training tasks | script: solved >= 2 | 1w / $18 | Solve at least two of the ten sealed ARC-AGI-2 training tasks in assets/gc-443/task_ids.txt while maintaining an auditable rule journal at... |
+| gc-444 | frontier_arc | Attempt-budgeted batch: 3 of 10 ARC-AGI-2 training tasks | script: solved >= 3 | 1w / $20 | Get at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-444/task_ids.txt fully solved, exploiting the two-attempt rule... |
+| gc-445 | frontier_arc | Checkpointed batch: 3 of 10 ARC-AGI-2 training tasks with mid-run regrade | script: solved >= 3 | 1w / $20 | Solve at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-445/task_ids.txt under an explicit checkpoint protocol: after the first... |
+| gc-446 | frontier_arc | Program-synthesis batch: 3 of 10 ARC-AGI-2 training tasks via executable transforms | script: solved >= 3 | 1w / $22 | Solve at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-446/task_ids.txt by writing an executable transform per attempted task... |
+| gc-447 | frontier_arc | Frontier probe: 2 of 15 sealed ARC-AGI-2 public-eval tasks | script: solved >= 2 | 1m / $45 | Solve at least two of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-447/task_ids.txt under cell-exact grading. |
+| gc-448 | frontier_arc | Triage campaign: 2 of 15 ARC-AGI-2 public-eval tasks with audited give-ups | script: solved >= 2 | 1m / $45 | Get at least two of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-448/task_ids.txt fully solved while running an audited... |
+| gc-449 | frontier_arc | High-ratio campaign: 6 of 15 sealed ARC-AGI-2 training tasks | script: solved >= 6 | 1m / $40 | Solve at least six of the fifteen sealed ARC-AGI-2 training tasks in assets/gc-449/task_ids.txt -- a 40 percent solve-ratio demand that cannot be met... |
+| gc-450 | frontier_arc | Frontier capstone: 3 of 15 sealed ARC-AGI-2 public-eval tasks | script: solved >= 3 | 1m / $55 | Solve at least three of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-450/task_ids.txt -- the hardest card in this arc... |
+| gc-451 | frontier_arc | Transfer campaign: 5 of 20 mixed ARC-AGI-2 tasks (10 training + 10 public-eval) | script: solved >= 5 | 1m / $50 | Solve at least five of the twenty sealed ARC-AGI-2 tasks in assets/gc-451/task_ids.txt, a mixed list of ten training-split and ten... |
+| gc-452 | frontier_swe_hard | Resolve one of two sealed astropy SWE-bench Verified instances | swebench: resolved_instances >= 1 | 1d / $8 | Stand up the SWE-bench Verified docker evaluation loop from a clean checkout and drive at least one of the two sealed astropy instances in... |
+| gc-453 | frontier_swe_hard | First Verified resolve on pytest internals: one of two sealed instances | swebench: resolved_instances >= 1 | 1d / $8 | Resolve at least one of the two sealed pytest instances in assets/gc-453/instances.txt under the SWE-bench Verified docker harness. |
+| gc-454 | frontier_swe_hard | Verified xarray five-pack: drive two of five to resolved | swebench: resolved_instances >= 2 | 1w / $40 | Plan and execute a five-instance campaign over the sealed pydata/xarray list in assets/gc-454/instances.txt, finishing with at least two resolved... |
+| gc-455 | frontier_swe_hard | Verified sphinx five-pack: two of five resolved | swebench: resolved_instances >= 2 | 1w / $40 | Run a five-instance campaign over the sealed sphinx-doc/sphinx list in assets/gc-455/instances.txt and finish with at least two resolved under the... |
+| gc-456 | frontier_swe_hard | Verified sympy five-pack: two of five resolved | swebench: resolved_instances >= 2 | 1w / $40 | Plan and execute a five-instance campaign over the sealed sympy/sympy list in assets/gc-456/instances.txt, finishing with at least two resolved under... |
+| gc-457 | frontier_swe_hard | Verified scikit-learn and matplotlib five-pack: two of five resolved | swebench: resolved_instances >= 2 | 1w / $40 | Run a five-instance campaign over the sealed mixed scikit-learn and matplotlib list in assets/gc-457/instances.txt and finish with at least two... |
+| gc-458 | frontier_swe_hard | Verified cross-repo multi-file five-pack: two of five resolved | swebench: resolved_instances >= 2 | 1w / $45 | Plan and execute a five-instance campaign over the sealed cross-repo list in assets/gc-458/instances.txt (pylint, seaborn, astropy, pytest)... |
+| gc-459 | frontier_swe_hard | Verified hard band, non-django: three of ten resolved | swebench: resolved_instances >= 3 | 1m / $80 | Execute a ten-instance campaign over the sealed non-django list in assets/gc-459/instances.txt (astropy, pytest, pylint, sphinx, sympy) and finish... |
+| gc-460 | frontier_swe_hard | Verified django hard band: three of ten multi-file instances resolved | swebench: resolved_instances >= 3 | 1m / $80 | Run a ten-instance campaign over the sealed django/django list in assets/gc-460/instances.txt and finish with at least three resolved under the... |
+| gc-461 | frontier_swe_hard | Verified multi-file gauntlet: three of ten cross-repo instances resolved | swebench: resolved_instances >= 3 | 1m / $85 | Execute a ten-instance campaign over the sealed multi-file list in assets/gc-461/instances.txt (sympy, sphinx, pylint, django, pytest) and finish... |
+| gc-462 | frontier_swe_hard | Verified sympy-sphinx deep campaign: three of ten resolved | swebench: resolved_instances >= 3 | 1m / $85 | Run a ten-instance campaign over the sealed list in assets/gc-462/instances.txt, five sympy and five sphinx, finishing with at least three resolved... |
+| gc-463 | frontier_swe_hard | Verified frontier ten: three resolved including the >4-hour band | swebench: resolved_instances >= 3 | 1m / $100 | Execute a ten-instance campaign over the sealed frontier list in assets/gc-463/instances.txt and finish with at least three resolved under the... |
 
 ## Appendix: rejected cards
 

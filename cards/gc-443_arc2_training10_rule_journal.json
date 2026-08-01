@@ -1,0 +1,36 @@
+{
+ "id": "gc-443",
+ "title": "Rule-journal batch: 2 of 10 ARC-AGI-2 training tasks",
+ "category": "frontier_arc",
+ "goal": "Solve at least two of the ten sealed ARC-AGI-2 training tasks in assets/gc-443/task_ids.txt while maintaining an auditable rule journal at runs/gc-443/rules.md: one entry per attempted task containing the stated rule, the train-pair verification result (pass or fail per pair), and every revision with its reason. The journal is the point: an unverified rule must never be the source of a shipped prediction. Predictions go to runs/gc-443/predictions.json in the documented format, the grader is the only scoreboard, and a RED verdict must be followed by a journal-driven revision and a re-grade, not a silent stop.",
+ "horizon": "1w",
+ "budget_usd": 18,
+ "resources": [
+  "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
+  "assets/gc-443/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",
+  "assets/gc-443/grade.py (stdlib-only fail-closed grader: downloads the gold task files for the pinned commit, scores predictions cell-exactly, and prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/gc-443/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "network: raw.githubusercontent.com must be reachable at grade time (the grader caches gold files under runs/gc-443/gold_cache/)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-443/grade.py",
+   "metric": "solved",
+   "threshold": 2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-443/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold test outputs inside the pinned public repo are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/gc-443/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs.",
+  "runs/gc-443/rules.md contains one entry per attempted task with the stated rule, per-train-pair verification results, and every revision with its reason."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "public_gold_exists"
+}

@@ -1,0 +1,36 @@
+{
+ "id": "gc-445",
+ "title": "Checkpointed batch: 3 of 10 ARC-AGI-2 training tasks with mid-run regrade",
+ "category": "frontier_arc",
+ "goal": "Solve at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-445/task_ids.txt under an explicit checkpoint protocol: after the first half of the attempt budget is spent, run the grader, record the checkpoint verdict in runs/gc-445/checkpoint.md, and re-plan the remaining budget against the observed solve rate -- including the decision to abandon tasks whose rule family has resisted two verified hypotheses. The final grade must be preceded by a second full pass over every shipped prediction re-deriving it from its stated rule; any prediction that cannot be re-derived must be fixed or withdrawn before the final run.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
+  "assets/gc-445/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",
+  "assets/gc-445/grade.py (stdlib-only fail-closed grader: downloads the gold task files for the pinned commit, scores predictions cell-exactly, and prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/gc-445/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "network: raw.githubusercontent.com must be reachable at grade time (the grader caches gold files under runs/gc-445/gold_cache/)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-445/grade.py",
+   "metric": "solved",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-445/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold test outputs inside the pinned public repo are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/gc-445/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs.",
+  "runs/gc-445/checkpoint.md records the mid-run grader verdict and the re-planned budget allocation that followed it."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "public_gold_exists"
+}

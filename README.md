@@ -28,7 +28,7 @@ benchmark treats them differently:
 ## Repository layout
 
 ```
-cards/           131 goal cards (JSON) + cards/assets/<id>/ sealed assets
+cards/           155 goal cards (JSON) + cards/assets/<id>/ sealed assets
 cards/INDEX.md   full card index with categories and difficulty
 tools/goal_grader.py     the machine grader (stdlib only, fail-closed)
 tools/build_dashboard.py rebuilds docs/index.html from cards/
@@ -57,7 +57,8 @@ tags); everything else ships in `cards/assets/`.
 SWE-bench (pinned Lite instances) · OSS repair at pinned SHAs · mutation
 testing · Minecraft builds on fresh docker worlds · infra/ops tuning in docker ·
 deterministic data reproduction · tool-from-spec with sealed acceptance tests ·
-multi-stage campaigns · robustness/anti-gaming probes · MARBLE coding tasks.
+multi-stage campaigns · robustness/anti-gaming probes · MARBLE coding tasks ·
+**frontier**: ARC-AGI-2 abstract reasoning · SWE-bench Verified (hard).
 
 ## Grading output (outcome axis)
 
@@ -163,7 +164,7 @@ rises to the cost of doing the work.
 Honesty about what a score means (v1.0-alpha):
 
 - Every card carries `contamination_risk`:
-  **`public_gold_exists`** (29 cards — SWE-bench gold patches are in the public
+  **`public_gold_exists`** (53 cards — SWE-bench gold patches are in the public
   dataset; OSS-repair fixes may exist in upstream history past the pinned SHA),
   **`answers_sealed`** (15 cards — the grader's answer files are **not in this
   repository**; only `<name>.sha256` commitments are. The sealed pack is held
@@ -185,7 +186,7 @@ Honesty about what a score means (v1.0-alpha):
 
 ## Status
 
-**v1.0-alpha.** Cards are generated and machine-validated (spec dry-runs, live
+**v1.0-beta.** Frontier band added: 12 ARC-AGI-2 + 12 SWE-bench Verified (hard) cards, reported separately on the leaderboard (raw problem-solving depth vs loop quality). Cards are generated and machine-validated (spec dry-runs, live
 pin checks, portability sweep) but the preregistered *sealed* set will be
 tagged as `v1.0` after review. The neutral episode-log contract — which lets
 any agent system be scored on the process axes via a thin adapter — is the main

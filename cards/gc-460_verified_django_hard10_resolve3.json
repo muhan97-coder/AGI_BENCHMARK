@@ -1,0 +1,36 @@
+{
+ "id": "gc-460",
+ "title": "Verified django hard band: three of ten multi-file instances resolved",
+ "category": "frontier_swe_hard",
+ "goal": "Run a ten-instance campaign over the sealed django/django list in assets/gc-460/instances.txt and finish with at least three resolved under the swebench docker harness. All ten are rated 1-4 hours in the Verified annotations and every gold fix touches two or more files across django's ORM, migrations, forms, and admin layers, so resolving them demands real architectural navigation of one large codebase rather than spot fixes. Amortize that navigation deliberately: build a shared map of the subsystems the ten instances touch before the first patch, sequence related instances together, verify every candidate in an intermediate harness run, and keep a ledger of attempts, verdicts, and spend. After each red run, the failure ledger must name the failing tests or apply errors per instance, and the plan revision must be explicit.",
+ "horizon": "1m",
+ "budget_usd": 80.0,
+ "resources": [
+  "pypi: swebench==4.1.0 (evaluation harness; provides python3 -m swebench.harness.run_evaluation)",
+  "huggingface dataset: princeton-nlp/SWE-bench_Verified, test split, revision c104f840cc67f8b6eec6f759ebc8b2693d585d4a (pinned via the HF API; only the sealed ids in assets/gc-460/instances.txt are in scope)",
+  "docker images: swebench/sweb.eval.x86_64.<instance_id>:latest (pulled automatically by the harness, namespace 'swebench')",
+  "assets/gc-460/instances.txt (sealed instance-id list, one id per line; every id is in the Verified 500 split and none is in the Lite 300 split)",
+  "output convention: runs/gc-460/predictions.jsonl with model_name_or_path set exactly to 'gc-460', so the harness report is written to gc-460.<run_id>.json in the repo root"
+ ],
+ "success_criteria": {
+  "grader": "swebench",
+  "spec": {
+   "command": "python3 -m swebench.harness.run_evaluation --dataset_name princeton-nlp/SWE-bench_Verified --split test --predictions_path runs/gc-460/predictions.jsonl --instance_ids $(cat assets/gc-460/instances.txt) --max_workers 4 --report_dir . --run_id gc-460 && python3 -c \"import json; r=json.load(open('gc-460.gc-460.json')); print(json.dumps({'resolved_instances': r['resolved_instances']}))\"",
+   "metric": "resolved_instances",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-460/plan.md before the first patch attempt, naming target instance ids, suspected fault areas, and the exact verification command.",
+  "Verification actually ran: logs or shell history show at least one swebench harness execution on candidate patches before the final grading run, with its verdict recorded.",
+  "Failure identities are tracked: runs/gc-460/failures.md lists each unresolved or errored instance id with a one-line cause (failing test name or apply error), not just counts.",
+  "Honest cost and attempt logging: runs/gc-460/ledger.json records per-attempt LLM spend and outcome, including failed and abandoned attempts.",
+  "Recovery after RED: if any harness run misses the threshold, artifacts show a revised plan and a re-run rather than a silent stop.",
+  "No gold consultation: the public dataset carries gold and test patches for every instance; the trajectory must show independent diagnosis from the problem statement and repo, and neither patch may be read or reused."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "contamination_risk": "public_gold_exists",
+ "author_agent": "frontier_swe"
+}

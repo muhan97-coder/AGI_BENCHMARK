@@ -1,0 +1,36 @@
+{
+ "id": "gc-448",
+ "title": "Triage campaign: 2 of 15 ARC-AGI-2 public-eval tasks with audited give-ups",
+ "category": "frontier_arc",
+ "goal": "Get at least two of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-448/task_ids.txt fully solved while running an audited portfolio: a standing triage table at runs/gc-448/triage.md ranks all fifteen by estimated tractability and is re-scored after every work session, and any task abandoned must carry a written give-up rationale naming the rule families tried and the specific train pair each one failed. Budget discipline is part of the goal -- the ledger must show that most spend went to the top-ranked tractable tasks rather than being spread evenly, and that at least one near-miss got a second campaign after the initial failure.",
+ "horizon": "1m",
+ "budget_usd": 45,
+ "resources": [
+  "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
+  "assets/gc-448/task_ids.txt (sealed list of 15 task ids, one per line; all from the public evaluation split; every id verified to exist in the pinned commit)",
+  "assets/gc-448/grade.py (stdlib-only fail-closed grader: downloads the gold task files for the pinned commit, scores predictions cell-exactly, and prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/gc-448/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "network: raw.githubusercontent.com must be reachable at grade time (the grader caches gold files under runs/gc-448/gold_cache/)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-448/grade.py",
+   "metric": "solved",
+   "threshold": 2,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-448/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold test outputs inside the pinned public repo are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/gc-448/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs.",
+  "runs/gc-448/triage.md is re-scored after every work session, and every abandoned task carries a give-up rationale naming the rule families tried and the train pair each failed on."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "public_gold_exists"
+}

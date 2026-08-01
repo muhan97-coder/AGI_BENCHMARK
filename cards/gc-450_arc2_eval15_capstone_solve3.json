@@ -1,0 +1,36 @@
+{
+ "id": "gc-450",
+ "title": "Frontier capstone: 3 of 15 sealed ARC-AGI-2 public-eval tasks",
+ "category": "frontier_arc",
+ "goal": "Solve at least three of the fifteen sealed ARC-AGI-2 public-evaluation tasks in assets/gc-450/task_ids.txt -- the hardest card in this arc, calibrated above current frontier-LLM single-pass performance on this split, so it should only go green for an agent that genuinely iterates. Run it as a full campaign: initial triage of all fifteen, a per-task hypothesis ledger, executable re-derivation of every shipped prediction, deliberate use of both attempts with distinct verified rules, scheduled grader checkpoints at least weekly, and a final pre-grade audit that withdraws any prediction whose rule no longer re-derives it. A shortfall at any checkpoint must produce a revised plan naming which near-miss tasks get the remaining budget and why.",
+ "horizon": "1m",
+ "budget_usd": 55,
+ "resources": [
+  "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
+  "assets/gc-450/task_ids.txt (sealed list of 15 task ids, one per line; all from the public evaluation split; every id verified to exist in the pinned commit)",
+  "assets/gc-450/grade.py (stdlib-only fail-closed grader: downloads the gold task files for the pinned commit, scores predictions cell-exactly, and prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/gc-450/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "network: raw.githubusercontent.com must be reachable at grade time (the grader caches gold files under runs/gc-450/gold_cache/)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-450/grade.py",
+   "metric": "solved",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-450/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold test outputs inside the pinned public repo are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/gc-450/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs.",
+  "Grader checkpoints ran at least weekly, and each shortfall checkpoint is followed in the log by a revised plan naming which near-miss tasks get the remaining budget and why."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "public_gold_exists"
+}

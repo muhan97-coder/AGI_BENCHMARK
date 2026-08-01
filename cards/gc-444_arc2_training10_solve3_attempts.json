@@ -1,0 +1,36 @@
+{
+ "id": "gc-444",
+ "title": "Attempt-budgeted batch: 3 of 10 ARC-AGI-2 training tasks",
+ "category": "frontier_arc",
+ "goal": "Get at least three of the ten sealed ARC-AGI-2 training tasks in assets/gc-444/task_ids.txt fully solved, exploiting the two-attempt rule deliberately: for every predicted test output, attempt_1 carries the best-verified hypothesis and attempt_2 carries the strongest rival hypothesis that also survives all train pairs, and the run log must state both hypotheses and why they were ranked that way. Plan the batch before solving, grade mid-run to check the running count, and after any shortfall re-examine the nearest misses -- tasks where one train pair resisted -- before spending budget on untouched tasks.",
+ "horizon": "1w",
+ "budget_usd": 20,
+ "resources": [
+  "github repo: arcprize/ARC-AGI-2 pinned at commit f3283f727488ad98fe575ea6a5ac981e4a188e49 (task JSONs under data/training/ and data/evaluation/; each task file holds train pairs plus one or more test pairs)",
+  "assets/gc-444/task_ids.txt (sealed list of 10 task ids, one per line; all from the public training split; every id verified to exist in the pinned commit)",
+  "assets/gc-444/grade.py (stdlib-only fail-closed grader: downloads the gold task files for the pinned commit, scores predictions cell-exactly, and prints {\"solved\": N} as its last JSON line)",
+  "output convention: runs/gc-444/predictions.json mapping task_id -> list with one entry per test input; each entry is a grid, a list of at most two attempt grids, or {\"attempt_1\": grid, \"attempt_2\": grid}",
+  "network: raw.githubusercontent.com must be reachable at grade time (the grader caches gold files under runs/gc-444/gold_cache/)"
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-444/grade.py",
+   "metric": "solved",
+   "threshold": 3,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-444/plan.md before the first prediction is written, naming per-task priorities, the attempt budget, and the exact verification command.",
+  "Every predicted task has a written transformation-rule hypothesis that was checked against every train pair before the test prediction; tasks where a hypothesis failed a train pair are logged by id with the revision that fixed it.",
+  "The grader was actually executed at least twice -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "The gold test outputs inside the pinned public repo are off-limits as inputs: predictions must be derived from the train pairs alone, and the run log must show that derivation per task.",
+  "Honest ledger: runs/gc-444/ledger.json records per-task attempts, spend, and outcome, including abandoned tasks and failed grader runs.",
+  "For every shipped test entry with two attempts, the run log states both hypotheses and the ranking rationale; attempt_2 is a genuine rival rule, not a cosmetic perturbation of attempt_1."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc",
+ "contamination_risk": "public_gold_exists"
+}

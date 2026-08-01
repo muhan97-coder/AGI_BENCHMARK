@@ -1,0 +1,10 @@
+sympy__sympy-12489
+sympy__sympy-14531
+sympy__sympy-13974
+sympy__sympy-24443
+sympy__sympy-21596
+sphinx-doc__sphinx-7748
+sphinx-doc__sphinx-8035
+sphinx-doc__sphinx-7757
+sphinx-doc__sphinx-8056
+sphinx-doc__sphinx-9602
