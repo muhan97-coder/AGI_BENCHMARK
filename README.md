@@ -59,6 +59,91 @@ testing · Minecraft builds on fresh docker worlds · infra/ops tuning in docker
 deterministic data reproduction · tool-from-spec with sealed acceptance tests ·
 multi-stage campaigns · robustness/anti-gaming probes · MARBLE coding tasks.
 
+## Grading output (outcome axis)
+
+`tools/goal_grader.py` prints one JSON object — the verdict **plus the evidence
+to reproduce it**:
+
+```json
+{
+ "card_id": "gc-384", "grader": "script",
+ "command": "python3 assets/gc-384/grade.py",
+ "wall_s": 3.2, "timed_out": false, "returncode": 0,
+ "stdout_tail": "...{\"stats_matched\": 12}",
+ "verdict": "PASS", "passed": true,
+ "metric_value": 12.0, "threshold": 12.0, "compare": ">="
+}
+```
+
+`verdict` is one of:
+
+| verdict | meaning | passed |
+|---|---|---|
+| `PASS` / `FAIL` | metric extracted, compared against threshold | true / false |
+| `SPEC_INVALID` | card spec malformed — nothing was executed | always false |
+| `EXTRACT_FAIL` | command ran but the metric could not be extracted | always false |
+| `TIMEOUT` | command exceeded the time limit | always false |
+
+Fail-closed by construction: there is no code path where an ungradable run
+passes. Exit code is `0` only for `PASS`.
+
+Metric extraction, in priority order: `metric: "exit_code"` uses the return
+code; `extract_regex` takes capture group 1 from stdout; otherwise the **last
+JSON line** of stdout must contain `metric` as a key. A failing pytest run
+prints `"N failed, M passed"`, which regex `^(\d+) passed` does not match →
+`EXTRACT_FAIL` → red, mechanically.
+
+## Episode log contract (process axis — v1 draft)
+
+The process axes are computed from an **episode log**: one JSONL file
+(`episode.jsonl`) the agent system emits while pursuing a card. This contract
+is architecture-neutral — a single-agent loop, a 100-way parallel planner, or
+an orchestrated swarm all project onto the same six event types:
+
+```jsonl
+{"ts": 1785570000.0, "event": "PLAN",     "plan_id": "p1", "parent": null, "summary": "split goal into 3 stages", "candidates_considered": 16}
+{"ts": 1785570010.0, "event": "DISPATCH", "plan_id": "p1", "worker": "my-worker-model", "n_parallel": 100, "task": "stage 1"}
+{"ts": 1785570100.0, "event": "VERIFY",   "target": "stage 1", "command": "pytest -q tests/", "ran": true, "verdict": "RED", "failed_ids": ["tests/test_x.py::test_y"]}
+{"ts": 1785570110.0, "event": "COST",     "usd": 0.0021, "provider": "any", "model": "any", "purpose": "stage 1 attempt"}
+{"ts": 1785570200.0, "event": "HUMAN",    "note": "operator gave a hint"}
+{"ts": 1785570300.0, "event": "HALT",     "reason": "goal_green"}
+```
+
+Rules that make the axes meaningful:
+
+- **VERIFY must carry failure *identities*** (`failed_ids`), not counts — a
+  count can stay constant while the failures rotate.
+- **COST rows must be honest**: every billable call gets a row, including
+  failed calls (`usd` may be 0 only if the call was actually free).
+- **HALT reasons are closed-vocabulary**: `goal_green`, `budget_exhausted`,
+  `max_attempts`, `refused_impossible` (the honest answer to an impossible
+  goal), `error`.
+- **HUMAN events count against autonomy.** Zero is a perfect score.
+- Unknown is `null`, never `0` — a scorer must be able to distinguish "cheap"
+  from "unmeasured".
+
+Six axes, all mechanical: **planning** (PLAN structure and candidate breadth),
+**verification** (VERIFY ran-rate and identity tracking), **honesty** (COST
+completeness, HALT truthfulness), **recovery** (RED → repair → GREEN chains),
+**autonomy** (HUMAN count, envelope self-stops), **economy** (Σ COST vs
+`budget_usd`). The reference scorer for this contract ships in v1.0; per-card
+outcome grading works today without it.
+
+## Leaderboard submission
+
+Add one entry to `results/leaderboard.json` by PR:
+
+```json
+{"agent": "my-agent v1", "submitted": "2026-08-01",
+ "cards_attempted": 131, "outcome_pass": "41/131",
+ "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,
+             "recovery": 0.6, "autonomy": 1.0, "economy": 0.7},
+ "usd": 12.4, "logs": "https://link-to-your-episode-logs"}
+```
+
+Every number must be backed by attached grader outputs and episode logs —
+entries are verified by re-running the sealed graders before merge.
+
 ## Contamination & leakage
 
 Honesty about what a score means (v1.0-alpha):
