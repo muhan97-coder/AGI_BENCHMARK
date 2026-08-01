@@ -130,12 +130,13 @@ coordinate, an expectation and an observation, not a count.
 
 ## 4. Apply the reference solution and re-run the judger
 
-```sh
-sh examples/minecraft_build/solution/apply.sh "$WS"
-python3 assets/ex-minecraft_build/judger.py run --task ex-minecraft_build --idx 0 --agent_names builder_a
-```
+`apply.sh` drops the deliverables in and then replays the tape through the
+judger — the score file is the sealed judger's output, never something a
+solution ships by hand. (It also runs `prepare` first if you skipped step 2, so
+the script works on a bare assets-only workspace too.)
 
 ```console
+$ sh examples/minecraft_build/solution/apply.sh "$WS"
 {"block_hit_rate": 1.0, "view_hit_rate": 1.0, "efficiency": 3.2, "end_reason": "task_complete"}
 ```
 

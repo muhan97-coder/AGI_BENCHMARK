@@ -128,6 +128,43 @@ single most common outcome, and the cause was not the benchmark — it was an
 agent that planned and verified diligently but never invoked its own execution
 channel. That is exactly the kind of gap the process axis is meant to expose.
 
+## Worked examples
+
+[`examples/`](examples/) holds **one teaching demo per category — all twelve** —
+each a miniature card built to the same schema, graded by the same
+`tools/goal_grader.py`, and shipped *with* its reference solution in
+`solution/`. They carry `"scored": false` and ids of the form `ex-<category>`:
+they are not part of the benchmark, and passing one proves only that your loop
+closes.
+
+Publishing solutions is the whole point of that directory, and the reason the
+scored cards in `cards/` do the opposite: a scored card's answers stay sealed
+(`answers_sealed` cards commit only `.sha256` digests), because publishing them
+would destroy them. So the demos are where you learn the contract, and `cards/`
+is where you are measured against it.
+
+Every demo runs **offline in under a second** — no docker, no network, no
+dataset download, Python ≥ 3.10 and (for four of them) `pytest`. Each walks the
+same four beats with real captured output at every step: validate the spec,
+grade the unsolved workspace RED, apply the reference solution, grade GREEN.
+Between them they exercise all four grader shapes in the benchmark — `script`,
+`pytest`, `mutation`, `swebench` — and the three verdicts you actually meet in a
+run: `FAIL` with a real metric, `PASS`, and the `EXTRACT_FAIL` traps, several of
+them planted deliberately so you can see what causes one.
+
+```sh
+# the cheapest possible smoke test: a full RED -> GREEN cycle, $0, ~1 s
+WS="${TMPDIR:-/tmp}/ws-ex-swe_bench"
+mkdir -p "$WS/assets" && cp -r examples/swe_bench/assets "$WS/assets/ex-swe_bench"
+
+python3 tools/goal_grader.py examples/swe_bench/card.json "$WS"   # -> EXTRACT_FAIL: no predictions yet
+sh examples/swe_bench/solution/apply.sh "$WS"
+python3 tools/goal_grader.py examples/swe_bench/card.json "$WS"   # -> PASS, resolved_instances 3 >= 2
+```
+
+Start with [`examples/README.md`](examples/README.md) — it indexes all twelve
+with what each one teaches, its grader shape, and its measured runtime.
+
 ## Categories
 
 SWE-bench (pinned Lite instances) · OSS repair at pinned SHAs · mutation
