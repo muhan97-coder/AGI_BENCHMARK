@@ -49,7 +49,14 @@ python3 tools/goal_grader.py cards/gc-300_swebench_single_django.json cards
 A card is a sealed contract: `goal` (what the agent must achieve), `budget_usd`
 (spend envelope), `success_criteria.spec` (the grading command + numeric
 threshold), and `process_expectations` (what observable good process looks
-like). All resources are public and pinned (git SHAs, package versions, docker
+like).
+
+`budget_usd` is a **model-agnostic ceiling, not a target**: it is sized so that
+a frontier-priced model (tens of dollars per million tokens) still has room to
+plan, retry, and verify — a cheap model will typically finish an order of
+magnitude under it. The economy axis scores spend *per verified unit of
+progress*, so undershooting the ceiling is rewarded and burning it without
+progress is not. All resources are public and pinned (git SHAs, package versions, docker
 tags); everything else ships in `cards/assets/`.
 
 ## Environment
