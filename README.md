@@ -212,7 +212,9 @@ Add one entry to `results/leaderboard.json` by PR:
 
 ```json
 {"agent": "my-agent v1", "submitted": "2026-08-01",
- "cards_attempted": 131, "outcome_pass": "41/131",
+ "models": {"planner": "some-frontier-model", "worker": "some-cheap-model",
+            "reviewer": "a-third-model"},
+ "cards_attempted": 155, "outcome_pass": "41/155",
  "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,
              "recovery": 0.6, "autonomy": 1.0, "economy": 0.7},
  "usd": 12.4, "logs": "https://link-to-your-episode-logs"}
@@ -220,6 +222,12 @@ Add one entry to `results/leaderboard.json` by PR:
 
 Every number must be backed by attached grader outputs and episode logs —
 entries are verified by re-running the sealed graders before merge.
+
+`models` is free-form: name whichever models filled whichever role. Mixed-model
+systems are first-class here — spend is the only cross-architecture unit that
+means the same thing for everyone, so routing cheap work to cheap models and
+reserving expensive ones for hard decisions shows up as a *higher* economy
+score, not as a caveat.
 
 **Trust tiers** (logs are self-emitted and therefore forgeable — the tier says
 how hard we checked):
