@@ -28,10 +28,13 @@ benchmark treats them differently:
 ## Repository layout
 
 ```
-cards/           155 goal cards (JSON) + cards/assets/<id>/ sealed assets
+cards/           155 scored goal cards (JSON) + cards/assets/<id>/ card assets
 cards/INDEX.md   full card index with categories and difficulty
-tools/goal_grader.py     the machine grader (stdlib only, fail-closed)
-tools/build_dashboard.py rebuilds docs/index.html from cards/
+examples/        12 teaching demos (one per category) WITH published solutions
+tools/goal_grader.py       the machine grader (stdlib only, fail-closed)
+tools/assemble_workspace.py builds an agent workspace from task assets only
+tools/restore_sealed.py    grader-side restore of sealed answer files
+tools/build_dashboard.py   rebuilds docs/index.html from cards/
 docs/index.html  static dashboard (card browser + leaderboard)
 results/leaderboard.json leaderboard entries (submit via PR)
 ```
@@ -39,12 +42,22 @@ results/leaderboard.json leaderboard entries (submit via PR)
 ## Quick start
 
 ```sh
-# validate a card's grader spec (no execution, $0)
-python3 tools/goal_grader.py --dry-run cards/gc-300_swebench_single_django.json
+CARD=cards/gc-300_swebench_single_django.json
 
-# have YOUR agent pursue the card's goal in a workspace, then grade it
-python3 tools/goal_grader.py cards/gc-300_swebench_single_django.json cards
+# 1. validate the card's grader spec (no execution, $0)
+python3 tools/goal_grader.py --dry-run "$CARD"
+
+# 2. build the agent-facing workspace (task assets only, no answer files)
+python3 tools/assemble_workspace.py "$CARD" /tmp/ws-gc-300
+
+# 3. point YOUR agent at /tmp/ws-gc-300 and let it pursue the card's goal,
+#    then grade whatever it produced
+python3 tools/goal_grader.py "$CARD" /tmp/ws-gc-300
 ```
+
+Grade from a workspace, never from a checkout of this repository: the graders
+read relative paths, and a card whose answers are sealed will not grade
+correctly against the repo itself.
 
 A card is a sealed contract: `goal` (what the agent must achieve), `budget_usd`
 (spend envelope), `success_criteria.spec` (the grading command + numeric
@@ -58,8 +71,10 @@ retry, and verify repeatedly without the envelope being the thing that stops
 it. A cheap model will typically finish two orders of magnitude under the
 ceiling; that is the expected outcome, not an anomaly. The economy axis scores spend *per verified unit of
 progress*, so undershooting the ceiling is rewarded and burning it without
-progress is not. All resources are public and pinned (git SHAs, package versions, docker
-tags); everything else ships in `cards/assets/`.
+progress is not.
+
+All resources a card cites are public and pinned (git SHAs, package versions,
+docker tags); everything else ships in `cards/assets/`.
 
 ## Environment
 
@@ -68,9 +83,9 @@ by card category:
 
 | categories | requirements |
 |---|---|
-| data_repro, tool_from_spec, ARC-AGI-2 | Python ≥ 3.10 only (pinned pip deps per card) |
-| mutation, oss_repair, MARBLE coding | + git clones at pinned SHAs, pinned pip packages |
-| infra_ops, minecraft | + Docker & docker compose (pinned images; minecraft also needs Node 20 + pinned npm packages) |
+| `data_repro`, `tool_from_spec`, `frontier_arc`, `robustness`, `campaign` | Python ≥ 3.10 plus each card's pinned pip deps (`data_repro` cards pin numpy / pandas / scipy) |
+| `mutation_testing`, `oss_repair`, `marble_coding` | + git clones at pinned SHAs, pinned pip packages (`mutmut` for the mutation band) |
+| `infra_ops`, `minecraft_build` | + Docker & docker compose (pinned images; `minecraft_build` also needs Node 20 + pinned npm packages) |
 | swe_bench, frontier_swe_hard | + the swebench docker harness — **heavy**: several GB of images *per instance environment*; budget 50 GB+ of disk for the larger batches |
 
 **Reference environment** (what the baseline runs on): Linux x86_64 (a WSL2
@@ -108,10 +123,17 @@ for c in cards/gc-*.json; do
   python3 tools/goal_grader.py --dry-run "$c" | grep -q '"spec_ok": true' || echo "BAD SPEC: $c"
 done
 
-# 3. Does one card per category actually grade end-to-end?
-#    Run the grader on an UNSOLVED workspace first: a correct card must come
-#    back RED with a real metric value — not EXTRACT_FAIL.
-python3 tools/goal_grader.py cards/gc-384_univariate_descriptives_repro.json /tmp/ws
+# 3. Does the grading loop close end-to-end? Run a worked example: it walks
+#    an unsolved workspace (RED) to a solved one (PASS) offline in ~1 s.
+WS="${TMPDIR:-/tmp}/ws-ex-data_repro"
+mkdir -p "$WS/assets" && cp -r examples/data_repro/assets/ex-data_repro "$WS/assets/"
+python3 tools/goal_grader.py examples/data_repro/card.json "$WS"   # RED, with a metric
+sh examples/data_repro/solution/apply.sh "$WS"
+python3 tools/goal_grader.py examples/data_repro/card.json "$WS"   # PASS
+
+# 4. Then try one *scored* card per category you plan to run — on a workspace
+#    built by assemble_workspace.py. An unsolved scored card must come back
+#    RED with a real metric value, not EXTRACT_FAIL.
 ```
 
 Read the verdict of that last step carefully:
@@ -143,8 +165,9 @@ scored cards in `cards/` do the opposite: a scored card's answers stay sealed
 would destroy them. So the demos are where you learn the contract, and `cards/`
 is where you are measured against it.
 
-Every demo runs **offline in under a second** — no docker, no network, no
-dataset download, Python ≥ 3.10 and (for four of them) `pytest`. Each walks the
+Every demo runs **offline in about a second** — no docker, no network, no
+dataset download; Python ≥ 3.10, plus `pytest` for the three `grader: pytest`
+demos. Each walks the
 same four beats with real captured output at every step: validate the spec,
 grade the unsolved workspace RED, apply the reference solution, grade GREEN.
 Between them they exercise all four grader shapes in the benchmark — `script`,
@@ -180,12 +203,12 @@ to reproduce it**:
 
 ```json
 {
- "card_id": "gc-384", "grader": "script",
- "command": "python3 assets/gc-384/grade.py",
- "wall_s": 3.2, "timed_out": false, "returncode": 0,
- "stdout_tail": "...{\"stats_matched\": 12}",
+ "card_id": "ex-data_repro", "grader": "script",
+ "command": "python3 assets/ex-data_repro/grade.py",
+ "wall_s": 0.1, "timed_out": false, "returncode": 0,
+ "stdout_tail": "...{\"stats_matched\": 6}",
  "verdict": "PASS", "passed": true,
- "metric_value": 12.0, "threshold": 12.0, "compare": ">="
+ "metric_value": 6.0, "threshold": 6.0, "compare": ">="
 }
 ```
 
@@ -282,7 +305,7 @@ rises to the cost of doing the work.
 
 ## Contamination & leakage
 
-Honesty about what a score means (v1.0-alpha):
+Honesty about what a score means (v1.0-beta):
 
 - Every card carries `contamination_risk`:
   **`public_gold_exists`** (53 cards — SWE-bench gold patches are in the public
@@ -292,7 +315,7 @@ Honesty about what a score means (v1.0-alpha):
   privately by the maintainers), **`low`** (87 cards — visible sealed
   tests/blueprints are the *spec*, not the answer; hard-coding-to-tests is
   countered by the mutation and robustness bands).
-- **Oracle isolation** (v1.0-alpha, enforced):
+- **Oracle isolation** (shipped, enforced):
   - `tools/assemble_workspace.py <card> <dest>` builds the agent-facing
     workspace from task assets only — point your agent there, never at this
     repo, and answer files are structurally out of reach.
@@ -311,8 +334,11 @@ Honesty about what a score means (v1.0-alpha):
 pin checks, portability sweep) but the preregistered *sealed* set will be
 tagged as `v1.0` after review. The neutral episode-log contract — which lets
 any agent system be scored on the process axes via a thin adapter — is the main
-v1 work item. First baseline (a self-improving agent loop on a budget worker
-model) is being measured now.
+v1 work item; the reference scorer for it is not published yet, so today the
+repository grades outcomes and specifies the process contract without scoring it
+for you. The first baseline (`agent-one`, a self-improving loop on a budget
+worker model, `harness-run` tier) is mid-measurement; its numbers will appear on
+the leaderboard when the run completes.
 
 ## License
 
