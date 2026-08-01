@@ -299,8 +299,9 @@ function renderBoard() {
   const host = document.getElementById("board");
   if (!BOARD.length) {
     host.innerHTML = `<div class="empty"><b>No submissions yet.</b><br>
-      The first baseline (a self-improving agent loop, worker: deepseek-v4-flash)
-      is currently being measured and will be posted here.</div>`;
+      The first baseline — <b>agent-one</b>, a self-improving agent loop on a
+      budget worker model — is currently being measured (harness-run tier) and
+      will be posted here.</div>`;
     return;
   }
   const axes = ["planning","verification","honesty","recovery","autonomy","economy"];
