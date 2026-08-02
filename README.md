@@ -155,10 +155,38 @@ Read the verdict of that last step carefully:
 | `SPEC_INVALID` | the card is malformed — please open an issue |
 | `TIMEOUT` | raise the timeout, or the environment is missing something the command waits on |
 
-The `EXTRACT_FAIL` row is worth internalizing: in our own first run it was the
-single most common outcome, and the cause was not the benchmark — it was an
-agent that planned and verified diligently but never invoked its own execution
-channel. That is exactly the kind of gap the process axis is meant to expose.
+The `EXTRACT_FAIL` row is worth internalizing: in our own runs it was the single
+most common outcome, and every time the cause was on our side of the fence —
+first the agent's execution channel, then the harness around it. Before you
+read an `EXTRACT_FAIL` sweep as a capability measurement, rule out the harness.
+
+### Harness requirements (learned the expensive way)
+
+These are the three things our own runner got wrong. Each produced a clean,
+plausible sweep of `EXTRACT_FAIL` verdicts that looked like agent incapacity
+and was not:
+
+1. **The agent's writable directory must be the grader's working directory.**
+   Card commands are relative and the grader runs them with `cwd` set to the
+   workspace. If your agent writes somewhere else — a sandbox jail, a scratch
+   dir, a container layer that is torn down — the file the grader opens cannot
+   exist, no matter how well the agent worked. Assemble the workspace with
+   `tools/assemble_workspace.py`, point the agent at it, grade in it.
+2. **The agent must be able to choose the output path.** Some agent frameworks
+   compute write paths internally for safety and only let the model supply file
+   *contents*. That is a fine invariant, but a card asks for a specific path
+   (`runs/<card>/predictions.jsonl`, `artifacts/<card>/stats.json`), so the
+   framework needs some route to it — e.g. let the model author a script whose
+   path you control, and run that script in the workspace.
+3. **Check that the agent is actually fully armed.** A loop running with part
+   of its pipeline disabled can still plan, still emit reasoning, still burn
+   tokens, and still write nothing. Log which components were live per episode;
+   otherwise "the agent produced nothing" is unattributable after the fact.
+
+A fast way to separate the two worlds: run the worked example above (step 3).
+It reaches `PASS` with no agent at all. If the example passes and your scored
+cards all `EXTRACT_FAIL`, the benchmark and the grader are fine — the gap is
+between your agent and the workspace.
 
 ## Worked examples
 
