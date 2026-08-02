@@ -11,6 +11,7 @@ code/message/detail. Deciding what to do about that error is the agent's job.
         mc.connect("127.0.0.1", 25565, "builder_a")
         print(mc.get_position())
         mc.place_block(0, -60, 0, "stone_bricks")
+        mc.set_block(0, -59, 0, "oak_log", "axis=x")     # /setblock, needs op
         print(mc.read_region(0, -60, 0, 0, -60, 2))
 """
 
@@ -112,6 +113,51 @@ class McBridge:
         if look is not None:
             params["look"] = look
         return self._call("place_block", **params)
+
+    def set_block(self, x: int, y: int, z: int, block_name: str, block_state: Optional[str] = None) -> dict:
+        """Send `/setblock` for (x, y, z) and report one confirming read.
+
+        Needs operator permission; needs no inventory, no reach and no
+        neighbouring block. `block_state` is your string, passed through
+        character for character inside the brackets the command syntax needs
+        ("axis=y", "facing=north,half=top") — the bridge never picks one,
+        because axis and facing are graded. A space or a control character in
+        it is `BAD_PARAMS`, never quoted or stripped.
+
+        Raises `NOT_OPERATOR` when the server does not offer `/setblock` to
+        this bot (it silently ignores the command in that case), and
+        `PLACED_MISMATCH` when the confirming read disagrees with what you
+        asked for. It reports the disagreement; resolving it is yours.
+        """
+        params: dict = {"x": x, "y": y, "z": z, "blockName": block_name}
+        if block_state is not None:
+            params["blockState"] = block_state
+        return self._call("set_block", **params)
+
+    def fill_region(
+        self,
+        x1: int,
+        y1: int,
+        z1: int,
+        x2: int,
+        y2: int,
+        z2: int,
+        block_name: str,
+        mode: Optional[str] = None,
+    ) -> dict:
+        """Send `/fill` over the box between the two corners. Needs op.
+
+        `mode` is yours: replace (default), destroy, keep, outline or hollow.
+        Over vanilla's 32768-block limit this raises `FILL_VOLUME_EXCEEDED`
+        with the volume and the limit attached — the bridge will not split a
+        region into batches for you, because choosing the batches is a plan.
+        The confirming read looks at the single corner (x1, y1, z1); call
+        `read_region` if you want to know what the rest of the box holds.
+        """
+        params: dict = {"x1": x1, "y1": y1, "z1": z1, "x2": x2, "y2": y2, "z2": z2, "blockName": block_name}
+        if mode is not None:
+            params["mode"] = mode
+        return self._call("fill_region", **params)
 
     def withdraw_from_chest(self, x: int, y: int, z: int, item_name: str, count: int) -> dict:
         return self._call("withdraw_from_chest", x=x, y=y, z=z, itemName=item_name, count=count)

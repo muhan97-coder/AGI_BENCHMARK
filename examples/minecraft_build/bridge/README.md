@@ -1,16 +1,17 @@
 # mc_bridge — environment access for the `minecraft_build` cards
 
 **This is a hand, not a brain.** It is the plumbing that lets an agent touch a
-real Minecraft world — connect a mineflayer bot, read blocks, place a block,
-pull items out of a chest — exposed as seven primitives over line-delimited
-JSON-RPC. It holds no goal, reads no blueprint, and decides nothing that is
-scored — where it must pick something the API forces on it (which face to click
-when you did not say), the pick is documented, fixed, and overridable. Every
-part of a `minecraft_build` card that is actually *scored* — deciding what to
-place and in what order, noticing that the world disagrees with the target,
-repairing the difference, choosing where to stand — is deliberately absent, and
-absent on purpose: writing that plumbing is a tax on measurement, while
-deciding what to do with it **is** the measurement.
+real Minecraft world — connect a mineflayer bot, read blocks, place a block by
+hand or through the server's own `/setblock` and `/fill` commands, pull items
+out of a chest — exposed as nine primitives over line-delimited JSON-RPC. It
+holds no goal, reads no blueprint, and decides nothing that is scored — where it
+must pick something the API forces on it (which face to click when you did not
+say), the pick is documented, fixed, and overridable. Every part of a
+`minecraft_build` card that is actually *scored* — deciding what to place and in
+what order, how to cut a large region into commands, noticing that the world
+disagrees with the target, repairing the difference, choosing where to stand —
+is deliberately absent, and absent on purpose: writing that plumbing is a tax on
+measurement, while deciding what to do with it **is** the measurement.
 
 It ships publicly for the reason set out in the root README under *What we ship
 and what we don't*: environment access is public, task strategy is private. A
@@ -58,7 +59,9 @@ docker compose -f cards/assets/gc-360/docker-compose.yml down    # no volume: th
 ```
 
 Bots must connect with **exactly** the usernames the judger was launched with
-(`--agent_names`), or the judger will not op them and every placement fails.
+(`--agent_names`), or the judger will not op them and every placement fails —
+`place_block` for want of materials, `set_block` and `fill_region` with
+`NOT_OPERATOR`.
 
 ## Use it from Python
 
@@ -117,12 +120,14 @@ yourself.
 
 | method | params | returns |
 | --- | --- | --- |
-| `connect` | `host`, `port`, `username`, `version="1.19.2"`, `timeout_ms=60000` | `username`, `version`, `position` — resolves only after spawn **and** chunk load |
+| `connect` | `host`, `port`, `username`, `version="1.19.2"`, `timeout_ms=60000` | `username`, `version`, `position`, `operator` — resolves only after spawn **and** chunk load |
 | `disconnect` | — | `disconnected`, `username` |
 | `get_position` | — | `position`, `block_position`, `yaw`, `pitch`, `on_ground`, `dimension` |
 | `get_inventory` | — | `items[{name,count,slot}]`, `held`, `empty_slots`, `settled` |
 | `read_region` | `x1,y1,z1,x2,y2,z2` | `min`, `max`, `count`, `unloaded`, `blocks[{x,y,z,name,loaded,properties}]` |
 | `place_block` | `x,y,z,blockName`, `face?`, `look?`, `timeout_ms=20000` | `placed`, `position`, `block`, `properties`, `reference`, `face`, `face_source`, `look` |
+| `set_block` | `x,y,z,blockName`, `blockState?`, `confirm_timeout_ms=2000` | `sent`, `position`, `block`, `block_state`, `verified`, `changed`, `state_checked`, `state_match`, `before`, `observed`, `operator`, `waited_ms` |
+| `fill_region` | `x1,y1,z1,x2,y2,z2,blockName`, `mode="replace"`, `confirm_timeout_ms=2000` | `sent`, `min`, `max`, `volume`, `limit`, `mode`, `block`, `verified`, `changed`, `probe_position`, `probe_conclusive`, `before`, `observed`, `operator`, `waited_ms` |
 | `withdraw_from_chest` | `x,y,z,itemName,count`, `timeout_ms=20000` | `withdrawn`, `item`, `requested`, `inventory_count`, `settled` |
 
 Notes that matter for grading:
@@ -144,10 +149,68 @@ Notes that matter for grading:
   `unloaded` — never silently as air.
 - `place_block` re-reads the cell after placing and raises `PLACED_MISMATCH` if
   the server disagrees with what you asked for. It **reports** the
-  disagreement; it does not resolve it.
+  disagreement; it does not resolve it. `set_block` and `fill_region` do the
+  same, once.
 - `settled: false` means the inventory count was still moving when the 2 s cap
   hit — the number is a best effort, not a fact. Unknown is never dressed up as
   known.
+
+## Two hands: `place_block` versus `set_block` / `fill_region`
+
+`place_block` is the bot's physical hand. It needs the item in the bot's
+inventory, a solid neighbour to click, and the target within the 4.5-block
+survival reach — the same constraints a human player has.
+
+`set_block` and `fill_region` send Minecraft's own `/setblock` and `/fill`
+server commands. They are a public part of the game, not something this
+benchmark invented, and they change the shape of what is possible: no
+inventory, no support block, no reach limit, and one `/fill` writes up to 32768
+blocks at once. Measured on one local run against the pinned 1.19.2 image, 120
+back-to-back `set_block` calls ran at **18.5 blocks/s** (each waits for its own
+confirming read), while a single 32×32×32 `fill_region` wrote **32768 blocks in
+0.50 s** — treat those as an order of magnitude, not a promise.
+
+**Both need operator permission.** A server silently ignores `/setblock` and
+`/fill` from a non-op — no error, no effect — which is exactly the kind of quiet
+failure that ruins an episode log. So the bridge reads the command tree the
+server sends each client (it is filtered by permission level, and re-sent when
+that level changes), and returns `NOT_OPERATOR` with the command it sent and
+both reads attached, rather than reporting a success that never happened.
+`connect` reports the same thing up front as `operator: true | false | null`.
+
+How op is granted:
+
+- **On the scored cards**, the compose file ops only the judger bot
+  (`OPS: "build_judge"`); the judger then ops each name passed to
+  `--agent_names`. That is why your bots must connect with exactly those
+  usernames — a mismatch leaves them un-opped.
+- **On a throwaway server of your own**, `rcon-cli op <name>` after the bot has
+  joined is the reliable route, because the server then has the bot's real
+  offline-mode profile. Beware the name-based `OPS` env var on an
+  `ONLINE_MODE=FALSE` server: it is resolved through an account lookup, so a
+  username that matches a registered Minecraft account is written into
+  `ops.json` under that account's UUID — which your offline bot never has, so
+  it joins un-opped while the file looks correct.
+
+Two more properties worth knowing before you build on them:
+
+- `blockState` is **your** string, dropped in verbatim between the brackets the
+  command syntax needs: `"axis=x"` and `"[axis=x]"` both produce
+  `/setblock 10 -60 10 oak_log[axis=x]`. The bridge never picks, reorders or
+  completes a property, because axis and facing are graded. It does check what
+  came back: `state_match` is `true`/`false`, or `null` when you asked for
+  nothing or the string was not a plain `key=value` list.
+- Verification is a **single read**, and it can honestly fail to happen. A cell
+  outside the chunks this client has loaded comes back `verified: null` with
+  `unverified_reason`: the command went out, but the bridge cannot see the
+  result — and vanilla itself refuses to write into a chunk the *server* has not
+  loaded ("That position is not loaded"), so far-flung writes may not land at
+  all. Unknown is returned as unknown, never as success.
+  `fill_region` confirms one cell, the corner you named as
+  `x1,y1,z1`, and says so via `probe_position`; in `keep` mode that corner
+  proves nothing either way, which is reported as `probe_conclusive: false`
+  rather than guessed at. If you want to know what the whole box holds, that is
+  what `read_region` is for.
 
 ## What it deliberately does **not** do
 
@@ -156,10 +219,11 @@ it here would mean the benchmark scoring its own code:
 
 | not provided | why it stays on your side |
 | --- | --- |
-| reading or parsing `blueprint.json` / `map.json` | translating blueprint-relative coordinates into world space through `map.json` is the card's central trap — a plan written from the blueprint alone lands a block short |
-| deciding *what* to place, and in what **order** | this is the plan artifact `process_expectations` require before the first block; it is the planning axis |
+| reading or parsing any card file (`blueprint.json`, `map.json`, …) | the bridge touches no files at all; every coordinate it acts on is one the caller passed in, in world space |
+| deciding *what* to place, and in what **order** | this is the plan artifact `process_expectations` require before the first block; it is the planning axis. Commands go out in the order you call them — never sorted, never bottom-up, never dependency-ordered |
+| **splitting** an oversized region into batches | `fill_region` refuses anything past vanilla's 32768-block limit with `FILL_VOLUME_EXCEEDED` and the volume attached. Deciding where to cut a big build and which piece goes first *is* the build plan; a bridge that chunked it for you would be writing the plan |
 | comparing world against target, detecting mismatches | verification. The judger's snapshot feed gives you readings; turning readings into failure *identities* (coordinate, expected, observed) is scored, and a count would not do |
-| repairing a wrong block, wrong facing, or a stray | the recovery axis is precisely the RED → repair → GREEN chain. A bridge that auto-fixed would erase the axis |
+| repairing a wrong block, wrong facing, or a stray | the recovery axis is precisely the RED → repair → GREEN chain. A bridge that auto-fixed would erase the axis. `set_block` and `fill_region` re-read once and hand you `PLACED_MISMATCH`; neither re-sends |
 | pathfinding, or **any** movement of the bot | where to stand is a decision. `OUT_OF_REACH` comes back as data with `distance`, `reach` and `bot_position` attached. The cards pin `mineflayer-pathfinder@2.4.5` in their own resource list — if you want locomotion, that layer is yours to add, and the bridge has no dependency on it |
 | retrying, backing off, or recovering from a failed action | a hidden retry loop would inflate recovery and hide honest failures from the episode log |
 | withdrawing "what you'll need" | it withdraws exactly what you asked for. Chest stock is exact on the scored cards, so over-withdrawal is a real, scored mistake |
@@ -196,6 +260,7 @@ to decide — and so the decision is visible in your logs.
 | protocol | `BAD_JSON`, `BAD_PARAMS`, `UNKNOWN_METHOD`, `INTERNAL_ERROR` |
 | reading | `REGION_TOO_LARGE`, `CHUNK_NOT_LOADED` |
 | placing | `TARGET_OCCUPIED`, `OUT_OF_REACH`, `ITEM_NOT_IN_INVENTORY`, `NO_ADJACENT_SUPPORT`, `EQUIP_TIMEOUT`, `LOOK_TIMEOUT`, `PLACE_TIMEOUT`, `PLACE_FAILED`, `PLACED_MISMATCH` |
+| server commands | `NOT_OPERATOR`, `FILL_VOLUME_EXCEEDED`, `COMMAND_TOO_LONG`, `PLACED_MISMATCH` |
 | chests | `UNKNOWN_ITEM`, `CONTAINER_OPEN_FAILED`, `OPEN_TIMEOUT`, `INSUFFICIENT_STOCK`, `WITHDRAW_TIMEOUT`, `WITHDRAW_FAILED` |
 | Python client only | `BRIDGE_DEAD` (the node process exited), `PROTOCOL_DESYNC` (frame id mismatch) |
 
@@ -203,7 +268,16 @@ to decide — and so the decision is visible in your logs.
 `observed`, `OUT_OF_REACH` ships `distance`/`reach`/`bot_position`,
 `ITEM_NOT_IN_INVENTORY` ships the full inventory snapshot,
 `INSUFFICIENT_STOCK` ships `available` and the chest contents,
-`NO_ADJACENT_SUPPORT` ships the six neighbours it checked.
+`NO_ADJACENT_SUPPORT` ships the six neighbours it checked,
+`NOT_OPERATOR` ships the exact command text plus the before/after reads, and
+`FILL_VOLUME_EXCEEDED` ships `volume` and `limit` so you can decide how to cut
+the region — the decision the bridge refuses to make for you.
+
+`blockName` must be one bare token (`stone_bricks`, `minecraft:oak_log`) and
+`blockState` may not contain a space or a control character; both are rejected
+with `BAD_PARAMS` rather than quoted, escaped or repaired, so a command can
+never turn into two and a stray token can never become a command's next
+argument.
 
 ## Why inventory counts are treated as suspect
 
@@ -229,12 +303,29 @@ it spawned, reads them back and leaves. Add `--chest x,y,z` to exercise
 and no target is compared — the coordinates come from the bot's own spawn
 position, because this proves the *hand* works, nothing more.
 
+`--commands` adds the server-command primitives, which need op but no stock:
+
+```sh
+python3 smoke_test.py --port 25565 --username builder_a --commands --skip-place \
+    --gear-cmd 'docker exec gc-360-mc rcon-cli op builder_a'
+```
+
+That section runs three `set_block` calls (one with a caller-chosen
+`axis=x`, one 40 blocks out to show the reach limit is gone), one 3×1×3
+`fill_region`, a `read_region` over the result, and one deliberately oversized
+`fill_region` so you can see it refused rather than split. Run it *without* op
+and every call that reaches the server comes back `NOT_OPERATOR` instead —
+which is the point of the code existing. The oversized fill is the exception:
+its volume is checked before anything is sent, so it returns
+`FILL_VOLUME_EXCEEDED` whether you are op or not.
+
 ## Where it fits in a card run
 
 Against `cards/assets/gc-360/RUNBOOK.md`: phases 1–4 (fresh server, pinned
 MARBLE judger, sealed blueprint, judger launch) are the card's own setup and
 the bridge takes no part in them. Phase 5 — *build with your own bots* — is the
 only place it appears, and it appears as a hand: your planner reads
-`data/map.json`, decides an order, and calls `place_block`. Phases 6–7 (honest
+`data/map.json`, decides an order, and calls `place_block` — or, once the
+judger has opped your bots, `set_block` and `fill_region`. Phases 6–7 (honest
 ledgers, judger scoring) are yours again. The bridge never reads the judger's
 snapshot feed and never writes anything to disk.
