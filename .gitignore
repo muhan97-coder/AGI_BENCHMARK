@@ -1,0 +1,6 @@
+# Node dependencies (pinned in package.json; installed per-checkout)
+node_modules/
+
+# Python bytecode
+__pycache__/
+*.py[cod]

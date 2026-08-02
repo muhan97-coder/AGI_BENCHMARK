@@ -1,0 +1,16 @@
+{
+  "name": "mc-bridge",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Clean-room stdio JSON-RPC bridge exposing raw mineflayer primitives for the minecraft_build cards. Transport only: no planning, no repair, no strategy.",
+  "license": "MIT",
+  "main": "mc_bridge.js",
+  "engines": {
+    "node": ">=20 <21"
+  },
+  "dependencies": {
+    "mineflayer": "4.20.1",
+    "minecraft-data": "3.59.3",
+    "vec3": "0.1.10"
+  }
+}

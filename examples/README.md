@@ -35,6 +35,12 @@ download**, and only the four marked `+pytest` need anything beyond the Python �
 standard library. The scored cards in those same categories need docker, pinned images,
 git clones at pinned SHAs, and — for the SWE-bench bands — tens of GB of disk.
 
+**Not a demo, but indexed here:** [`minecraft_build/bridge/`](minecraft_build/bridge/) —
+the public mineflayer access layer for the *scored* `minecraft_build` cards
+(connect · read region · place block · withdraw from chest, over JSON-RPC).
+A hand, not a brain: no blueprint reading, no planning, no repair, no
+pathfinding. The demo above needs none of it and stays offline.
+
 ## Layout
 
 Each directory holds the same four things:

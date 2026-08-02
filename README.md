@@ -88,6 +88,11 @@ by card category:
 | `infra_ops`, `minecraft_build` | + Docker & docker compose (pinned images; `minecraft_build` also needs Node 20 + pinned npm packages) |
 | swe_bench, frontier_swe_hard | + the swebench docker harness — **heavy**: several GB of images *per instance environment*; budget 50 GB+ of disk for the larger batches |
 
+The `minecraft_build` cards are attemptable by anyone: the mineflayer access
+layer they need ships in this repo at
+[`examples/minecraft_build/bridge/`](examples/minecraft_build/bridge/) — a hand,
+not a brain (see *What we ship and what we don't*).
+
 **Reference environment** (what the baseline runs on): Linux x86_64 (a WSL2
 VM, nothing exotic), 8 cores / 19 GB RAM, Docker 24+, Python 3.10, Node 20.
 The grader itself (`tools/goal_grader.py`) is stdlib-only.
@@ -277,11 +282,20 @@ Add one entry to `results/leaderboard.json` by PR:
  "cards_attempted": 155, "outcome_pass": "41/155",
  "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,
              "recovery": 0.6, "autonomy": 1.0, "economy": 0.7},
+ "shared_tooling": ["mc_bridge"],
  "usd": 12.4, "logs": "https://link-to-your-episode-logs"}
 ```
 
 Every number must be backed by attached grader outputs and episode logs —
 entries are verified by re-running the sealed graders before merge.
+
+`shared_tooling` is **optional** and lists which pieces of the repository's
+public plumbing the run used (`mc_bridge` today; more as categories are added).
+It is a fairness label, not a penalty: shared plumbing is published precisely so
+that everyone may use it, and an entry that used it is not discounted. It exists
+so two entries can be compared knowing whether one also built its own access
+layer — and so a category's plumbing can be revised without silently
+invalidating older entries. Omit the field if you used none.
 
 `models` is free-form: name whichever models filled whichever role. Mixed-model
 systems are first-class here — spend is the only cross-architecture unit that
@@ -302,6 +316,43 @@ how hard we checked):
 `self-reported`. Fabricating a replay-verified log means fabricating repo
 states where the claimed failures actually reproduce — the cost of forgery
 rises to the cost of doing the work.
+
+## What we ship and what we don't
+
+One rule, and it decides every publish/withhold question in this repository:
+
+> **Environment access is public. Task strategy is private.**
+
+**Public — the plumbing that reaches the environment.** The docker grading
+harness, the Minecraft bridge
+([`examples/minecraft_build/bridge/`](examples/minecraft_build/bridge/)), the
+workspace assembler, the runbooks and pinned compose files. None of it is the
+thing being measured; it is the precondition for measuring at all. Writing a
+mineflayer transport or a container harness is a tax paid in engineering hours
+that says nothing about agent capability, and a category where only the authors
+own the plumbing produces scores nobody should trust — including ours. If
+reaching the environment is hard in a way that has nothing to do with the task,
+that difficulty is our problem to remove, not your score to lose.
+
+**Private — the strategy that solves the task, and the answers that grade it.**
+Plan decomposition, placement ordering, mismatch detection, repair loops,
+verification policy: these are the six process axes wearing different clothes,
+and shipping any of them would mean the benchmark scoring its own code. Grading
+answers stay sealed for the ordinary reason — publishing them destroys the card
+(see *Contamination & leakage* below, and the `answers_sealed` pack).
+
+The line between the two is drawn by one question: *would shipping this make a
+scored behaviour disappear from the log?* A bridge that only reports
+`TARGET_OCCUPIED` leaves the decision — and the evidence of the decision —
+with the agent. A bridge that quietly broke the offending block would delete
+the recovery axis for everyone.
+
+**This rule applies to every category added from here on** — robotics,
+infrastructure, whatever comes next. The access layer for a new environment
+ships with it, on the same terms: enough to reach the world, never enough to
+decide what to do in it. When we cannot publish an access layer (licensed
+hardware, a private endpoint), that category is marked as such rather than
+scored as if the field were level.
 
 ## Contamination & leakage
 
