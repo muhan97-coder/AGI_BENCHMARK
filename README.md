@@ -91,7 +91,12 @@ by card category:
 The `minecraft_build` cards are attemptable by anyone: the mineflayer access
 layer they need ships in this repo at
 [`examples/minecraft_build/bridge/`](examples/minecraft_build/bridge/) — a hand,
-not a brain (see *What we ship and what we don't*).
+not a brain (see *What we ship and what we don't*). Nine primitives, including
+the server's own `/setblock` and `/fill` behind `set_block` and `fill_region`,
+so range and bulk are not what limits you: a 32768-block fill lands in half a
+second. Over that ceiling the bridge refuses with the volume and the limit
+attached rather than splitting the region for you, because where to cut is
+already planning.
 
 **Reference environment** (what the baseline runs on): Linux x86_64 (a WSL2
 VM, nothing exotic), 8 cores / 19 GB RAM, Docker 24+, Python 3.10, Node 20.
