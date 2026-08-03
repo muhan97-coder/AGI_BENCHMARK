@@ -162,9 +162,10 @@ read an `EXTRACT_FAIL` sweep as a capability measurement, rule out the harness.
 
 ### Harness requirements (learned the expensive way)
 
-These are the three things our own runner got wrong. Each produced a clean,
-plausible sweep of `EXTRACT_FAIL` verdicts that looked like agent incapacity
-and was not:
+These are four things our own runner got wrong. The first three each produced a
+clean, plausible sweep of `EXTRACT_FAIL` verdicts that looked like agent
+incapacity and was not. The fourth is worse, because it produces verdicts that
+look *fine*:
 
 1. **The agent's writable directory must be the grader's working directory.**
    Card commands are relative and the grader runs them with `cwd` set to the
@@ -183,10 +184,71 @@ and was not:
    tokens, and still write nothing. Log which components were live per episode;
    otherwise "the agent produced nothing" is unattributable after the fact.
 
+4. **Something has to be able to bind — and it should be the budget.** An
+   episode ends when it runs out of *money*, *turns*, or *seconds*. If turns or
+   seconds run out first, every verdict you collect is a statement about your
+   limits, not about the agent. We measured this on our own 26-episode ledger:
+   wall clock ended 10 episodes, the cycle cap ended 8 (every one of them at
+   exactly 3 cycles), a red streak ended 2, and the **budget ended zero**. We
+   had spent 5.5% of the allocated $55.50.
+
+   That was arithmetic, not luck. Our cycle cap was 3 and our most expensive
+   episode cost $0.0915 per cycle, so an episode could spend at most **$0.27** —
+   while our smallest card budget was **$0.50**. The budget was not *unreached*;
+   it was *unreachable*. Derive the limits instead of picking them:
+
+   ```
+   wall clock ≥ budget ÷ (slowest observed $/hour) × margin
+   cycles     ≥ that wall clock ÷ (fastest observed seconds/cycle)
+   ```
+
+   And **record which limit ended each episode**. Without that label, "the agent
+   gave up" and "the agent ran out of time" are the same row, and you cannot
+   measure autonomy at all.
+
 A fast way to separate the two worlds: run the worked example above (step 3).
 It reaches `PASS` with no agent at all. If the example passes and your scored
 cards all `EXTRACT_FAIL`, the benchmark and the grader are fine — the gap is
 between your agent and the workspace.
+
+### Budgets are denominated for frontier models
+
+Every scored card here carries a `budget_usd` between **$100 and $2,000**
+($147,900 across all 155). Those numbers are what the task is worth on a
+frontier-tier model. They are not a universal constant, because **spend rate is
+a property of the worker**, not of the card.
+
+For a typical call in our runs (100 input / 1,000 output tokens), list prices
+differ by more than two orders of magnitude:
+
+| worker | cost per call | relative | time to spend a $2,000 budget |
+|---|---|---|---|
+| DeepSeek v4-flash ($0.14/$0.28 per MTok) | $0.000294 | 1× | 731 days |
+| Claude Sonnet 5 | $0.0153 | 52× | 14 days |
+| Claude Opus 5 | $0.0255 | 87× | 8.4 days |
+| Claude Fable 5 | $0.0510 | 174× | 4.2 days |
+
+(List prices as published by each vendor, not billing-verified by us for every
+row; the ratios are what matter here, and they are robust to small revisions.)
+
+Read that table before concluding a card is unreasonable. When we first saw
+"a $2,000 card needs 731 days" we took it as evidence the corpus was
+mis-specified; it was evidence that **our worker was 174× cheaper than the one
+the budgets assume**. On a frontier worker the same cards land at 5 hours
+($100), 30 hours ($600) and 4.2 days ($2,000) — ordinary horizons for hard work.
+
+Two consequences for anyone reporting results:
+
+- **Publish the worker with the score.** A number without the model that
+  produced it invites exactly the misreading above. We consider a leaderboard
+  entry without a worker field incomplete.
+- **If you run a cheaper worker, expect the wall clock to bind, and say so.**
+  That is a legitimate way to run the benchmark, but it measures something
+  different, and the difference should be visible in the result rather than
+  inferred from it.
+
+The whole corpus is not meant to be run end-to-end: serially, $147,900 of budget
+is 312 days on Fable 5. Pick the cards that answer your question.
 
 ## Worked examples
 
