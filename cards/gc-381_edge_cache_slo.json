@@ -32,5 +32,10 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "infra_ops",
- "contamination_risk": "low"
+ "contamination_risk": "low",
+ "assets_visibility": {
+  "editable": [
+   "conf/nginx.conf"
+  ]
+ }
 }

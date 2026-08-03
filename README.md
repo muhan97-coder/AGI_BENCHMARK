@@ -426,8 +426,8 @@ Add one entry to `results/leaderboard.json` by PR:
 
 ```json
 {"agent": "my-agent v1", "submitted": "2026-08-01",
- "corpus": {"cards": 155, "ref": "v2-beta",
-            "corpus_sha256": "6daa193bf3fc67ab71c0fd0508e5b2db74775f3b0601e96bbe957be25db083fa"},
+ "corpus": {"cards": 155, "ref": "the tag or commit you checked out",
+            "corpus_sha256": "PASTE-YOUR-OWN-run tools/corpus_fingerprint.py"},
  "models": {"planner": "some-frontier-model", "worker": "some-cheap-model",
             "reviewer": "a-third-model"},
  "cards_attempted": 155, "outcome_pass": "41/155",

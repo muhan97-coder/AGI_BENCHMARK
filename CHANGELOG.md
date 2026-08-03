@@ -1,5 +1,52 @@
 # Changelog
 
+## 2026-08-04 — infra_ops cards were unpassable; the harness erased the deliverable
+
+The 12 `infra_ops` cards each name, in prose, the file the agent is supposed to
+edit:
+
+> Only `tuned/postgresql.conf` may be edited; the baseline config and
+> `check.sh` are sealed.  — gc-373
+
+None of the 12 said so in the schema. `assets_visibility` was empty on all of
+them, and the runner restores every asset to its pristine bytes before grading
+(that rule exists to stop an agent patching the grader, and it is the right
+rule). Run end to end on gc-372: the agent's repairs — `nginx:latest` →
+`nginx:1.25.4`, `redis:7.2.4-bogus` → `redis:7.2.4`, host port `8080` → `8372` —
+were all reverted, **and the repairs were recorded as `tampered`.** Doing the
+assigned work scored as cheating, and the card could not be passed no matter how
+capable the agent was.
+
+This is not a contradiction between the two rules. Both are right; the card had
+no way to say which files it meant. That is the same shape as `resources` and
+`process_expectations`, which the cards also filled in and no code read.
+
+### Fixed
+
+`assets_visibility.editable` — a list of paths or globs, relative to
+`assets/<card-id>/`. A directory entry covers everything under it. The runner
+keeps those files as the agent left them and restores everything else,
+so `check.sh`, baselines and sealed inputs stay protected. All 12 cards now
+declare what their own prose already said; nothing else about the cards changed.
+
+**Editable does not mean unchecked.** A file that is not restored can be handed
+over as a symlink, and the sealed `check.sh` mounts it with `docker run -v` —
+docker follows the link (measured: the link target `/etc` appeared whole inside
+the container). So the contract is "your content, but a regular file": a symlink
+or a directory in an editable slot is removed, the original is put back, and the
+substitution is recorded.
+
+`corpus_sha256` is now
+`224fa198dd1c84719d8842fddfe999e6378ff5d0f366c9d4a4501895eefaf5b2`.
+
+### Also
+
+The leaderboard template in README.md carried a concrete-looking
+`corpus_sha256`. Copying it verbatim would have attached a hash that does not
+match the corpus actually run — the exact failure the field exists to prevent.
+It is now a placeholder, and the validator rejects it (as it already rejected a
+tag name in that slot).
+
 ## 2026-08-04 — all released versions withdrawn
 
 `v1.0-alpha`, `v1.0-beta` and `v2-alpha` are withdrawn; their tags are removed
