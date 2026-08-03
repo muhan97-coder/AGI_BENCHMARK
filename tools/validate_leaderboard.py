@@ -49,7 +49,9 @@ BINDING_LIMITS = (
 _AGENT_BOUND = ("green", "budget")
 
 _REQUIRED = ("agent", "submitted", "models", "cards_attempted", "outcome_pass",
-             "usd", "limits")
+             "usd", "limits", "corpus")
+#: Length of a hex sha256 — the corpus id is a content hash, not a name.
+_SHA256_HEX = 64
 _PROCESS_AXES = ("planning", "verification", "honesty", "recovery", "autonomy",
                  "economy")
 
@@ -77,6 +79,33 @@ def _problems_for(i: int, e: Any) -> list[str]:
         # that a cheap worker's wall-clock-bound sweep is a capability result.
         bad("models.worker is required — a score without the model that "
             "produced it cannot be compared to anything")
+
+    # The card set a result was graded against, as a content hash.
+    #
+    # A tag name will not do. On 2026-08-04 three released tags were withdrawn
+    # and deleted; every result that named one now points at a ref that does not
+    # resolve, and nobody can recover what those cards said. A hash cannot be
+    # moved or deleted out from under a result — two runs agree on it exactly
+    # when they graded the same text and the same asset bytes.
+    #
+    # `ref` is kept alongside because it is what a human types to check out, but
+    # it is advisory: the hash is the identity.
+    corpus = e.get("corpus")
+    if not isinstance(corpus, dict):
+        bad("corpus must be an object — run `python3 tools/corpus_fingerprint.py` "
+            "and paste what it prints")
+    else:
+        digest = str(corpus.get("corpus_sha256") or "").strip().lower()
+        if len(digest) != _SHA256_HEX or any(c not in "0123456789abcdef" for c in digest):
+            bad("corpus.corpus_sha256 must be a hex sha256 from "
+                "tools/corpus_fingerprint.py — a tag name is not durable "
+                "(tags have been deleted; hashes have not)")
+        n = corpus.get("cards")
+        if not isinstance(n, int) or n <= 0:
+            bad("corpus.cards must be the positive card count that hash covers")
+        elif isinstance(e.get("cards_attempted"), int) and e["cards_attempted"] > n:
+            bad(f"cards_attempted {e['cards_attempted']} exceeds corpus.cards {n} "
+                "— you cannot attempt more cards than the set contains")
 
     n = e.get("cards_attempted")
     if not isinstance(n, int) or isinstance(n, bool) or n < 0:

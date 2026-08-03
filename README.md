@@ -426,6 +426,8 @@ Add one entry to `results/leaderboard.json` by PR:
 
 ```json
 {"agent": "my-agent v1", "submitted": "2026-08-01",
+ "corpus": {"cards": 155, "ref": "v2-beta",
+            "corpus_sha256": "6daa193bf3fc67ab71c0fd0508e5b2db74775f3b0601e96bbe957be25db083fa"},
  "models": {"planner": "some-frontier-model", "worker": "some-cheap-model",
             "reviewer": "a-third-model"},
  "cards_attempted": 155, "outcome_pass": "41/155",
@@ -438,11 +440,28 @@ Add one entry to `results/leaderboard.json` by PR:
  "usd": 12.4, "logs": "https://link-to-your-episode-logs"}
 ```
 
-Check the shape before opening the PR — it runs offline and costs nothing:
+Get the `corpus` block from the checkout you actually graded against — it runs
+offline and prints the object to paste:
+
+```sh
+python3 tools/corpus_fingerprint.py
+```
+
+Check the shape before opening the PR — also offline, also free:
 
 ```sh
 python3 tools/validate_leaderboard.py results/leaderboard.json
 ```
+
+`corpus.corpus_sha256` is **required and is a content hash, not a name.** A tag
+will not do the job: on 2026-08-04 three released tags were withdrawn and deleted,
+and every result naming one now points at a ref that does not resolve — with no
+way left to recover what those cards said. The hash is a function of the card text
+and the asset bytes, so two runs agree on it exactly when they graded the same
+thing, no matter what the tag was called that week. Keep `ref` alongside it for
+humans; the hash is the identity. Reformatting a card does not move it
+(`tools/test_corpus_fingerprint.py` pins that, and pins that a one-byte asset
+change *does* move it).
 
 Every number must be backed by attached grader outputs and episode logs —
 entries are verified by re-running the sealed graders before merge.
