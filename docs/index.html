@@ -34,8 +34,18 @@ body {
         font-variant-numeric:tabular-nums; }
 .wrap { max-width:1100px; margin:0 auto; padding:0 20px 80px; }
 header.site { border-bottom:1px solid var(--line); padding:34px 0 22px; }
+/* 철회 배너 — 카드 브라우저로 바로 들어온 사람도 반드시 본다. 색은 --crit
+   (semantic) 이지 accent 가 아니다. 두 테마 모두에서 대비를 유지하려고 배경은
+   같은 색의 alpha 를 쓴다. */
+.withdrawn { border:1px solid var(--crit); border-left-width:4px; border-radius:8px;
+             background:color-mix(in srgb, var(--crit) 9%, transparent);
+             padding:14px 16px; margin:0 0 20px; max-width:78ch;
+             font-size:14px; line-height:1.55; }
+.withdrawn strong { color:var(--crit); }
+.withdrawn code { background:var(--chip); padding:1px 5px; border-radius:4px;
+                  font-size:12.5px; }
 .eyebrow { text-transform:uppercase; letter-spacing:.14em; font-size:11px;
-           color:var(--loop); font-weight:600; }
+           color:var(--crit); font-weight:600; }
 h1 { margin:6px 0 8px; font-size:30px; letter-spacing:-.01em; text-wrap:balance; }
 .sub { color:var(--muted); max-width:62ch; margin:0; }
 .stats { display:flex; flex-wrap:wrap; gap:10px; margin-top:18px; }
@@ -95,7 +105,20 @@ a { color:var(--loop); }
 <div class="wrap">
 
 <header class="site">
-  <div class="eyebrow">AGI_BENCHMARK · v2-alpha</div>
+  <div class="withdrawn" role="alert">
+    <strong>All released versions are withdrawn (2026-08-04).</strong>
+    <code>v1.0-alpha</code>, <code>v1.0-beta</code> and <code>v2-alpha</code> are
+    withdrawn and their tags removed; there is no replacement yet. The v1 tags
+    never measured an agent &mdash; no episode ever ended by exhausting its
+    budget, because a 3-cycle cap made the smallest card budget unreachable.
+    <code>v2-alpha</code> goes too: its harness claim held, but a harness that
+    measures honestly is not a benchmark if the corpus is mostly unmeasurable,
+    and the tag never said which of the two it claimed. Cards below are shown
+    for reading, not for scoring &mdash; an audit found most of them cannot be
+    moved by honest work, and for 17 the answer file is staged into the agent's
+    own workspace. See <a href="https://github.com/muhan97-coder/AGI_BENCHMARK/blob/main/CHANGELOG.md">CHANGELOG</a>.
+  </div>
+  <div class="eyebrow">AGI_BENCHMARK · withdrawn</div>
   <h1>Score the loop, not just the outcome</h1>
   <p class="sub">A benchmark for long-horizon agent systems that grades the
   <strong>process</strong> — plan &rarr; verify &rarr; execute &rarr; re-verify —

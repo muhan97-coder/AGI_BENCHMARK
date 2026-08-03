@@ -29,7 +29,14 @@ runner's limits.
 Nothing in the tag, the cards, or the leaderboard would have told a reader that.
 The gates below exist so the next tag cannot be in that position quietly.
 
-## Gates for `v2-alpha`
+## Gates
+
+> **`v2-alpha` was withdrawn on 2026-08-04** (with `v1.0-alpha` and `v1.0-beta`).
+> These gates are not withdrawn — they held under test, refusing two campaigns
+> whose budgets could not bind. They were **necessary and not sufficient**: every
+> one of them is about the runner, and none of them asks whether the cards
+> themselves respond to an agent's work. A corpus audit found most do not. The
+> next tag needs a gate for that, stated as a verified count.
 
 ### G1 — the budget must be able to bind
 

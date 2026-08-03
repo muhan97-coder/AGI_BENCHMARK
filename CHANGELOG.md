@@ -1,5 +1,54 @@
 # Changelog
 
+## 2026-08-04 — all released versions withdrawn
+
+`v1.0-alpha`, `v1.0-beta` and `v2-alpha` are withdrawn; their tags are removed
+from the repository. Nothing is deleted or rewritten — the commits they pointed
+at remain in history, and this file records what they claimed and why the claims
+do not stand.
+
+### Why the v1 tags go
+
+They never measured an agent. Across 26 episodes not one ended by exhausting its
+budget — 10 hit the wall clock, 8 the cycle cap (all at exactly 3 cycles), 2 the
+consecutive-failure cap, 0 the budget. With a cycle cap of 3 and a worst-case
+$0.0915 per cycle, the reachable spend was $0.27 against a smallest card budget
+of $0.50: the budget was **unreachable**, not merely unreached. Every verdict was
+a fact about our runner.
+
+### Why `v2-alpha` goes too
+
+Its own claim survived testing. The budget-binding gates work: on 2026-08-03 they
+refused to launch two campaigns whose budgets could not bind, and an armed run
+held a stable spend rate for six hours, with the budget on track to bind before
+the wall clock. That part is real.
+
+It is withdrawn because **a harness that measures honestly is not a benchmark if
+the corpus is mostly unmeasurable**, and the tag never said which of the two it
+was claiming. A read-only audit of all 155 cards (2026-08-02) found 90 that
+cannot move their own metric except by forgery, 24 that measure test-rewriting
+rather than the stated task, 20 unverified one-shots, and 21 that respond
+honestly to sandbox behavior.
+
+Part of that was ours and is fixed: `/etc/resolv.conf` was a symlink into a path
+the sandbox did not mount, so DNS died inside the jail while raw TCP stayed up —
+`git clone` and `pip` failed at name resolution, which the audit named as the
+single largest cause. Grading assets are now restored to their original bytes
+before every grade, whether or not they were sealed, with tampering counted on
+the ledger rather than silently reverted.
+
+Part was found later and is not fixed: for 17 cards the expected-answer file
+lives in the same asset directory that is staged into the agent's workspace, so
+an agent can read the answer it is being asked to produce. And the corpus has
+not been re-audited since the fixes landed, so the 21 figure is stale in an
+unknown direction and we will not quote it as current.
+
+### What a future tag has to carry
+
+A count — how many cards were **verified** to respond to agent behavior — and the
+method that established it. A version number that does not say what it measured
+is how both of these releases went wrong.
+
 ## Unreleased
 
 ### Correction — "No LLM judges" was a claim about one axis, printed as a claim about the benchmark

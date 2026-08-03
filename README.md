@@ -1,5 +1,43 @@
 # AGI_BENCHMARK
 
+> ## ⚠️ All released versions are withdrawn (2026-08-04)
+>
+> **`v1.0-alpha`, `v1.0-beta`, and `v2-alpha` are withdrawn and their tags have
+> been removed.** Do not use them to evaluate an agent or to report a number.
+> No replacement tag exists yet.
+>
+> Two independent problems, either of which is enough on its own:
+>
+> **1 — The v1 tags never measured an agent.** Reconstructing our own 26-episode
+> ledger showed that no episode ever ended by exhausting its budget: 10 ended on
+> the wall clock, 8 on the cycle cap (every one at exactly 3 cycles), 2 on
+> consecutive failures, 0 on budget. That was arithmetic, not luck — a cycle cap
+> of 3, at our most expensive $0.0915 per cycle, permits $0.27, and the smallest
+> card budget in the set is $0.50. The budget was not unreached, it was
+> **unreachable**. Every verdict was a statement about our runner's limits.
+>
+> **2 — Most cards cannot be moved by an agent's honest work.** A read-only
+> audit of all 155 public cards (2026-08-02) classified 90 as unable to move
+> their own metric except by forgery, 24 as measuring "can you rewrite the
+> tests", 20 as unverified one-shots, and **21 as responding honestly to what an
+> agent does inside the sandbox**. Since then we have found and fixed part of the
+> cause (a broken DNS symlink in our sandbox killed `git clone`/`pip` at name
+> resolution; grading assets are now restored to their original bytes before
+> every grade), and on 2026-08-04 we found a further defect: for 17 cards the
+> answer file sits in the same asset directory that is staged into the agent's
+> workspace. The corpus has not been re-audited against the fixes, so we cannot
+> currently state how many cards measure what they claim.
+>
+> `v2-alpha` is withdrawn even though its own claim — that the harness *can* now
+> bind on budget — held up under test. A harness that measures honestly is not
+> a benchmark if the corpus it runs is mostly unmeasurable, and the tag did not
+> say which of the two it was claiming. That ambiguity is the same mistake as
+> v1, one level up.
+>
+> Everything here stays public and the history is unrewritten. The next tag will
+> state, as a number, how many cards were verified to respond to agent behavior —
+> and how that was established. Progress: [`CHANGELOG.md`](CHANGELOG.md).
+
 A benchmark for **long-horizon agent systems** that scores the **process** —
 plan → verify → execute → re-verify — from machine-readable logs, alongside a
 fail-closed, machine-graded outcome.
@@ -513,11 +551,17 @@ Honesty about what a score means:
 
 ## Status
 
-**v2-alpha** (2026-08-03) — a **harness** release. The card set is unchanged
-from `v1.0-beta`; what changed is the bar a runner has to clear before its
-verdicts mean anything, and the leaderboard schema that makes the runner state
-it. See `CHANGELOG.md` for the correction that made the release necessary and
-`RELEASING.md` for the gates. Everything below still describes the card set.
+**No usable release exists.** `v1.0-alpha`, `v1.0-beta` and `v2-alpha` were all
+withdrawn on 2026-08-04 and their tags removed — see the banner at the top of
+this file and `CHANGELOG.md` for what each one claimed and why it does not
+stand. Read what follows as a description of the design, not as something you
+can run to get a number today.
+
+What `v2-alpha` got right is kept: the release gates in `RELEASING.md` are the
+bar a runner must clear before its verdicts mean anything, and they held under
+test — they refused two campaigns whose budgets could not bind. They are
+necessary and were not sufficient, because they say nothing about whether the
+*cards* respond to an agent's work. The next tag has to carry that number too.
 
 Frontier band added in `v1.0-beta`: 12 ARC-AGI-2 + 12 SWE-bench Verified (hard) cards, reported separately on the leaderboard (raw problem-solving depth vs loop quality). Cards are generated and machine-validated (spec dry-runs, live
 pin checks, portability sweep) but the preregistered *sealed* set will be
