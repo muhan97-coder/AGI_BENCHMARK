@@ -37,6 +37,7 @@ tools/restore_sealed.py    grader-side restore of sealed answer files
 tools/build_dashboard.py   rebuilds docs/index.html from cards/
 docs/index.html  static dashboard (card browser + leaderboard)
 results/leaderboard.json leaderboard entries (submit via PR)
+RELEASING.md     what a version tag claims, and the gates it must clear
 ```
 
 ## Quick start
@@ -502,9 +503,20 @@ tagged as `v1.0` after review. The neutral episode-log contract — which lets
 any agent system be scored on the process axes via a thin adapter — is the main
 v1 work item; the reference scorer for it is not published yet, so today the
 repository grades outcomes and specifies the process contract without scoring it
-for you. The first baseline (`agent-one`, a self-improving loop on a budget
-worker model, `harness-run` tier) is mid-measurement; its numbers will appear on
-the leaderboard when the run completes.
+for you.
+
+**Correction (2026-08-03).** An earlier version of this section said the first
+baseline (`agent-one`, a self-improving loop on a budget worker model) was
+mid-measurement and that its numbers would appear here. That run has been
+withdrawn rather than published. Reconstructing its ledger showed that no
+episode was ever ended by its budget — the wall clock ended 10, a cycle cap of
+3 ended 8, consecutive failures ended 2 — after spending 5.5% of the allocated
+budget. The cap arithmetic made the budget unreachable (3 cycles at $0.0915
+each allows $0.27; the smallest card budget is $0.50), so the verdicts measured
+our runner rather than the loop. The leaderboard is empty and no capability
+number from that run was ever posted. See [RELEASING.md](RELEASING.md) for the
+gates a run must now clear before a tag is cut, and harness requirement #4
+above for the check that would have caught it.
 
 ## License
 
