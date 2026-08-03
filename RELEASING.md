@@ -39,15 +39,38 @@ intend to use:
 ```
 wall clock ≥ budget_usd ÷ (slowest observed $/hour for that worker) × margin
 cycles     ≥ that wall clock ÷ (fastest observed seconds/cycle)
+red streak ≥ some fraction of that cycle count
 ```
 
-If either bound is smaller, the episode ends on the clock or the turn counter
-before the agent can spend what it was given, and the run measures the runner.
-Check this **before** the run, not after: it costs nothing and it is the one
-failure that produces results which look entirely normal.
+`budget_usd` here is **the cap your runner actually hands the agent**, not the
+number printed on the card. If your harness clamps per-card budgets, the clamp
+is the budget — checking the card's figure computes a requirement for money that
+will never be spendable. We got this wrong in our own checker: 50 of our 79
+cards were clamped, and for one of them the check demanded a 236-hour wall clock
+where 26 hours was enough.
+
+The third line matters because raising only the cycle cap moves the binding
+constraint rather than removing it — in our runs the cycle cap and the
+consecutive-failure cap were degenerate, so lifting one just handed the episode
+to the other.
+
+If any bound is smaller, the episode ends on the clock or a counter before the
+agent can spend what it was given, and the run measures the runner. Check this
+**before** the run, not after: it costs nothing and it is the one failure that
+produces results which look entirely normal.
 
 A run that deliberately caps time below this is fine — see G3. What is not fine
 is doing it without knowing.
+
+### G1b — the campaign budget must cover the cards
+
+Once per-episode budgets can bind, each card can actually spend its allocation,
+and the next constraint is whatever ceiling covers the whole run. If that
+ceiling is below the sum of the per-card budgets, the later cards do not run at
+all — and a card that did not run is **not a failure**, it is an absence of
+measurement. Report the two numbers side by side; do not fold this into G1,
+because "the episode could spend its budget" and "the campaign could afford the
+episode" fail in different ways and want different fixes.
 
 ### G2 — every entry names its worker and what ended its episodes
 
