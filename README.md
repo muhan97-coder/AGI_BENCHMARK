@@ -375,14 +375,34 @@ Add one entry to `results/leaderboard.json` by PR:
  "models": {"planner": "some-frontier-model", "worker": "some-cheap-model",
             "reviewer": "a-third-model"},
  "cards_attempted": 155, "outcome_pass": "41/155",
+ "limits": {"bound_by": {"green": 41, "budget": 96, "wall_clock": 14,
+                         "cycles": 0, "red_streak": 3, "aborted": 1,
+                         "unknown": 0}},
  "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,
              "recovery": 0.6, "autonomy": 1.0, "economy": 0.7},
  "shared_tooling": ["mc_bridge"],
  "usd": 12.4, "logs": "https://link-to-your-episode-logs"}
 ```
 
+Check the shape before opening the PR — it runs offline and costs nothing:
+
+```sh
+python3 tools/validate_leaderboard.py results/leaderboard.json
+```
+
 Every number must be backed by attached grader outputs and episode logs —
 entries are verified by re-running the sealed graders before merge.
+
+`models.worker` and `limits.bound_by` are **required**, and the leaderboard
+shows both next to the pass-rate. They answer the two questions a pass-rate
+cannot: *which model produced this*, and *what ended the episodes*. Each label
+counts episodes, and every episode has exactly one: `green` (the card passed),
+`budget` (it spent its allocation), `wall_clock`, `cycles`, `red_streak`,
+`aborted`, `unknown`. Do not fold `unknown` into a neighbour — an unattributed
+episode is a fact worth publishing, and pretending otherwise is the failure this
+field exists to prevent. The dashboard derives an **agent-bound** share from
+these (`green` + `budget` over the total): a run at 95% is measuring the agent,
+a run at 20% is largely measuring its own clock.
 
 `shared_tooling` is **optional** and lists which pieces of the repository's
 public plumbing the run used (`mc_bridge` today; more as categories are added).

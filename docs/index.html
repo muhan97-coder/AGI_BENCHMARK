@@ -261,12 +261,33 @@ function renderBoard() {
     return;
   }
   const axes = ["planning","verification","honesty","recovery","autonomy","economy"];
-  let h = `<div class="tablewrap"><table><thead><tr><th>Agent</th><th>Cards</th>` +
-    `<th>Outcome pass</th>` + axes.map(a => `<th>${a}</th>`).join("") +
+  // Worker and "bound by" sit next to the pass-rate on purpose. Spend rate is a
+  // property of the worker (list prices span >100x across tiers), and a run whose
+  // episodes were ended by the clock measures the runner rather than the agent.
+  // A pass-rate shown without those two invites both misreadings.
+  const AGENT_BOUND = ["green","budget"];
+  const boundBy = e => {
+    const b = (e.limits||{}).bound_by;
+    if (!b) return ["—", "no limits block"];
+    const tot = Object.values(b).reduce((x,y) => x + (Number(y)||0), 0);
+    if (!tot) return ["—", "0 episodes labelled"];   // not 0% — a different fact
+    const own = AGENT_BOUND.reduce((x,k) => x + (Number(b[k])||0), 0);
+    const pct = Math.round(100*own/tot);
+    return [`${pct}%`, Object.entries(b).filter(([,v]) => v)
+      .map(([k,v]) => `${k} ${v}`).join(" · ")];
+  };
+  let h = `<div class="tablewrap"><table><thead><tr><th>Agent</th><th>Worker</th>` +
+    `<th>Cards</th><th>Outcome pass</th><th title="share of episodes ended by ` +
+    `success or by spending their budget, rather than by the runner's clock or ` +
+    `turn cap">Agent-bound</th>` + axes.map(a => `<th>${a}</th>`).join("") +
     `<th style="text-align:right">USD</th></tr></thead><tbody>`;
   BOARD.forEach(e => {
-    h += `<tr><td>${esc(e.agent)}</td><td class="mono">${esc(e.cards_attempted)}</td>` +
+    const [share, detail] = boundBy(e);
+    h += `<tr><td>${esc(e.agent)}</td>` +
+      `<td class="mono">${esc((e.models||{}).worker ?? "—")}</td>` +
+      `<td class="mono">${esc(e.cards_attempted)}</td>` +
       `<td class="mono">${esc(e.outcome_pass)}</td>` +
+      `<td class="mono" title="${esc(detail)}">${esc(share)}</td>` +
       axes.map(a => `<td class="mono">${esc((e.process||{})[a] ?? "—")}</td>`).join("") +
       `<td class="mono" style="text-align:right">$${esc(e.usd)}</td></tr>`;
   });
