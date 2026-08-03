@@ -47,13 +47,19 @@ reader that.
 
 ### What this tag does not claim
 
-- **Not** that we have measured any agent under these gates. Our own reference
-  configuration currently **fails G1**: at 1.5 h and 3 cycles per episode it
-  would need 26.3 h and 386 cycles for the budget to bind. That is stated here
-  rather than fixed quietly, because a runner that fails G1 is exactly the
-  condition this release exists to make visible.
+- **Not** that we have measured any agent under these gates. At the moment this
+  tag was cut our own reference configuration **failed G1**: at 1.5 h and 3
+  cycles per episode it would have needed 26.3 h and 386 cycles for the budget
+  to bind. That was stated here rather than fixed quietly, because a runner that
+  fails G1 is exactly the condition this release exists to make visible.
+
+  *Update, same day:* the reference configuration was brought into compliance
+  (26.3 h wall clock, 386 cycles, a consecutive-failure cap of 97, and a
+  campaign ceiling raised to cover the sum of the card budgets) and a
+  budget-bound run is in progress. No results from it are published here yet,
+  and none will be until every gate above holds for the run that produced them.
 - **Not** that the card set is complete, balanced, or contamination-free.
-- **Not** that a high score generalizes. These are 157 specific tasks.
+- **Not** that a high score generalizes. These are 155 specific tasks.
 - **Not** that the process axes are validated as constructs. They are a coverage
   checklist, and treating them as design targets is a known way to produce a
   benchmark that measures its own vocabulary.
@@ -66,7 +72,7 @@ reader that.
 | G1b — campaign affords the cards | the runner | **not met by our reference config** |
 | G2 — worker + binding limit required | this repo | met (`validate_leaderboard.py`, exit 0) |
 | G3 — agent-bound share reported | this repo | met (dashboard column) |
-| G4 — no trap card in `cards/` | this repo | met (157 cards, 0 traps) |
+| G4 — no trap card in `cards/` | this repo | met (155 cards, 0 traps) |
 | G5 — every number traces to a ledger row | this repo | met (0 entries; the one that could not was withdrawn) |
 
 ## v1.0-beta

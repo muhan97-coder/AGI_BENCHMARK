@@ -472,7 +472,7 @@ scored as if the field were level.
 
 ## Contamination & leakage
 
-Honesty about what a score means (v1.0-beta):
+Honesty about what a score means:
 
 - Every card carries `contamination_risk`:
   **`public_gold_exists`** (53 cards — SWE-bench gold patches are in the public
@@ -497,7 +497,13 @@ Honesty about what a score means (v1.0-beta):
 
 ## Status
 
-**v1.0-beta.** Frontier band added: 12 ARC-AGI-2 + 12 SWE-bench Verified (hard) cards, reported separately on the leaderboard (raw problem-solving depth vs loop quality). Cards are generated and machine-validated (spec dry-runs, live
+**v2-alpha** (2026-08-03) — a **harness** release. The card set is unchanged
+from `v1.0-beta`; what changed is the bar a runner has to clear before its
+verdicts mean anything, and the leaderboard schema that makes the runner state
+it. See `CHANGELOG.md` for the correction that made the release necessary and
+`RELEASING.md` for the gates. Everything below still describes the card set.
+
+Frontier band added in `v1.0-beta`: 12 ARC-AGI-2 + 12 SWE-bench Verified (hard) cards, reported separately on the leaderboard (raw problem-solving depth vs loop quality). Cards are generated and machine-validated (spec dry-runs, live
 pin checks, portability sweep) but the preregistered *sealed* set will be
 tagged as `v1.0` after review. The neutral episode-log contract — which lets
 any agent system be scored on the process axes via a thin adapter — is the main
