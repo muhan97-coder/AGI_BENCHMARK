@@ -14,7 +14,11 @@
    "command": "python3 assets/gc-428/grade.py",
    "metric": "kill_rate",
    "threshold": 0.9,
-   "compare": ">="
+   "compare": ">=",
+   "outputs": [
+    "work/gc-428/plan.md (>= 200 bytes, written before the outputs)",
+    "work/gc-428/kill_report.json"
+   ]
   }
  },
  "process_expectations": [
@@ -27,5 +31,6 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "robustness",
- "contamination_risk": "low"
+ "contamination_risk": "low",
+ "disclosure_note": "2026-08-04: assets/<id>/grade.py 가 이 산출물들이 없으면 다른 모든 점수를 무시하고 실격시키는데, 그 요구가 process_expectations 에만 있었고 그 필드는 코드 어디에서도 읽지 않는다(목표문에도 없음) — 에이전트가 무엇을 하든 실격. 경로·크기·개수만 spec.outputs 로 옮긴다. process_expectations 본문은 어느 항목이 불가능한지 같은 **답**을 담고 있어 통째로는 노출하지 않는다."
 }
