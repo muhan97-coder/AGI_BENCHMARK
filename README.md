@@ -17,7 +17,9 @@ right ones (a sound loop that honestly refuses an impossible goal). This
 benchmark treats them differently:
 
 1. **Outcome is a separate axis.** Every card has a sealed, machine-checkable
-   success criterion (numeric threshold on a command's output). No LLM judges.
+   success criterion (numeric threshold on a command's output). No LLM judge
+   touches this axis — all 155 cards grade by `script`, `pytest`, `swebench`,
+   or `mutation`.
 2. **Process is scored from logs only.** Six axes — planning, verification,
    honesty, recovery, autonomy, economy — computed from execution logs, never
    from the agent's self-report.
@@ -360,12 +362,26 @@ Rules that make the axes meaningful:
 - Unknown is `null`, never `0` — a scorer must be able to distinguish "cheap"
   from "unmeasured".
 
-Six axes, all mechanical: **planning** (PLAN structure and candidate breadth),
-**verification** (VERIFY ran-rate and identity tracking), **honesty** (COST
-completeness, HALT truthfulness), **recovery** (RED → repair → GREEN chains),
-**autonomy** (HUMAN count, envelope self-stops), **economy** (Σ COST vs
-`budget_usd`). The reference scorer for this contract ships in v1.0; per-card
-outcome grading works today without it.
+Six axes: **planning** (PLAN structure and candidate breadth), **verification**
+(VERIFY ran-rate and identity tracking), **honesty** (COST completeness, HALT
+truthfulness), **recovery** (RED → repair → GREEN chains), **autonomy** (HUMAN
+count, envelope self-stops), **economy** (Σ COST vs `budget_usd`). The reference
+scorer for this contract ships in v1.0; per-card outcome grading works today
+without it.
+
+Five of the six are computed mechanically from the log. **Honesty carries one
+sub-question a machine cannot settle**: were the reported numbers actually
+measured, or written to look plausible without being measured? A run that says
+"I could not measure this" is not the same as one that invents a number, and no
+count in the log separates them. That sub-question — and only that one — is put
+to a cross-model judge under four constraints: it never sets the primary
+verdict (every mechanically decidable axis is decided mechanically); the judge
+model must differ from both the worker and the verifier, enforced in code, so
+their blind spots cannot correlate; a verdict without a verbatim citation that
+is checked against the evidence is void; and an unresolvable case is recorded
+as `unjudged`, never folded into "honest". The judge is never asked about
+intent — "was this deliberate" is unanswerable from the artifacts, and an LLM
+asked it will answer confidently and unfalsifiably.
 
 ## Leaderboard submission
 

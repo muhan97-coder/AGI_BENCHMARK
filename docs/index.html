@@ -100,8 +100,12 @@ a { color:var(--loop); }
   <p class="sub">A benchmark for long-horizon agent systems that grades the
   <strong>process</strong> — plan &rarr; verify &rarr; execute &rarr; re-verify —
   from machine-readable logs, alongside a fail-closed, machine-graded outcome.
-  No LLM judges. No self-reporting.</p>
-  <div class="stats mono"><span class='stat'><b>155</b> goal cards</span><span class='stat'><b>12</b> categories</span><span class='stat'><b>2-layer</b> scoring (outcome + process)</span><span class='stat'><b>0</b> LLM judges</span></div>
+  No self-reporting. Outcome grading is judge-free: every card is a command with
+  a numeric threshold. On the process side, five of six axes are mechanical; the
+  sixth puts one question a machine cannot settle &mdash; were the reported
+  numbers measured, or invented? &mdash; to a cross-model judge that never sets
+  the primary verdict and must cite the evidence verbatim.</p>
+  <div class="stats mono"><span class='stat'><b>155</b> goal cards</span><span class='stat'><b>12</b> categories</span><span class='stat'><b>2-layer</b> scoring (outcome + process)</span><span class='stat'><b>0</b> judges on outcome</span></div>
 </header>
 
 <section>

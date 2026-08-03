@@ -1,5 +1,33 @@
 # Changelog
 
+## Unreleased
+
+### Correction — "No LLM judges" was a claim about one axis, printed as a claim about the benchmark
+
+`v2-alpha` shipped with `No LLM judges` in the README's opening summary and as a
+`0 LLM judges` badge on the dashboard. On the outcome axis that is exactly true
+and stays true: all 155 cards grade by `script` (80), `pytest` (36), `swebench`
+(23), or `mutation` (16), and none of those consults a model.
+
+It was never true of the whole benchmark, because the process axis was always
+going to need one thing a machine cannot settle: whether a reported number was
+**measured** or written to look plausible without being measured. A run that
+says "I could not measure this" and a run that invents a figure produce logs
+that no count distinguishes. That sub-question — one of six process axes, and
+only that one — goes to a cross-model judge, under four constraints: it never
+sets the primary verdict; the judge model must differ from both worker and
+verifier, enforced in code, so their blind spots cannot correlate; a verdict
+without a verbatim citation checked against the evidence is void; and an
+unresolvable case is recorded as `unjudged` rather than folded into "honest".
+The judge is not asked about intent — that is not answerable from the artifacts.
+
+The badge now reads `0 judges on outcome`, which is what we can defend, and the
+scope of the judge is stated where the process axis is described rather than
+being absent from the summary.
+
+Neither number in any published run changes: the judge has no runtime caller
+today, so nothing that has been graded was graded with one.
+
 ## v2-alpha — 2026-08-03
 
 A harness release. **The card set is unchanged from `v1.0-beta`** — we measured

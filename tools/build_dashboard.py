@@ -144,7 +144,11 @@ a { color:var(--loop); }
   <p class="sub">A benchmark for long-horizon agent systems that grades the
   <strong>process</strong> — plan &rarr; verify &rarr; execute &rarr; re-verify —
   from machine-readable logs, alongside a fail-closed, machine-graded outcome.
-  No LLM judges. No self-reporting.</p>
+  No self-reporting. Outcome grading is judge-free: every card is a command with
+  a numeric threshold. On the process side, five of six axes are mechanical; the
+  sixth puts one question a machine cannot settle &mdash; were the reported
+  numbers measured, or invented? &mdash; to a cross-model judge that never sets
+  the primary verdict and must cite the evidence verbatim.</p>
   <div class="stats mono">__STATS__</div>
 </header>
 
@@ -350,7 +354,10 @@ def main():
         f"<span class='stat'><b>{len(cards)}</b> goal cards</span>",
         f"<span class='stat'><b>{len({c['category'] for c in cards})}</b> categories</span>",
         "<span class='stat'><b>2-layer</b> scoring (outcome + process)</span>",
-        "<span class='stat'><b>0</b> LLM judges</span>",
+        # 2026-08-03: 종전 "0 LLM judges" 는 결과축에선 참이지만 과정축 설계를
+        # 반영하지 못한다(honesty 의 measured-vs-fabricated 한 축은 심판이 본다).
+        # 배지는 참인 것만 세고, 심판의 범위는 위 문단이 말한다.
+        "<span class='stat'><b>0</b> judges on outcome</span>",
     ]
     out = (TEMPLATE
            .replace("__STATS__", "".join(stats))
