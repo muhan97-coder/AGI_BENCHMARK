@@ -37,11 +37,21 @@ single largest cause. Grading assets are now restored to their original bytes
 before every grade, whether or not they were sealed, with tampering counted on
 the ledger rather than silently reverted.
 
-Part was found later and is not fixed: for 17 cards the expected-answer file
-lives in the same asset directory that is staged into the agent's workspace, so
-an agent can read the answer it is being asked to produce. And the corpus has
-not been re-audited since the fixes landed, so the 21 figure is stale in an
-unknown direction and we will not quote it as current.
+The corpus has not been re-audited since those fixes landed, so the 21 figure is
+stale in an unknown direction and we will not quote it as current. That, on its
+own, is why no tag can stand: we do not currently know how many cards measure
+what they claim.
+
+> **Correction (same day, before anyone could rely on it).** The first version of
+> this entry also said that for 17 cards the expected-answer file is staged into
+> the agent's workspace. That is wrong. Those cards declare the answer file under
+> `assets_visibility.sealed`, and the workspace builder skips sealed names and
+> `*.sha256` commitments when it stages assets — verified by running the builder
+> against the private asset tree: 6 files present, 4 staged, `sealed_excluded: 2`,
+> no `expected_*` in the agent's view. The error was reading "the answer file sits
+> in the same directory" as "the agent can see it", without checking the mechanism
+> that exists to prevent exactly that. The withdrawal stands on the two reasons
+> above; this was not one of them.
 
 ### What a future tag has to carry
 

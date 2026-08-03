@@ -23,10 +23,9 @@
 > agent does inside the sandbox**. Since then we have found and fixed part of the
 > cause (a broken DNS symlink in our sandbox killed `git clone`/`pip` at name
 > resolution; grading assets are now restored to their original bytes before
-> every grade), and on 2026-08-04 we found a further defect: for 17 cards the
-> answer file sits in the same asset directory that is staged into the agent's
-> workspace. The corpus has not been re-audited against the fixes, so we cannot
-> currently state how many cards measure what they claim.
+> every grade). The corpus has **not** been re-audited against those fixes, so we
+> cannot currently state how many cards measure what they claim — and a benchmark
+> that cannot state that has nothing to tag.
 >
 > `v2-alpha` is withdrawn even though its own claim — that the harness *can* now
 > bind on budget — held up under test. A harness that measures honestly is not

@@ -159,8 +159,8 @@ a { color:var(--loop); }
     measures honestly is not a benchmark if the corpus is mostly unmeasurable,
     and the tag never said which of the two it claimed. Cards below are shown
     for reading, not for scoring &mdash; an audit found most of them cannot be
-    moved by honest work, and for 17 the answer file is staged into the agent's
-    own workspace. See <a href="https://github.com/muhan97-coder/AGI_BENCHMARK/blob/main/CHANGELOG.md">CHANGELOG</a>.
+    moved by honest work, and the corpus has not been re-audited since we fixed
+    part of the cause. See <a href="https://github.com/muhan97-coder/AGI_BENCHMARK/blob/main/CHANGELOG.md">CHANGELOG</a>.
   </div>
   <div class="eyebrow">AGI_BENCHMARK · withdrawn</div>
   <h1>Score the loop, not just the outcome</h1>
