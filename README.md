@@ -392,9 +392,15 @@ Rules that make the axes meaningful:
   count can stay constant while the failures rotate.
 - **COST rows must be honest**: every billable call gets a row, including
   failed calls (`usd` may be 0 only if the call was actually free).
-- **HALT reasons are closed-vocabulary**: `goal_green`, `budget_exhausted`,
-  `max_attempts`, `refused_impossible` (the honest answer to an impossible
-  goal), `error`.
+- **HALT reasons are closed-vocabulary**, and the vocabulary is the *same* one
+  the leaderboard's `limits.bound_by` counts: `green`, `budget`, `wall_clock`,
+  `cycles`, `red_streak`, `aborted`, `refused` (the honest answer to an
+  impossible goal), `unknown`. One episode, one HALT row, one label — so
+  `bound_by` is obtained by **counting HALT rows**, not by re-deriving it. An
+  earlier draft of this section used a second set of names (`goal_green`,
+  `max_attempts`, …) for the same concepts; that split meant a submitter could
+  satisfy one and fail the other. The labels are defined once, in code, in
+  `tools/validate_leaderboard.py`.
 - **HUMAN events count against autonomy.** Zero is a perfect score.
 - Unknown is `null`, never `0` — a scorer must be able to distinguish "cheap"
   from "unmeasured".
@@ -433,7 +439,7 @@ Add one entry to `results/leaderboard.json` by PR:
  "cards_attempted": 155, "outcome_pass": "41/155",
  "limits": {"bound_by": {"green": 41, "budget": 96, "wall_clock": 14,
                          "cycles": 0, "red_streak": 3, "aborted": 1,
-                         "unknown": 0}},
+                         "refused": 0, "unknown": 0}},
  "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,
              "recovery": 0.6, "autonomy": 1.0, "economy": 0.7},
  "shared_tooling": ["mc_bridge"],
@@ -471,11 +477,23 @@ shows both next to the pass-rate. They answer the two questions a pass-rate
 cannot: *which model produced this*, and *what ended the episodes*. Each label
 counts episodes, and every episode has exactly one: `green` (the card passed),
 `budget` (it spent its allocation), `wall_clock`, `cycles`, `red_streak`,
-`aborted`, `unknown`. Do not fold `unknown` into a neighbour — an unattributed
-episode is a fact worth publishing, and pretending otherwise is the failure this
-field exists to prevent. The dashboard derives an **agent-bound** share from
-these (`green` + `budget` over the total): a run at 95% is measuring the agent,
-a run at 20% is largely measuring its own clock.
+`aborted` (the loop crashed, or the runner declined to start or continue it —
+an operator gate, a disabled component), `refused` (the agent judged the goal
+impossible and stopped on purpose), `unknown`. The distinction between the last
+two is the whole point of splitting them: a gate the operator armed is not a
+judgement the agent made, and only the second is agent-bound. Do not fold
+`unknown` into a neighbour — an
+unattributed episode is a fact worth publishing, and pretending otherwise is the
+failure this field exists to prevent. The dashboard derives an **agent-bound**
+share from these (`green` + `budget` + `refused` over the total): a run at 95%
+is measuring the agent, a run at 20% is largely measuring its own clock.
+
+`refused` counts as agent-bound because recognising an impossible goal is a
+capability, not a malfunction — but it is the one label a submitter can abuse,
+so it is the one to check hardest. The episode log must show the attempts that
+led to the refusal; a `refused` episode with no DISPATCH rows and no VERIFY rows
+is an agent that gave up, and the process axes will say so even though the label
+does not.
 
 `shared_tooling` is **optional** and lists which pieces of the repository's
 public plumbing the run used (`mc_bridge` today; more as categories are added).

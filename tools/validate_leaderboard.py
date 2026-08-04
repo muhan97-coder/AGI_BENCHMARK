@@ -42,11 +42,18 @@ BINDING_LIMITS = (
     "wall_clock",   # a timeout ended it
     "cycles",       # a turn/iteration cap ended it
     "red_streak",   # consecutive failures ended it
-    "aborted",      # the loop crashed or refused mid-run
+    "aborted",      # the loop crashed, or the runner declined to start/continue
+    "refused",      # the agent stopped on purpose: it judged the goal impossible
     "unknown",      # honestly unattributed — never fold this into another bucket
 )
-#: The two that mean the agent's own resource ran out (or it succeeded).
-_AGENT_BOUND = ("green", "budget")
+#: The labels that mean the agent's own decision or resource ended the episode.
+#: ``refused`` belongs here and not with ``aborted``: recognising that a goal
+#: cannot be met is a capability, and an agent that says so is not the same as
+#: a loop that crashed. Folding them together makes an honest stop indis-
+#: tinguishable from a traceback, which is the confusion this block exists to
+#: prevent. A refusal is still checkable — the episode log must show the work
+#: that led to it, and a refusal with no attempts is not a refusal.
+_AGENT_BOUND = ("green", "budget", "refused")
 
 _REQUIRED = ("agent", "submitted", "models", "cards_attempted", "outcome_pass",
              "usd", "limits", "corpus")
@@ -160,9 +167,18 @@ def _limit_problems(i: int, limits: Any, attempted: "int | None") -> list[str]:
                 f"got {count!r}")
             continue
         total += count
-    if attempted is not None and total > attempted:
+    # Equality, not ``<=``. Over-counting is an obvious error; under-counting is
+    # the dangerous one, and it used to pass: an entry could attempt 155 cards,
+    # label 3, and leave 152 episodes attributed to nothing. ``agent_bound_share``
+    # is then computed over the 3 that were labelled, so dropping the episodes
+    # that ended badly *improves* the number. Unlabelled episodes are exactly
+    # what ``unknown`` is for — the label has to be spent, not skipped.
+    if attempted is not None and total != attempted:
+        direction = "exceeds" if total > attempted else "falls short of"
         bad(f"limits.bound_by sums to {total} but cards_attempted is "
-            f"{attempted} — every episode has exactly one binding limit")
+            f"{attempted} — the sum {direction} it. Every episode has exactly "
+            f"one binding limit; use 'unknown' for the ones you cannot "
+            f"attribute rather than omitting them")
     return out
 
 
