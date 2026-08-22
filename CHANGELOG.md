@@ -1,5 +1,78 @@
 # Changelog
 
+## 2026-08-22 — frontier_arc3: ARC-AGI-3 replaces ARC-AGI-2 as the live frontier band
+
+`frontier_arc` (ARC-AGI-2, gc-440..gc-451, 12 cards) is a static grid-puzzle
+corpus with public gold. Saturation evidence: 2026-08-21 public leaderboards
+put top ARC-AGI-2 scores at ~92.5% (GPT-5.6 Sol) / ~90.4% (Opus 5) — frontier
+worker models one-shot most of the corpus, so the band measures the model, not
+the loop. Separately, NVIDIA's AVO result (2026-08-21, on ARC-AGI-*3*: the
+same model swinging ~30%→100% purely from scaffolding) is why the replacement
+band is the right target — ARC-AGI-3 discriminates harnesses, which is exactly
+what this repository scores. (Correction 2026-08-22: an earlier draft of this
+entry cited the AVO number as if it were ARC-AGI-2 saturation evidence — wrong
+benchmark; caught by adversarial review.) `frontier_arc` is marked **saturated** and
+kept for history: existing cards are not removed or re-scored, they are just
+no longer where new frontier signal is sought.
+
+**Known integrity gap (adversarially demonstrated 2026-08-22, repo-wide, not
+arc3-specific):** `tools/goal_grader.py` executes the grade command inside
+whatever workspace it is pointed at. If that is the *agent's* workspace, the
+agent can overwrite its copy of `assets/<id>/grade.py` (or widen
+`game_ids.txt`) and forge a PASS — demonstrated live against gc-464. The
+operating contract is therefore: **grade in a fresh, maintainer-side
+workspace** re-assembled from this repo's canonical assets, copying only the
+agent's `runs/` output in. A structural fix (goal_grader verifying asset
+bytes against the repo before running, or refusing workspaces whose assets
+differ) is TODO. A second structural gap: `grade.py` verifies the scorecard
+via live server GET but does not (cannot, today) bind it to *this* run's
+session/owner — a stale or foreign scorecard id on an allowed game would
+pass; mitigated only by the honest-ledger process expectations until the API
+exposes an ownership field.
+
+### Added
+
+- **`frontier_arc3`** (gc-464..gc-475, 12 cards) — ARC-AGI-3
+  (docs.arcprize.org, launched 2026-03-25), an interactive game environment.
+  An agent drives a live session against `https://three.arcprize.org` through
+  `POST /api/scorecard/open` → `RESET`/`ACTION1..7` → `POST
+  /api/scorecard/close`, and the grader (`assets/gc-4NN/grade.py`, stdlib-only)
+  reads the result back with a live `GET /api/scorecard/{id}` rather than
+  checking any local prediction file. There is no public gold to leak because
+  there is no static answer, only a play session the server itself recorded —
+  the new closed-vocabulary value **`contamination_risk: no_public_gold`**
+  names this directly (12 cards).
+- Ladder: smoke (gc-464/465, 1 level of 1 game) → single-game level
+  progression (gc-466..468, 3 levels each) → breadth across all 3 games
+  (gc-469/470) → RHAE-efficiency and transfer (gc-471..473, scored against the
+  server's own `score` field per docs.arcprize.org/methodology) → capstone
+  (gc-474/475, depth **and** efficiency together). Budget/horizon tiers reuse
+  the existing `1d`≤$100 / `1w`≤$600 / `1m`≤$2000 ceilings; the 1w/1m tiers
+  carry the interactive-step cost explicitly in their resources text (every
+  RESET/ACTION is a real turn against a live, rate-limited session, not a
+  free static grid to stare at).
+- **Scoped to 3 games, not 5.** Investigation (2026-08-22) confirmed exactly
+  three public game ids against official ARC Prize documentation — `ls20`,
+  `ft09`, `vc33` — cross-checked against `docs.arcprize.org/available-games`
+  and the `/api/games` response example embedded in the OpenAPI spec. A
+  longer ~25-game roster is reported by the official benchmarking harness and
+  circulates in an unofficial community mirror repo, but neither is an
+  ARC-Prize-published id list, so no card here seals against it. The
+  `assets/gc-4NN/game_ids.txt` allowlists therefore draw only from the
+  confirmed three; `examples/frontier_arc3/README.md` carries the full
+  provenance note and citations.
+- `examples/frontier_arc3/README.md` — setup (`ARC_API_KEY` registration,
+  `pip install arc-agi==0.9.9`) and an agent-loop skeleton. Unlike the other
+  twelve `examples/<category>/` demos this is documentation only, not an
+  offline `card.json` + `solution/` teaching demo: `frontier_arc3` grading is
+  a live network call against a real account, which an offline demo cannot
+  honestly reproduce.
+
+`corpus_sha256` after this change is printed by `tools/corpus_fingerprint.py`;
+paste its live output into a leaderboard entry rather than copying a number
+out of this file, since the whole point of the corpus hash is that it is
+recomputed, not quoted.
+
 ## 2026-08-04 — infra_ops cards were unpassable; the harness erased the deliverable
 
 The 12 `infra_ops` cards each name, in prose, the file the agent is supposed to

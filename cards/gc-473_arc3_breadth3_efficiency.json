@@ -1,0 +1,37 @@
+{
+ "id": "gc-473",
+ "title": "Breadth+efficiency: 35% RHAE floor across all 3 confirmed games",
+ "category": "frontier_arc3",
+ "goal": "Win at least 2 levels in each of ls20, ft09 and vc33 (the gate for every one of the three, not just one) and hold the RHAE `score` at or above 0.35 in the WORST of the three -- so a strong ls20 run cannot carry a weak vc33 run. This combines gc-470's breadth with gc-471/472's efficiency into a single cross-game bar: the loop has to generalize across three different game mechanics and stay efficient in all three at once, not trade one property for the other.",
+ "horizon": "1m",
+ "budget_usd": 2000.0,
+ "resources": [
+  "ARC-AGI-3 REST API, base https://three.arcprize.org (OpenAPI spec: https://docs.arcprize.org/arc3v1.yaml); every call needs header X-API-Key: $ARC_API_KEY (register a key at https://arcprize.org/platform -> profile -> API Keys). Confirmed public games as of this investigation (2026-08-22): ls20 (\"LS20\", agent reasoning), ft09 (\"FT09\", elementary logic), vc33 (\"VC33\", orchestration) (https://docs.arcprize.org/available-games). The official benchmarking harness reports ~25 public games total, but only these three have an investigation-confirmed id -- see examples/frontier_arc3/README.md for the full provenance note; this card's sealed game_ids.txt draws only from the confirmed three, never from the unverified longer list.",
+  "assets/gc-473/game_ids.txt (sealed allowlist for this card: ft09, ls20, vc33, one code per line; grade.py fails the whole scorecard closed if any environment in it carries a game id whose code is not on this list).",
+  "assets/gc-473/grade.py (stdlib-only fail-closed grader: reads runs/gc-473/scorecard_id.txt for the scorecard id this attempt produced, does a live GET https://three.arcprize.org/api/scorecard/<that id> with X-API-Key, and prints the metric as its last JSON line -- the verdict is the server's own record, never a local file the agent wrote).",
+  "run protocol: POST /api/scorecard/open once per attempt, drive the sealed game(s) with POST /api/cmd/RESET then ACTION1..ACTION7 per the OpenAPI spec, POST /api/scorecard/close when done, then write the returned card_id -- and nothing else -- as the first line of runs/gc-473/scorecard_id.txt before running the grader. Opening a second scorecard and grading whichever one scored higher is exactly what the sealed-allowlist check and the process expectations below are for.",
+  "python package arc-agi==0.9.9 pinned (https://pypi.org/project/arc-agi/0.9.9/) -- optional convenience toolkit (arc_agi.Arcade / EnvironmentWrapper) for driving RESET/ACTION calls; the grader itself is pure stdlib + REST and does not import it.",
+  "network: https://three.arcprize.org must be reachable at grade time; rate limit 600 req/min, HTTP 429 on excess (https://docs.arcprize.org/rate_limits). Interactive step cost is real here, unlike the static ARC-AGI-2 grid cards in frontier_arc: every RESET and ACTION call is a real turn against a live session, so budget your ACTION count and wall time, not just LLM tokens -- this is the 'interactive step cost' the horizon/budget tiers below are asked to reflect."
+ ],
+ "success_criteria": {
+  "grader": "script",
+  "spec": {
+   "command": "python3 assets/gc-473/grade.py",
+   "metric": "score_pct",
+   "threshold": 35,
+   "compare": ">="
+  }
+ },
+ "process_expectations": [
+  "A plan artifact exists at runs/gc-473/plan.md before the first RESET, naming per-game priorities and the exact verification command.",
+  "A written strategy log per game: what the first few frames showed, the rule/plan derived from them, and -- for every hypothesis an ACTION result falsified -- the id of the revision that replaced it.",
+  "The grader was actually executed at least twice against the closed scorecard in runs/gc-473/scorecard_id.txt -- one mid-run checkpoint and one final run -- and both stdout verdict lines are preserved in the run log.",
+  "runs/gc-473/scorecard_id.txt names exactly one scorecard for this card's attempt; the run log shows only that one was ever opened and graded -- opening several and keeping the best is not a legitimate use of the sealed-allowlist check.",
+  "Honest ledger: runs/gc-473/ledger.json records every RESET, per-level action counts, and outcome (WIN/GAME_OVER/timeout), including abandoned attempts and failed grader runs.",
+  "The run log shows all three games were actually attempted (RESET at least once each), and the strategy log names, per game, what made that game's efficient tactic different from the other two."
+ ],
+ "visibility": "public",
+ "preregistered": false,
+ "author_agent": "frontier_arc3",
+ "contamination_risk": "no_public_gold"
+}

@@ -274,6 +274,7 @@ const RISK = {
   public_gold_exists: ["gold public", "color:var(--warn)"],
   derivable_from_assets: ["answers in repo", "color:var(--crit)"],
   answers_sealed: ["answers sealed", "color:var(--loop)"],
+  no_public_gold: ["no gold (live grade)", "color:var(--ok)"],
 };
 const riskPill = r => {
   const [label, style] = RISK[r] || [r, ""];

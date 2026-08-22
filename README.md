@@ -127,6 +127,7 @@ by card category:
 | `mutation_testing`, `oss_repair`, `marble_coding` | + git clones at pinned SHAs, pinned pip packages (`mutmut` for the mutation band) |
 | `infra_ops`, `minecraft_build` | + Docker & docker compose (pinned images; `minecraft_build` also needs Node 20 + pinned npm packages) |
 | swe_bench, frontier_swe_hard | + the swebench docker harness — **heavy**: several GB of images *per instance environment*; budget 50 GB+ of disk for the larger batches |
+| `frontier_arc3` | + network access to `three.arcprize.org` and an ARC Prize API key in `$ARC_API_KEY` — grading is a live GET against the agent's own scorecard, not a local file; see `examples/frontier_arc3/README.md` |
 
 The `minecraft_build` cards are attemptable by anyone: the mineflayer access
 layer they need ships in this repo at
@@ -334,7 +335,9 @@ SWE-bench (pinned Lite instances) · OSS repair at pinned SHAs · mutation
 testing · Minecraft builds on fresh docker worlds · infra/ops tuning in docker ·
 deterministic data reproduction · tool-from-spec with sealed acceptance tests ·
 multi-stage campaigns · robustness/anti-gaming probes · MARBLE coding tasks ·
-**frontier**: ARC-AGI-2 abstract reasoning · SWE-bench Verified (hard).
+**frontier**: ARC-AGI-2 abstract reasoning (`frontier_arc`, saturated — see
+*Status*) · SWE-bench Verified (hard) · ARC-AGI-3 interactive game-solving
+(`frontier_arc3`).
 
 ## Grading output (outcome axis)
 
@@ -569,7 +572,11 @@ Honesty about what a score means:
   dataset; OSS-repair fixes may exist in upstream history past the pinned SHA),
   **`answers_sealed`** (15 cards — the grader's answer files are **not in this
   repository**; only `<name>.sha256` commitments are. The sealed pack is held
-  privately by the maintainers), **`low`** (87 cards — visible sealed
+  privately by the maintainers), **`no_public_gold`** (12 cards — the
+  `frontier_arc3` band grades a live interactive session against the
+  ARC-AGI-3 server; there is no published solution corpus to leak because
+  there is no static "answer" at all, only a scorecard the server computes
+  from actions actually taken), **`low`** (87 cards — visible sealed
   tests/blueprints are the *spec*, not the answer; hard-coding-to-tests is
   countered by the mutation and robustness bands).
 - **Oracle isolation** (shipped, enforced):
@@ -606,6 +613,37 @@ any agent system be scored on the process axes via a thin adapter — is the mai
 v1 work item; the reference scorer for it is not published yet, so today the
 repository grades outcomes and specifies the process contract without scoring it
 for you.
+
+**`frontier_arc` (ARC-AGI-2, gc-440..gc-451) is saturated as of 2026-08-22 and
+kept for history, not as a live difficulty signal.** ARC-AGI-2 is a static
+grid-puzzle corpus with public gold, so these 12 cards mostly measure a
+worker model's one-shot abstraction pass rather than the agentic loop this
+repository otherwise scores. Saturation evidence (2026-08-21 leaderboards):
+top ARC-AGI-2 scores sit at ~92.5% (GPT-5.6 Sol) / ~90.4% (Opus 5) — a band
+where frontier worker models one-shot most puzzles no longer separates agent
+loops. (NVIDIA's AVO result — the same model swinging ~30%→100% purely from
+scaffolding — is about ARC-AGI-*3* and is cited below as the reason the
+*replacement* band measures harnesses; it is not evidence about ARC-AGI-2
+itself.) `frontier_arc` cards are not removed
+or re-scored; new attempts against them remain valid, they are just no longer
+where this repository looks for frontier signal.
+
+**`frontier_arc3` (ARC-AGI-3, gc-464..gc-475, added 2026-08-22) replaces
+`frontier_arc` as the live frontier band.** ARC-AGI-3 is an interactive game
+environment (docs.arcprize.org, launched 2026-03-25): an agent drives a live
+session against the ARC Prize server through RESET/ACTION REST calls, and the
+grader reads back the server's own scorecard rather than checking a local
+prediction file — there is no public gold to leak because there is no static
+answer, only a play session the server recorded (`contamination_risk:
+no_public_gold`). The 12-card ladder runs smoke (gc-464/465, one level of one
+game) → single-game level progression (gc-466..468, 3 levels each) → breadth
+(gc-469/470, all games at once) → RHAE-efficiency and transfer (gc-471..473)
+→ capstone (gc-474/475). **Scoped to 3 games, not 5:** only three public game
+ids (`ls20`, `ft09`, `vc33`) could be confirmed against official ARC Prize
+documentation at authoring time — a longer ~25-game list circulates in an
+unofficial community mirror, but this repository does not seal a card against
+an id it cannot independently verify is real; see
+`examples/frontier_arc3/README.md` for the full provenance note.
 
 **Correction (2026-08-03).** An earlier version of this section said the first
 baseline (`agent-one`, a self-improving loop on a budget worker model) was

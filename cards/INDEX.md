@@ -1,10 +1,10 @@
 # Public Goal Cards Index
 
-**Valid cards: 155** — core 131 (gc-300..gc-431, drafted 132, rejected 1) + frontier 24 (gc-440..gc-463, v1.0-beta). All cards are self-contained: every card grades via a sealed, machine-checkable `success_criteria.spec` (no LLM judging) and references only relative paths under `assets/gc-NNN/`.
+**Valid cards: 167** — core 131 (gc-300..gc-431, drafted 132, rejected 1) + frontier 36 (gc-440..gc-475, none rejected). All cards are self-contained: every card grades via a sealed, machine-checkable `success_criteria.spec` (no LLM judging) and references only relative paths under `assets/gc-NNN/`.
 
 Core category breakdown: campaign 16, data_repro 12, infra_ops 12, marble_coding 12, minecraft_build 12, mutation_testing 16, oss_repair 12, robustness 10, swe_bench 17, tool_from_spec 12.
 Core difficulty bands (horizon): 1d 32, 1m 44, 1w 55.
-Frontier category breakdown: frontier_arc 12, frontier_swe_hard 12. Frontier difficulty bands (horizon): 1d 4, 1w 10, 1m 10.
+Frontier category breakdown: frontier_arc 12 (**saturated 2026-08-22** — see root README *Status*), frontier_swe_hard 12, frontier_arc3 12 (added 2026-08-22, the live frontier band). Frontier difficulty bands (horizon): 1d 6, 1w 15, 1m 15.
 
 > **Note:** frontier categories are reported separately on the leaderboard — they measure raw problem-solving depth, while the core 131 measure loop quality. Frontier results never mix into core aggregates.
 
@@ -147,7 +147,11 @@ Frontier category breakdown: frontier_arc 12, frontier_swe_hard 12. Frontier dif
 
 ## Frontier (v1.0-beta)
 
-Valid frontier cards: 24 (gc-440..gc-463, none rejected). Reported separately on the leaderboard: frontier categories measure raw problem-solving depth (ARC-AGI-2 abstraction, SWE-bench Verified hard band), while the core 131 measure loop quality.
+Valid frontier cards: 36 (gc-440..gc-475, none rejected). Reported separately on the leaderboard: frontier categories measure raw problem-solving depth (ARC-AGI-2 abstraction, SWE-bench Verified hard band, ARC-AGI-3 interactive game-solving), while the core 131 measure loop quality.
+
+`frontier_arc` (gc-440..gc-451) is **saturated as of 2026-08-22** and kept for
+history — see root `README.md` *Status* for why (NVIDIA AVO, 2026-08-21).
+`frontier_arc3` (gc-464..gc-475) is the live frontier band that replaces it.
 
 | id | category | title | grader | difficulty | one-liner |
 |---|---|---|---|---|---|
@@ -175,6 +179,18 @@ Valid frontier cards: 24 (gc-440..gc-463, none rejected). Reported separately on
 | gc-461 | frontier_swe_hard | Verified multi-file gauntlet: three of ten cross-repo instances resolved | swebench: resolved_instances >= 3 | 1m / $85 | Execute a ten-instance campaign over the sealed multi-file list in assets/gc-461/instances.txt (sympy, sphinx, pylint, django, pytest) and finish... |
 | gc-462 | frontier_swe_hard | Verified sympy-sphinx deep campaign: three of ten resolved | swebench: resolved_instances >= 3 | 1m / $85 | Run a ten-instance campaign over the sealed list in assets/gc-462/instances.txt, five sympy and five sphinx, finishing with at least three resolved... |
 | gc-463 | frontier_swe_hard | Verified frontier ten: three resolved including the >4-hour band | swebench: resolved_instances >= 3 | 1m / $100 | Execute a ten-instance campaign over the sealed frontier list in assets/gc-463/instances.txt and finish with at least three resolved under the... |
+| gc-464 | frontier_arc3 | ARC-AGI-3 smoke: win 1 level of LS20 | script: levels_won >= 1 | 1d / $100 | Drive the single confirmed public game ls20 through the full interactive loop -- open a scorecard, RESET the game, read the returned 64x64 frame, choose actions from `available_actions`, and reach... |
+| gc-465 | frontier_arc3 | ARC-AGI-3 smoke: win 1 level of VC33 | script: levels_won >= 1 | 1d / $100 | Repeat the gc-464 loop against vc33, a game documented under a different label (orchestration) than ls20's (agent reasoning) -- win at least one level. A second smoke card on a second confirmed game... |
+| gc-466 | frontier_arc3 | Level progression: win 3 levels of LS20 | script: levels_won >= 3 | 1w / $600 | Sustain the ls20 loop across multiple levels in one game: win at least 3 levels total (levels_completed on the closed scorecard's ls20 environment), which -- unlike the smoke card -- requires the... |
+| gc-467 | frontier_arc3 | Level progression: win 3 levels of FT09 | script: levels_won >= 3 | 1w / $600 | Same bar as gc-466 -- win at least 3 levels total -- against ft09, documented as an elementary-logic game rather than ls20's reasoning game: a second single-game progression card proves the sustained... |
+| gc-468 | frontier_arc3 | Level progression: win 3 levels of VC33 | script: levels_won >= 3 | 1w / $600 | Same bar again -- win at least 3 levels total -- against vc33, completing single-game progression coverage across all three confirmed public games before the ladder asks for breadth across them at... |
+| gc-469 | frontier_arc3 | Breadth: win at least 1 level in each of the 3 confirmed public games | script: games_at_min >= 3 | 1w / $600 | Open one scorecard that touches all three confirmed public games -- ls20, ft09, vc33 -- and win at least one level in each. The card scopes 'breadth' to these three because they are the only public... |
+| gc-470 | frontier_arc3 | Breadth+depth: win at least 2 levels in each of the 3 confirmed public games | script: games_at_min >= 3 | 1w / $600 | Raise gc-469's bar: win at least 2 levels in each of ls20, ft09 and vc33 on one scorecard. This is breadth and sustained play at once -- a strategy that wins one lucky level per game and stalls is... |
+| gc-471 | frontier_arc3 | Efficiency: clear LS20 to 40% RHAE over 3 won levels | script: score_pct >= 40 | 1m / $2000 | Win at least 3 levels of ls20 (the gate; short of it scores 0 regardless of efficiency) and do it with a per-level Relative Human Action Efficiency (RHAE) that the server's own scorecard reports as... |
+| gc-472 | frontier_arc3 | Transfer: carry LS20 efficiency tactics into 40% RHAE on FT09 | script: score_pct >= 40 | 1m / $2000 | Same efficiency bar as gc-471 -- win at least 3 levels of ft09 at an RHAE `score` of at least 0.40 -- run as an explicit transfer experiment: before touching ft09, write down (in... |
+| gc-473 | frontier_arc3 | Breadth+efficiency: 35% RHAE floor across all 3 confirmed games | script: score_pct >= 35 | 1m / $2000 | Win at least 2 levels in each of ls20, ft09 and vc33 (the gate for every one of the three, not just one) and hold the RHAE `score` at or above 0.35 in the WORST of the three -- so a strong ls20 run... |
+| gc-474 | frontier_arc3 | Capstone depth: win at least 4 levels in each of the 3 confirmed games | script: games_at_min >= 3 | 1m / $2000 | Raise gc-470's breadth+depth bar to the top of this band's sustained-play axis: win at least 4 levels in each of ls20, ft09 and vc33 on one scorecard, with no efficiency floor -- this card isolates... |
+| gc-475 | frontier_arc3 | Capstone: 4 levels and 50% RHAE floor across all 3 confirmed games | script: score_pct >= 50 | 1m / $2000 | The hardest card in this band: win at least 4 levels in each of ls20, ft09 and vc33 (gc-474's depth gate, required in full before anything else counts) and hold the RHAE `score` at or above 0.50 in... |
 
 ## Appendix: rejected cards
 

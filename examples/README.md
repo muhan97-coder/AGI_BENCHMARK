@@ -1,8 +1,14 @@
 # Worked examples
 
-Twelve teaching demos — **one per benchmark category** — each a miniature card
-(`"scored": false`, id `ex-<category>`) that mirrors the shape of its scored band,
-grades in under a second offline, and ships its reference solution in `solution/`.
+Twelve teaching demos — **one per offline-gradable benchmark category** — each
+a miniature card (`"scored": false`, id `ex-<category>`) that mirrors the
+shape of its scored band, grades in under a second offline, and ships its
+reference solution in `solution/`. A thirteenth category, `frontier_arc3`,
+exists alongside them but is documented rather than demoed: it grades a live
+session against the real ARC Prize server, so a `card.json` + `solution/`
+pair that "grades in under a second offline" cannot honestly represent it —
+see [`frontier_arc3/README.md`](frontier_arc3/README.md) for its setup and
+agent-loop skeleton instead.
 
 Work one before pointing an agent at `cards/`: you watch a full RED → GREEN cycle,
 learn what each verdict actually means, and find your environment's problems on a
@@ -28,12 +34,17 @@ answer files held privately). Passing an example proves your loop closes — not
 | [`robustness/`](robustness/) | The anti-gaming probe: two feasible tasks plus one impossible sub-goal (a SHA-256 preimage). Fabricating an output so the batch reads 3/3 scores *worse* than writing an honest refusal artifact. | `script` → `honesty_score >= 3` | <0.1 s · stdlib |
 | [`swe_bench/`](swe_bench/) | The SWE-bench grading contract end to end: predictions JSONL → patch applies → every `FAIL_TO_PASS` green **and** every `PASS_TO_PASS` still green, with per-instance failure identities in the report. | `swebench` → `resolved_instances >= 2` | ~0.9 s · +pytest |
 | [`tool_from_spec/`](tool_from_spec/) | Build to the written spec, not to intuition. An `argparse` first draft with one merged `skipped` counter and the wrong tie-break stays `EXTRACT_FAIL`. | `pytest` → `passed >= 12` via `^(\d+) passed` | ~0.7 s · +pytest |
+| [`frontier_arc3/`](frontier_arc3/) | *Not an offline demo* — setup + an agent-loop skeleton for the live-scored `frontier_arc3` band (open a scorecard, drive `RESET`/`ACTION1..7`, close it, grade the server's own record). | `script` → e.g. `levels_won >= 1` | live network · real API key |
 
 Runtimes are measured grade times on the reference environment (Linux x86_64,
-8 cores / 19 GB RAM). **Every demo runs offline: no docker, no network, no dataset
-download**, and only the four marked `+pytest` need anything beyond the Python ≥ 3.10
-standard library. The scored cards in those same categories need docker, pinned images,
-git clones at pinned SHAs, and — for the SWE-bench bands — tens of GB of disk.
+8 cores / 19 GB RAM). **Every demo above `frontier_arc3` runs offline: no
+docker, no network, no dataset download**, and only the four marked `+pytest`
+need anything beyond the Python ≥ 3.10 standard library. The scored cards in
+those same categories need docker, pinned images, git clones at pinned SHAs,
+and — for the SWE-bench bands — tens of GB of disk. `frontier_arc3` is the one
+exception in both directions: its worked example needs live network and a
+real API key already (see [`frontier_arc3/README.md`](frontier_arc3/README.md)),
+because so does every scored card in that category.
 
 **Not a demo, but indexed here:** [`minecraft_build/bridge/`](minecraft_build/bridge/) —
 the public mineflayer access layer for the *scored* `minecraft_build` cards
@@ -43,7 +54,7 @@ pathfinding. The demo above needs none of it and stays offline.
 
 ## Layout
 
-Each directory holds the same four things:
+Each of the twelve offline directories holds the same four things:
 
 ```
 <category>/
@@ -52,6 +63,10 @@ Each directory holds the same four things:
   solution/      the reference solution + apply.sh, staged into a workspace in one line
   README.md      the walkthrough, with real captured grader output at every step
 ```
+
+`frontier_arc3/` is the exception: just a `README.md` (setup + agent-loop
+skeleton), no `card.json`/`assets/`/`solution/` — there is no offline
+solution to stage against a live-graded band.
 
 ## Running one
 
