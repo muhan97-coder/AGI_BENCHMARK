@@ -38,6 +38,26 @@ The gates below exist so the next tag cannot be in that position quietly.
 > themselves respond to an agent's work. A corpus audit found most do not. The
 > next tag needs a gate for that, stated as a verified count.
 
+### G0 — the grading authority must match the executable surface
+
+```sh
+python3 tools/grading_surface.py check --require-explicit
+python3 -m unittest tools.test_grading_surface
+```
+
+The first command fixes the denominator before any other claim is made: 167
+scored cards, 120 whose commands invoke a local evaluator, including the 96
+`grade.py`/`check.sh` cards and the 24 `test_accept.py` cards. The descriptive
+`grader` field is not the filter. Each of those 120 cards must declare the exact
+same authority under `assets_visibility.grader_sealed`.
+
+`grader_sealed` is public candidate-visible code whose trusted bytes are
+restored immediately before authoritative grading and verified afterward. It
+must not overlap `editable` or hidden-answer `sealed`. The test command proves
+that candidate stubs and symlink/hardlink/FIFO substitutions fail closed. This
+gate closes persistent function replacement; process/namespace isolation is a
+separate stronger gate for same-user replacement races.
+
 ### G1 — the budget must be able to bind
 
 For every card in the tagged set, with the runner configuration and worker you
@@ -122,7 +142,7 @@ board.
 ## What a tag does not mean
 
 - **Not** that the card set is complete, balanced, or contamination-free.
-- **Not** that a high score generalizes. These are 155 specific tasks.
+- **Not** that a high score generalizes. These are 167 specific tasks.
 - **Not** that the process axes are validated as constructs. They are a
   coverage checklist, and treating them as design targets is a known way to
   produce a benchmark that measures its own vocabulary.

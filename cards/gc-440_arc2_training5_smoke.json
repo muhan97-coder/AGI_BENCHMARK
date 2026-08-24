@@ -31,5 +31,10 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "frontier_arc",
- "contamination_risk": "public_gold_exists"
+ "contamination_risk": "public_gold_exists",
+ "assets_visibility": {
+  "grader_sealed": [
+   "grade.py"
+  ]
+ }
 }

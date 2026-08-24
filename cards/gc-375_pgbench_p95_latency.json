@@ -34,6 +34,9 @@
  "assets_visibility": {
   "editable": [
    "tuned/postgresql.conf"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

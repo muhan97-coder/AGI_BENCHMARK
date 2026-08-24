@@ -38,6 +38,9 @@
    "stack/docker-compose.yml",
    "stack/nginx.conf",
    "stack/html"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

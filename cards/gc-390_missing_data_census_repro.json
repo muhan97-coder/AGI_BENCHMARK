@@ -44,6 +44,9 @@
   "sealed": [
    "expected_stats.json"
   ],
-  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards."
+  "note": "sealed files live in the maintainers' private sealed pack; public repo keeps <name>.sha256 commitments. Restore with tools/restore_sealed.py before grading these cards.",
+  "grader_sealed": [
+   "grade.py"
+  ]
  }
 }

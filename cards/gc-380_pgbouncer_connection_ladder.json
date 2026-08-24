@@ -37,6 +37,9 @@
   "editable": [
    "tuned/pgbouncer.ini",
    "tuned/postgresql.conf"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

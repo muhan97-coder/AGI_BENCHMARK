@@ -36,6 +36,9 @@
  "assets_visibility": {
   "editable": [
    "tuned"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

@@ -35,6 +35,9 @@
  "assets_visibility": {
   "editable": [
    "stack"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

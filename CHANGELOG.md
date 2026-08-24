@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026-08-25 — one grader-authority predicate and trusted restoration
+
+The public corpus had three incompatible denominators for the same security
+question: 92 cards labelled `grader: script`, 96 commands naming `grade.py` or
+`check.sh`, and 120 commands that actually execute candidate-writable local
+evaluator code. The last number is the authority boundary: it also includes 24
+`test_accept.py` cards. The corpus now has one machine-checkable predicate and a
+fixed census of **167 total / 120 local evaluator / 96 grade-or-check / 12
+Minecraft self-report**. The self-report cards remain a separate grader-redesign
+cohort rather than being miscounted as sealed local code.
+
+### Fixed
+
+- `tools/grading_surface.py` defines the command-derived population, checks the
+  fixed census, synchronizes explicit manifests only with `sync --apply`, and
+  safely reads/restores bounded regular single-link evaluator files.
+- All 120 affected cards now declare their exact evaluator authority under
+  `assets_visibility.grader_sealed`. This is public candidate-visible code, not
+  the hidden answer-pack meaning of `assets_visibility.sealed`; the two fields
+  cannot overlap, and neither can overlap `editable`.
+- `assemble_workspace.py` applies the predicate even if a manifest is absent,
+  includes evaluator code read-only for candidate iteration, and refuses stale
+  destinations or link/special-file source trees.
+- `goal_grader.py` atomically restores evaluator bytes from the trusted checkout
+  immediately before execution and verifies hash, type, link count, and
+  read-only mode afterward. Candidate stubs and symlink/hardlink/FIFO
+  substitutions fail closed as `GRADER_INVALID` or `GRADER_TAMPERED`.
+
+No goal, threshold, budget, answer, or success criterion changed, so this is a
+measurement-integrity repair rather than task fitting. It closes persistent
+grader-function replacement. It does **not** claim to close an adversarial
+same-UID race between restore and execution; that requires a separate isolated
+grading process/read-only mount. The 12 Minecraft self-report graders likewise
+remain outside this file-sealing repair.
+
 ## 2026-08-22 — frontier_arc3: ARC-AGI-3 replaces ARC-AGI-2 as the live frontier band
 
 `frontier_arc` (ARC-AGI-2, gc-440..gc-451, 12 cards) is a static grid-puzzle
@@ -29,6 +64,12 @@ via live server GET but does not (cannot, today) bind it to *this* run's
 session/owner — a stale or foreign scorecard id on an allowed game would
 pass; mitigated only by the honest-ledger process expectations until the API
 exposes an ownership field.
+
+> **Resolution 2026-08-25:** persistent replacement of the local grader
+> function is closed by the command-derived 120-card authority manifest plus
+> trusted pre-run restoration and post-run verification described above. The
+> stronger same-UID race and the live scorecard ownership/session binding remain
+> open and are not represented as solved.
 
 ### Added
 
@@ -185,7 +226,7 @@ is how both of these releases went wrong.
 
 `v2-alpha` shipped with `No LLM judges` in the README's opening summary and as a
 `0 LLM judges` badge on the dashboard. On the outcome axis that is exactly true
-and stays true: all 155 cards grade by `script` (80), `pytest` (36), `swebench`
+and stays true: all 167 cards grade by `script` (92), `pytest` (36), `swebench`
 (23), or `mutation` (16), and none of those consults a model.
 
 It was never true of the whole benchmark, because the process axis was always

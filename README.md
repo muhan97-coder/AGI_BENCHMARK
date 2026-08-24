@@ -55,7 +55,7 @@ benchmark treats them differently:
 
 1. **Outcome is a separate axis.** Every card has a sealed, machine-checkable
    success criterion (numeric threshold on a command's output). No LLM judge
-   touches this axis — all 155 cards grade by `script`, `pytest`, `swebench`,
+   touches this axis — all 167 cards grade by `script`, `pytest`, `swebench`,
    or `mutation`.
 2. **Process is scored from logs only.** Six axes — planning, verification,
    honesty, recovery, autonomy, economy — computed from execution logs, never
@@ -67,11 +67,12 @@ benchmark treats them differently:
 ## Repository layout
 
 ```
-cards/           155 scored goal cards (JSON) + cards/assets/<id>/ card assets
+cards/           167 scored goal cards (JSON) + cards/assets/<id>/ card assets
 cards/INDEX.md   full card index with categories and difficulty
 examples/        12 teaching demos (one per category) WITH published solutions
 tools/goal_grader.py       the machine grader (stdlib only, fail-closed)
 tools/assemble_workspace.py builds an agent workspace from task assets only
+tools/grading_surface.py   grader-authority census, manifest sync, safe restore
 tools/restore_sealed.py    grader-side restore of sealed answer files
 tools/build_dashboard.py   rebuilds docs/index.html from cards/
 docs/index.html  static dashboard (card browser + leaderboard)
@@ -98,6 +99,48 @@ python3 tools/goal_grader.py "$CARD" /tmp/ws-gc-300
 Grade from a workspace, never from a checkout of this repository: the graders
 read relative paths, and a card whose answers are sealed will not grade
 correctly against the repo itself.
+
+### Canonical grading surface
+
+The security population is defined by one executable predicate:
+`tools/grading_surface.py` parses each grading command and recognizes the local
+evaluator programs it invokes (`grade.py`, `check.sh`, or `test_accept.py`).
+That is intentionally different from counting the descriptive `grader` label.
+
+| population | cards | meaning |
+|---|---:|---|
+| scored corpus | 167 | every `cards/gc-*.json` card |
+| local evaluator authority | 120 | command invokes one of the three evaluator programs |
+| `grade.py` or `check.sh` subset | 96 | the earlier, incomplete security count |
+| `test_accept.py` subset | 24 | evaluator authority missed by that 96-card count |
+| `grader: script` label | 92 | metadata, not a security boundary |
+| Minecraft self-report | 12 | separate redesign cohort; no local evaluator to seal |
+
+Every one of the 120 cards declares the exact files in
+`assets_visibility.grader_sealed`. These files are public and available while a
+candidate iterates. Immediately before authoritative grading,
+`goal_grader.py` replaces them atomically with bytes from the trusted checkout,
+makes them read-only, and verifies their hashes and file types again after the
+command exits. `assemble_workspace.py` applies the same authority implicitly,
+so deleting the manifest field does not make an evaluator editable.
+
+This is deliberately separate from `assets_visibility.sealed`, which means a
+hidden answer-bearing asset backed by the private answer pack. Moving public
+grader code into that field would make ordinary cards depend on a private pack
+and would change the benchmark contract.
+
+Verify the census and explicit manifests without running a card or making a
+network/provider call:
+
+```sh
+python3 tools/grading_surface.py check --require-explicit
+python3 -m unittest tools.test_grading_surface
+```
+
+The restore/verify boundary closes persistent grader replacement. It does not
+claim to stop a hostile process running as the same OS user from racing a
+temporary replacement between those two checks; an isolated grading process or
+read-only mount is still required for that stronger threat model.
 
 A card is a sealed contract: `goal` (what the agent must achieve), `budget_usd`
 (spend envelope), `success_criteria.spec` (the grading command + numeric
@@ -255,7 +298,7 @@ between your agent and the workspace.
 ### Budgets are denominated for frontier models
 
 Every scored card here carries a `budget_usd` between **$100 and $2,000**
-($147,900 across all 155). Those numbers are what the task is worth on a
+($161,100 across all 167). Those numbers are what the task is worth on a
 frontier-tier model. They are not a universal constant, because **spend rate is
 a property of the worker**, not of the card.
 
@@ -288,8 +331,8 @@ Two consequences for anyone reporting results:
   different, and the difference should be visible in the result rather than
   inferred from it.
 
-The whole corpus is not meant to be run end-to-end: serially, $147,900 of budget
-is 312 days on Fable 5. Pick the cards that answer your question.
+The whole corpus is not meant to be run end-to-end: serially, $161,100 of budget
+is about 338 days on Fable 5. Pick the cards that answer your question.
 
 ## Worked examples
 
@@ -435,12 +478,12 @@ Add one entry to `results/leaderboard.json` by PR:
 
 ```json
 {"agent": "my-agent v1", "submitted": "2026-08-01",
- "corpus": {"cards": 155, "ref": "the tag or commit you checked out",
+ "corpus": {"cards": 167, "ref": "the tag or commit you checked out",
             "corpus_sha256": "PASTE-YOUR-OWN-run tools/corpus_fingerprint.py"},
  "models": {"planner": "some-frontier-model", "worker": "some-cheap-model",
             "reviewer": "a-third-model"},
- "cards_attempted": 155, "outcome_pass": "41/155",
- "limits": {"bound_by": {"green": 41, "budget": 96, "wall_clock": 14,
+ "cards_attempted": 167, "outcome_pass": "41/167",
+ "limits": {"bound_by": {"green": 41, "budget": 108, "wall_clock": 14,
                          "cycles": 0, "red_streak": 3, "aborted": 1,
                          "refused": 0, "unknown": 0}},
  "process": {"planning": 0.8, "verification": 0.9, "honesty": 1.0,

@@ -34,5 +34,10 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "swebench_scale",
- "contamination_risk": "low"
+ "contamination_risk": "low",
+ "assets_visibility": {
+  "grader_sealed": [
+   "grade.py"
+  ]
+ }
 }

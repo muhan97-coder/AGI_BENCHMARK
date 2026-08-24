@@ -36,6 +36,9 @@
  "assets_visibility": {
   "editable": [
    "conf/nginx.conf"
+  ],
+  "grader_sealed": [
+   "check.sh"
   ]
  }
 }

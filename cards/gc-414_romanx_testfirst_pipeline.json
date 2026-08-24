@@ -33,5 +33,10 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "campaign",
- "contamination_risk": "low"
+ "contamination_risk": "low",
+ "assets_visibility": {
+  "grader_sealed": [
+   "grade.py"
+  ]
+ }
 }

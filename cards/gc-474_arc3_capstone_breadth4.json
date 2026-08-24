@@ -33,5 +33,10 @@
  "visibility": "public",
  "preregistered": false,
  "author_agent": "frontier_arc3",
- "contamination_risk": "no_public_gold"
+ "contamination_risk": "no_public_gold",
+ "assets_visibility": {
+  "grader_sealed": [
+   "grade.py"
+  ]
+ }
 }
